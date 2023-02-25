@@ -1,22 +1,26 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
+import { useOnClickOutside } from "usehooks-ts";
 import logo from "../../assets/icons/logo.svg";
-import useDetectOutsideClick from "./hooks/useDetectOutsideClick";
+
 import "./styles.css";
 
 const Header: React.FC = () => {
   const dropdownRef = useRef(null);
-  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
-
-  console.log("before click", isActive);
+  const [isActive, setIsActive] = useState(false);
 
   const handleClick = () => {
     setIsActive(!isActive);
-    console.log("after click", isActive);
   };
+
+  const handleClickOutside = () => {
+    setIsActive(false);
+  };
+
+  useOnClickOutside(dropdownRef, handleClickOutside);
 
   return (
     <header className="app-header">
-      <a>
+      <a href="/#">
         <img src={logo} className="app-logo" alt="logo" />
       </a>
       <a href="/#" className="app-name">
@@ -24,7 +28,7 @@ const Header: React.FC = () => {
       </a>
 
       <div className="menu-button">
-        <div className="menu-container">
+        <div className="menu-container" ref={dropdownRef}>
           <button onClick={handleClick} className="menu-trigger">
             MENU
           </button>
