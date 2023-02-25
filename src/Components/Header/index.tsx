@@ -16,7 +16,7 @@ const Header: React.FC = () => {
 
   return (
     <header className="app-header">
-      <a href="/#">
+      <a>
         <img src={logo} className="app-logo" alt="logo" />
       </a>
       <a href="/#" className="app-name">
