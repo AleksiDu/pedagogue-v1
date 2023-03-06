@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 import logo from "../../assets/icons/logo.svg";
+import Search from "../Search";
 
 import "./styles.css";
 
@@ -26,7 +27,7 @@ const Header: React.FC = () => {
       <a href="/#" className="app-name">
         PEDAGOGUE
       </a>
-
+      <Search />
       <div className="menu-button ">
         <div className="menu-container" onClick={handleClick} ref={dropdownRef}>
           <button className="menu-trigger">MENU</button>
