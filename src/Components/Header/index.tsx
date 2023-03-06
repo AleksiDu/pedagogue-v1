@@ -27,11 +27,9 @@ const Header: React.FC = () => {
         PEDAGOGUE
       </a>
 
-      <div className="menu-button">
-        <div className="menu-container" ref={dropdownRef}>
-          <button onClick={handleClick} className="menu-trigger">
-            MENU
-          </button>
+      <div className="menu-button ">
+        <div className="menu-container" onClick={handleClick} ref={dropdownRef}>
+          <button className="menu-trigger">MENU</button>
           <nav
             ref={dropdownRef}
             className={`menu ${isActive ? "active" : "inactive"}`}
