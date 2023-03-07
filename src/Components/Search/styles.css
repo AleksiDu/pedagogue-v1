@@ -1,0 +1,17 @@
+.ais-SearchBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+}
+
+.ais-SearchBox-form {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.ais-SearchBox-input {
+  width: 100%;
+}

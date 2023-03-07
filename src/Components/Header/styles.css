@@ -1,15 +1,30 @@
+.app-logo-name {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
 .app-name {
   pointer-events: initial;
   text-align: center;
   font-size: min(5vw, 1.2em);
   font-weight: 700;
-  text-decoration: none;
   color: #000000;
 }
 
-img {
+.app-logo {
   width: min(50px, 18vw);
   padding: 0.4rem;
+}
+
+.left-header {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-container:hover {
+  cursor: pointer;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
 }
 
 .menu-container {

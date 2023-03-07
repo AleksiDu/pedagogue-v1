@@ -1,13 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, FC, useEffect } from "react";
+import Avatar from "react-avatar";
 import { useOnClickOutside } from "usehooks-ts";
 import logo from "../../assets/icons/logo.svg";
 import Search from "../Search";
+import { useNavigate } from "react-router-dom";
 
 import "./styles.css";
 
-const Header: React.FC = () => {
-  const dropdownRef = useRef(null);
+const Header: FC = () => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
+  const navigate = useNavigate();
 
   const handleClick = () => {
     setIsActive(!isActive);
@@ -19,16 +22,25 @@ const Header: React.FC = () => {
 
   useOnClickOutside(dropdownRef, handleClickOutside);
 
+  useEffect(() => {
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleAvatarBtn = () => {
+    navigate("/registration");
+  };
+
   return (
     <header className="app-header">
-      <a href="/#">
+      <a href="/#" className="app-logo-name">
         <img src={logo} className="app-logo" alt="logo" />
+        <span className="app-name">PEDAGOGUE</span>
       </a>
-      <a href="/#" className="app-name">
-        PEDAGOGUE
-      </a>
+
       <Search />
-      <div className="menu-button ">
+      <div className="left-header">
         <div className="menu-container" onClick={handleClick} ref={dropdownRef}>
           <button className="menu-trigger">MENU</button>
           <nav
@@ -47,6 +59,18 @@ const Header: React.FC = () => {
               </li>
             </ul>
           </nav>
+        </div>
+        <div className="avatar-container">
+          <Avatar
+            src="https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
+            size="30"
+            style={{
+              borderColor: "black",
+              borderTopLeftRadius: 1,
+              borderStyle: "solid",
+            }}
+            onClick={handleAvatarBtn}
+          />
         </div>
       </div>
     </header>
