@@ -21,19 +21,19 @@ const Registration = () => {
   const errRef = useRef<HTMLDivElement>(null);
 
   const [user, setUser] = useState("");
-  const [validName, setValidName] = useState(false);
-  const [userFocus, setUserFocus] = useState(false);
+  const [isValidName, setIsValidName] = useState(false);
+  const [isUserFocus, setIsUserFocus] = useState(false);
 
   const [pwd, setPwd] = useState("");
-  const [validPwd, setValidPwd] = useState(false);
-  const [pwdFocus, setPwdFocus] = useState(false);
+  const [isValidPwd, setIsValidPwd] = useState(false);
+  const [isPwdFocus, setIsPwdFocus] = useState(false);
 
   const [matchPwd, setMatchPwd] = useState("");
-  const [validMatch, setValidMatch] = useState(false);
-  const [matchFocus, setMatchFocus] = useState(false);
+  const [isValidMatch, setIsValidMatch] = useState(false);
+  const [isMatchFocus, setIsMatchFocus] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     if (userRef.current) {
@@ -42,13 +42,10 @@ const Registration = () => {
   }, []);
 
   useEffect(() => {
-    setValidName(USER_REGEX.test(user));
-  }, [user]);
-
-  useEffect(() => {
-    setValidPwd(PWD_REGEX.test(pwd));
-    setValidMatch(pwd === matchPwd);
-  }, [pwd, matchPwd]);
+    setIsValidName(USER_REGEX.test(user));
+    setIsValidPwd(PWD_REGEX.test(pwd));
+    setIsValidMatch(pwd === matchPwd);
+  }, [user, pwd, matchPwd]);
 
   useEffect(() => {
     setErrMsg("");
@@ -62,7 +59,7 @@ const Registration = () => {
 
   return (
     <div>
-      {success ? (
+      {isSuccess ? (
         <section>
           <h1>Success!</h1>
           <p>
@@ -89,15 +86,17 @@ const Registration = () => {
               onChange={(e) => setUser(e.target.value)}
               value={user}
               required
-              aria-invalid={validName ? "false" : "true"}
+              aria-invalid={isValidName ? "false" : "true"}
               aria-describedby="uid-note"
-              onFocus={() => setUserFocus(true)}
-              onBlur={() => setUserFocus(false)}
+              onFocus={() => setIsUserFocus(true)}
+              onBlur={() => setIsUserFocus(false)}
             />
             <p
               id="uid-note"
               className={
-                userFocus && user && !validName ? "instructions" : "offscreen"
+                isUserFocus && user && !isValidName
+                  ? "instructions"
+                  : "offscreen"
               }
             >
               4 to 24 characters.
@@ -114,14 +113,16 @@ const Registration = () => {
               onChange={(e) => setPwd(e.target.value)}
               value={pwd}
               required
-              aria-invalid={validPwd ? "false" : "true"}
+              aria-invalid={isValidPwd ? "false" : "true"}
               aria-describedby="pwd-note"
-              onFocus={() => setPwdFocus(true)}
-              onBlur={() => setPwdFocus(false)}
+              onFocus={() => setIsPwdFocus(true)}
+              onBlur={() => setIsPwdFocus(false)}
             />
             <p
               id="pwd-note"
-              className={pwdFocus && !validPwd ? "instructions" : "offscreen"}
+              className={
+                isPwdFocus && !isValidPwd ? "instructions" : "offscreen"
+              }
             >
               8 to 24 characters.
               <br />
@@ -143,23 +144,21 @@ const Registration = () => {
               onChange={(e) => setMatchPwd(e.target.value)}
               value={matchPwd}
               required
-              aria-invalid={validMatch ? "false" : "true"}
+              aria-invalid={isValidMatch ? "false" : "true"}
               aria-describedby="confirm-note"
-              onFocus={() => setMatchFocus(true)}
-              onBlur={() => setMatchFocus(false)}
+              onFocus={() => setIsMatchFocus(true)}
+              onBlur={() => setIsMatchFocus(false)}
             />
             <p
               id="confirm-note"
               className={
-                matchFocus && !validMatch ? "instructions" : "offscreen"
+                isMatchFocus && !isValidMatch ? "instructions" : "offscreen"
               }
             >
               Must match the first password input field.
             </p>
 
-            <button
-              disabled={!(validName && validPwd && validMatch) ? true : false}
-            >
+            <button disabled={!(isValidName && isValidPwd && isValidMatch)}>
               Sign Up
             </button>
           </form>
