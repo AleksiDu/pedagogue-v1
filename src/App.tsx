@@ -1,17 +1,15 @@
 import Header from "./Components/Header";
 
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Registration from "./pages/registration";
+import { BrowserRouter } from "react-router-dom";
+import Body from "./Components/Body";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Header />
-        <Routes>
-          <Route path="/registration" element={<Registration />} />
-        </Routes>
+        <Body />
       </BrowserRouter>
     </div>
   );
