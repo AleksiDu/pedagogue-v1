@@ -6,19 +6,23 @@ import { Route, useNavigate } from "react-router-dom";
  * Destructure commonly used variables
  * Simplify the error message display logic
  * Consolidate similar logic into a single useEffect
- * To add email input
+ * *To add email input(done)
  */
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-const REGISTER_URL = "/registration";
+const REGISTER_URL = `/registration`;
 
 const Registration = () => {
   const navigate = useNavigate();
 
-  const userRef = useRef<HTMLInputElement>(null);
+  const userEmailRef = useRef<HTMLInputElement>(null);
   const errRef = useRef<HTMLDivElement>(null);
+
+  const [email, setEmail] = useState("");
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isEmailFocus, setIsEmailFocus] = useState(false);
 
   const [user, setUser] = useState("");
   const [isValidName, setIsValidName] = useState(false);
@@ -36,20 +40,21 @@ const Registration = () => {
   const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
-    if (userRef.current) {
-      userRef.current.focus();
+    if (userEmailRef.current) {
+      userEmailRef.current.focus();
     }
   }, []);
 
   useEffect(() => {
+    setIsValidEmail(EMAIL_REGEX.test(email));
     setIsValidName(USER_REGEX.test(user));
     setIsValidPwd(PWD_REGEX.test(pwd));
     setIsValidMatch(pwd === matchPwd);
-  }, [user, pwd, matchPwd]);
+  }, [email, user, pwd, matchPwd]);
 
   useEffect(() => {
     setErrMsg("");
-  }, [user, pwd, matchPwd]);
+  }, [email, user, pwd, matchPwd]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -77,11 +82,35 @@ const Registration = () => {
           </p>
           <h1>Register</h1>
           <form onSubmit={handleSubmit}>
+            <label htmlFor="user-email">email:</label>
+            <input
+              type="email"
+              id="user-email"
+              ref={userEmailRef}
+              autoComplete="off"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              required
+              aria-invalid={isValidEmail ? "false" : "true"}
+              aria-describedby="uid-note"
+              onFocus={() => setIsEmailFocus(true)}
+              onBlur={() => setIsEmailFocus(false)}
+            />
+            <p
+              id="uid-note"
+              className={
+                isEmailFocus && email && !isValidEmail
+                  ? "instructions"
+                  : "offscreen"
+              }
+            >
+              Not a Valid email
+            </p>
+
             <label htmlFor="username">Username:</label>
             <input
               type="text"
               id="username"
-              ref={userRef}
               autoComplete="off"
               onChange={(e) => setUser(e.target.value)}
               value={user}
@@ -158,7 +187,11 @@ const Registration = () => {
               Must match the first password input field.
             </p>
 
-            <button disabled={!(isValidName && isValidPwd && isValidMatch)}>
+            <button
+              disabled={
+                !(isValidEmail && isValidName && isValidPwd && isValidMatch)
+              }
+            >
               Sign Up
             </button>
           </form>
