@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Route, useNavigate } from "react-router-dom";
+import styles from "./registration.module.css";
 
 /**
  * TODO
@@ -65,14 +66,14 @@ const Registration = () => {
   return (
     <div>
       {isSuccess ? (
-        <section>
+        <section className={styles.registrarSection}>
           <h1>Success!</h1>
           <p>
             <a href="/#">Sign In</a>
           </p>
         </section>
       ) : (
-        <section>
+        <section className={styles.registrarSection}>
           <p
             ref={errRef}
             className={errMsg ? "err-msg" : "offscreen"}
@@ -81,8 +82,8 @@ const Registration = () => {
             {errMsg}
           </p>
           <h1>Register</h1>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="user-email">email:</label>
+          <form onSubmit={handleSubmit} className={styles.registrarForm}>
+            <label htmlFor="user-email">Email:</label>
             <input
               type="email"
               id="user-email"
@@ -99,9 +100,11 @@ const Registration = () => {
             <p
               id="uid-note"
               className={
-                isEmailFocus && email && !isValidEmail
-                  ? "instructions"
-                  : "offscreen"
+                styles[
+                  isEmailFocus && email && !isValidEmail
+                    ? "instructions"
+                    : "offscreen"
+                ]
               }
             >
               Not a Valid email
@@ -123,9 +126,11 @@ const Registration = () => {
             <p
               id="uid-note"
               className={
-                isUserFocus && user && !isValidName
-                  ? "instructions"
-                  : "offscreen"
+                styles[
+                  isUserFocus && user && !isValidName
+                    ? "instructions"
+                    : "offscreen"
+                ]
               }
             >
               4 to 24 characters.
@@ -150,7 +155,7 @@ const Registration = () => {
             <p
               id="pwd-note"
               className={
-                isPwdFocus && !isValidPwd ? "instructions" : "offscreen"
+                styles[isPwdFocus && !isValidPwd ? "instructions" : "offscreen"]
               }
             >
               8 to 24 characters.
@@ -181,7 +186,9 @@ const Registration = () => {
             <p
               id="confirm-note"
               className={
-                isMatchFocus && !isValidMatch ? "instructions" : "offscreen"
+                styles[
+                  isMatchFocus && !isValidMatch ? "instructions" : "offscreen"
+                ]
               }
             >
               Must match the first password input field.
@@ -199,7 +206,7 @@ const Registration = () => {
           <p>
             Already registered?
             <br />
-            <span className="line">
+            <span className={styles.line}>
               {/*put link here*/}
               <a href="/#">Sign In</a>
             </span>
