@@ -1,14 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { Route, useNavigate } from "react-router-dom";
+import axios from "../api/axios";
+import {
+  faCheck,
+  faTimes,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./registration.module.css";
-
-/**
- * TODO
- * Destructure commonly used variables
- * Simplify the error message display logic
- * Consolidate similar logic into a single useEffect
- * *To add email input(done)
- */
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%]).{8,24}$/;
@@ -57,9 +56,49 @@ const Registration = () => {
     setErrMsg("");
   }, [email, user, pwd, matchPwd]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // handle form submission here
+    // if button enabled with JS hack
+    const v1 = EMAIL_REGEX.test(email);
+    const v2 = PWD_REGEX.test(pwd);
+    if (!v1 || !v2) {
+      setErrMsg("Invalid Entry");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        REGISTER_URL,
+        JSON.stringify({ email, user, pwd }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      console.log(response?.data);
+      console.log(response.data?.accessToken);
+      console.log(JSON.stringify(response));
+      setIsSuccess(true);
+      //clear state and controlled inputs
+      //need value attrib on inputs for this
+      setEmail("");
+      setUser("");
+      setPwd("");
+      setMatchPwd("");
+    } catch (err: any) {
+      if (!err?.response) {
+        setErrMsg("No Server Response");
+      } else if (err.response?.status === 409) {
+        setErrMsg("Email or Username Taken");
+      } else {
+        setErrMsg("Registration Failed");
+      }
+      if (errRef.current != null) {
+        errRef.current.focus();
+      }
+    }
+
     navigate("/"); // redirect to dashboard on successful registration
   };
 
@@ -83,7 +122,17 @@ const Registration = () => {
           </p>
           <h1>Register</h1>
           <form onSubmit={handleSubmit} className={styles.registrarForm}>
-            <label htmlFor="user-email">Email:</label>
+            <label htmlFor="user-email">
+              Email:
+              <FontAwesomeIcon
+                icon={faCheck}
+                className={styles[isValidEmail ? "valid" : "hide"]}
+              />
+              <FontAwesomeIcon
+                icon={faTimes}
+                className={styles[isValidEmail || !email ? "hide" : "invalid"]}
+              />
+            </label>
             <input
               type="email"
               id="user-email"
@@ -93,12 +142,12 @@ const Registration = () => {
               value={email}
               required
               aria-invalid={isValidEmail ? "false" : "true"}
-              aria-describedby="uid-note"
+              aria-describedby="eid-note"
               onFocus={() => setIsEmailFocus(true)}
               onBlur={() => setIsEmailFocus(false)}
             />
             <p
-              id="uid-note"
+              id="eid-note"
               className={
                 styles[
                   isEmailFocus && email && !isValidEmail
@@ -107,10 +156,22 @@ const Registration = () => {
                 ]
               }
             >
+              {" "}
+              <FontAwesomeIcon icon={faInfoCircle} />
               Not a Valid email
             </p>
 
-            <label htmlFor="username">Username:</label>
+            <label htmlFor="username">
+              Username:
+              <FontAwesomeIcon
+                icon={faCheck}
+                className={styles[isValidName ? "valid" : "hide"]}
+              />
+              <FontAwesomeIcon
+                icon={faTimes}
+                className={styles[isValidName || !user ? "hide" : "invalid"]}
+              />
+            </label>
             <input
               type="text"
               id="username"
@@ -133,14 +194,27 @@ const Registration = () => {
                 ]
               }
             >
+              <FontAwesomeIcon icon={faInfoCircle} />
               4 to 24 characters.
               <br />
+              <FontAwesomeIcon icon={faInfoCircle} />
               Must begin with a letter.
               <br />
+              <FontAwesomeIcon icon={faInfoCircle} />
               Letters, numbers, underscores, hyphens allowed.
             </p>
 
-            <label htmlFor="password">Password:</label>
+            <label htmlFor="password">
+              Password:
+              <FontAwesomeIcon
+                icon={faCheck}
+                className={styles[isValidPwd ? "valid" : "hide"]}
+              />
+              <FontAwesomeIcon
+                icon={faTimes}
+                className={styles[isValidPwd || !pwd ? "hide" : "invalid"]}
+              />
+            </label>
             <input
               type="password"
               id="password"
@@ -158,11 +232,14 @@ const Registration = () => {
                 styles[isPwdFocus && !isValidPwd ? "instructions" : "offscreen"]
               }
             >
+              <FontAwesomeIcon icon={faInfoCircle} />
               8 to 24 characters.
               <br />
+              <FontAwesomeIcon icon={faInfoCircle} />
               Must include uppercase and lowercase letters, a number and a
               special character.
               <br />
+              <FontAwesomeIcon icon={faInfoCircle} />
               Allowed special characters:{" "}
               <span aria-label="exclamation mark">!</span>{" "}
               <span aria-label="at symbol">@</span>{" "}
@@ -171,7 +248,19 @@ const Registration = () => {
               <span aria-label="percent">%</span>
             </p>
 
-            <label htmlFor="confirm_pwd">Confirm Password:</label>
+            <label htmlFor="confirm_pwd">
+              Confirm Password:
+              <FontAwesomeIcon
+                icon={faCheck}
+                className={styles[isValidMatch && matchPwd ? "valid" : "hide"]}
+              />
+              <FontAwesomeIcon
+                icon={faTimes}
+                className={
+                  styles[isValidMatch || !matchPwd ? "hide" : "invalid"]
+                }
+              />
+            </label>
             <input
               type="password"
               id="confirm_pwd"
@@ -191,6 +280,7 @@ const Registration = () => {
                 ]
               }
             >
+              <FontAwesomeIcon icon={faInfoCircle} />
               Must match the first password input field.
             </p>
 
