@@ -11,7 +11,7 @@ import styles from "./registration.module.css";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%]).{8,24}$/;
-const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const REGISTER_URL = `/registration`;
 
 const Registration = () => {
@@ -115,7 +115,7 @@ const Registration = () => {
         <section className={styles.registrarSection}>
           <p
             ref={errRef}
-            className={errMsg ? "err-msg" : "offscreen"}
+            className={styles[errMsg ? "err-msg" : "offscreen"]}
             aria-live="assertive"
           >
             {errMsg}
@@ -138,7 +138,9 @@ const Registration = () => {
               id="user-email"
               ref={userEmailRef}
               autoComplete="off"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
               value={email}
               required
               aria-invalid={isValidEmail ? "false" : "true"}

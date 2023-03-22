@@ -26,7 +26,6 @@
 .registrarForm input[type="password"],
 .registrarForm button,
 .registrarForm textarea {
-  font-family: "Nunito", sans-serif;
   font-size: 22px;
   padding: 0.25rem;
   border-radius: 0.5rem;
@@ -74,7 +73,7 @@
   margin-left: 0.25rem;
 }
 
-.errmsg {
+.err-msg {
   background-color: lightpink;
   color: firebrick;
   font-weight: bold;
