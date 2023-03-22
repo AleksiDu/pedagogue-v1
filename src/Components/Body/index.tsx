@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "../../pages/home";
-import Registration from "../../pages/registration";
+import Registration from "../../pages/Registration";
 import "./styles.css";
 
 const Body = () => {
