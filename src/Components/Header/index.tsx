@@ -66,7 +66,7 @@ const Header: FC = () => {
             size="30"
             style={{
               borderColor: "black",
-              borderTopLeftRadius: 1,
+              borderRadius: 4,
               borderStyle: "solid",
             }}
             onClick={handleAvatarBtn}
