@@ -12,7 +12,7 @@ import styles from "../styles.module.css";
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-const REGISTER_URL = `/registration`;
+const REGISTER_URL = `api/authentication/register`;
 
 const Tutor = () => {
   const navigate = useNavigate();
@@ -68,6 +68,14 @@ const Tutor = () => {
     }
 
     try {
+      // const response = await axios.post(
+      //   REGISTER_URL,
+      //   JSON.stringify({ email: email, user, password: pwd }),
+      //   {
+      //     headers: { "Content-Type": "application/json" }
+      //   }
+      // );
+
       const response = await axios.post(
         REGISTER_URL,
         JSON.stringify({ email, user, pwd }),
