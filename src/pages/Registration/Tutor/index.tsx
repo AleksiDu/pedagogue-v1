@@ -68,24 +68,15 @@ const Tutor = () => {
     }
 
     try {
-      // const response = await axios.post(
-      //   REGISTER_URL,
-      //   JSON.stringify({ email: email, user, password: pwd }),
-      //   {
-      //     headers: { "Content-Type": "application/json" }
-      //   }
-      // );
-
       const response = await axios.post(
         REGISTER_URL,
-        JSON.stringify({ email, user, pwd }),
+        JSON.stringify({ email, user, password: pwd }),
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials: true,
         }
       );
       console.log(response?.data);
-      console.log(response.data?.accessToken);
+      console.log(response.data?.token);
       console.log(JSON.stringify(response));
       setIsSuccess(true);
       //clear state and controlled inputs
@@ -97,10 +88,13 @@ const Tutor = () => {
     } catch (err: any) {
       if (!err?.response) {
         setErrMsg("No Server Response");
+        console.error("No Server Response");
       } else if (err.response?.status === 409) {
         setErrMsg("Email or Username Taken");
+        console.error("Email or Username Taken");
       } else {
         setErrMsg("Registration Failed");
+        console.error("Registration Failed");
       }
       if (errRef.current != null) {
         errRef.current.focus();
