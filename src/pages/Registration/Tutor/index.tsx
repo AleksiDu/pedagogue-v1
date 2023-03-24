@@ -73,6 +73,7 @@ const Tutor = () => {
         JSON.stringify({ email, user, password: pwd }),
         {
           headers: { "Content-Type": "application/json" },
+          // withCredentials: true, //authorization headers or TLS client certificates in the request
         }
       );
       console.log(response?.data);

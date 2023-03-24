@@ -12,7 +12,7 @@ import styles from "../styles.module.css";
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-const REGISTER_URL = `/registration`;
+const REGISTER_URL = `api/authentication/register`;
 
 const Parent = () => {
   const navigate = useNavigate();
@@ -70,10 +70,10 @@ const Parent = () => {
     try {
       const response = await axios.post(
         REGISTER_URL,
-        JSON.stringify({ email, user, pwd }),
+        JSON.stringify({ email, user, password: pwd }),
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials: true,
+          // withCredentials: true, //authorization headers or TLS client certificates in the request
         }
       );
       console.log(response?.data);
@@ -89,10 +89,13 @@ const Parent = () => {
     } catch (err: any) {
       if (!err?.response) {
         setErrMsg("No Server Response");
+        console.error("No Server Response");
       } else if (err.response?.status === 409) {
         setErrMsg("Email or Username Taken");
+        console.error("Email or Username Taken");
       } else {
         setErrMsg("Registration Failed");
+        console.error("Registration Failed");
       }
       if (errRef.current != null) {
         errRef.current.focus();
