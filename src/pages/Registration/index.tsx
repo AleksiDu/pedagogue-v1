@@ -1,35 +1,16 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Parent from "./Parent";
 import Student from "./Student";
 import Tutor from "./Tutor";
+import NavBtn from "../../Components/RegistrationCom/NavBtn";
 
 const Registration = () => {
-  const REGISTER_URL = `/registration`;
-  const naviget = useNavigate();
-
   return (
     <div>
-      <button
-        onClick={() => {
-          naviget(REGISTER_URL + "/Tutor");
-        }}
-      >
-        Tutor
-      </button>
-      <button
-        onClick={() => {
-          naviget(REGISTER_URL + "/Student");
-        }}
-      >
-        Student
-      </button>
-      <button
-        onClick={() => {
-          naviget(REGISTER_URL + "/Parent");
-        }}
-      >
-        Parent
-      </button>
+      <NavBtn name="Tutor" />
+      <NavBtn name="Student" />
+      <NavBtn name="Parent" />
+
       <Routes>
         <Route path="/Tutor" element={<Tutor />} />
         <Route path="/Student" element={<Student />} />
