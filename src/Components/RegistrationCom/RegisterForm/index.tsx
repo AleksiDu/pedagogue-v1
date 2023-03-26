@@ -1,12 +1,6 @@
 import { useState, useRef, useEffect, FC } from "react";
-import { Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "../../../api/axios";
-import {
-  faCheck,
-  faTimes,
-  faInfoCircle,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./styles.module.css";
 import Input from "./Components/Input";
 

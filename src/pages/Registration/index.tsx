@@ -1,8 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import Parent from "./Parent";
-import Student from "./Student";
-import Tutor from "./Tutor";
 import NavBtn from "../../Components/RegistrationCom/NavBtn";
+import RegisterForm from "../../Components/RegistrationCom/RegisterForm";
 
 const Registration = () => {
   return (
@@ -12,9 +10,9 @@ const Registration = () => {
       <NavBtn name="Parent" />
 
       <Routes>
-        <Route path="/Tutor" element={<Tutor />} />
-        <Route path="/Student" element={<Student />} />
-        <Route path="/Parent" element={<Parent />} />
+        <Route path="/Tutor" element={<RegisterForm name="Tutor" />} />
+        <Route path="/Student" element={<RegisterForm name="Student" />} />
+        <Route path="/Parent" element={<RegisterForm name="Parent" />} />
       </Routes>
     </div>
   );
