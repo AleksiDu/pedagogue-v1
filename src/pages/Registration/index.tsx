@@ -1,21 +1,13 @@
-import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import NavBtn from "../../Components/RegistrationCom/NavBtn";
 import RegisterForm from "../../Components/RegistrationCom/RegisterForm";
 
 const Registration = () => {
-  const [activeBtn, setActiveBtn] = useState("");
-
-  const handleBtnClick = (btnName: string) => {
-    const newActiveBtn = activeBtn === btnName ? "" : btnName;
-    setActiveBtn(newActiveBtn);
-  };
-
   return (
     <div>
-      <NavBtn name="Tutor" activeBtn={activeBtn} onClick={handleBtnClick} />
-      <NavBtn name="Student" activeBtn={activeBtn} onClick={handleBtnClick} />
-      <NavBtn name="Parent" activeBtn={activeBtn} onClick={handleBtnClick} />
+      <NavBtn name="Tutor" />
+      <NavBtn name="Student" />
+      <NavBtn name="Parent" />
 
       <Routes>
         <Route path="/Tutor" element={<RegisterForm name="Tutor" />} />
