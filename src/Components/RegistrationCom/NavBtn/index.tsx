@@ -10,15 +10,16 @@ interface NavBtnProps {
 const NavBtn = (props: NavBtnProps) => {
   const REGISTER_URL = `/registration`;
   const navigate = useNavigate();
+  const activeBtn = localStorage.getItem("activeBtn");
 
   const handleClick = () => {
-    const newActiveBtn = props.activeBtn === props.name ? "" : props.name;
-    props.onClick(newActiveBtn);
+    const newActiveBtn = activeBtn === props.name ? "" : props.name;
+    localStorage.setItem("activeBtn", newActiveBtn);
     navigate(newActiveBtn ? REGISTER_URL + `/${newActiveBtn}` : REGISTER_URL);
   };
 
   const buttonClassName = `${styles.btn} ${styles[props.name]} ${
-    props.activeBtn === props.name ? styles.active : ""
+    activeBtn === props.name ? styles.active : ""
   }`;
 
   return (
