@@ -3,5 +3,12 @@
 }
 
 .btn {
-  font-size: 16px;
+  font-size: 24px;
+}
+
+.active {
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-bottom-color: transparent;
+  /* additional styles for the active button */
 }
