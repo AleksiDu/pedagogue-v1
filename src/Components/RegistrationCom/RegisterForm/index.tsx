@@ -4,7 +4,7 @@ import axios from "../../../api/axios";
 import styles from "./styles.module.css";
 import Input from "./Components/Input";
 
-const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const USER_REGEX = /^[A-Za-z0-9_-]{4,24}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const REGISTER_URL = `api/authentication/register`;
