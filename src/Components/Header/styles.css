@@ -136,14 +136,15 @@
   }
   .menu-trigger::before {
     content: "";
-    margin-top: -9.6px;
+    margin-top: -0.75rem;
   }
   .menu-trigger::after {
     content: "";
-    margin-top: 4.8px;
+    margin-top: 0.4rem;
   }
   .menu-trigger:hover {
     box-shadow: none;
+    color: transparent;
   }
   .menu {
     position: absolute;
