@@ -159,6 +159,7 @@
     width: 30px;
     box-sizing: unset;
     border-radius: 2px;
+    content: none;
   }
   .menu-trigger::before {
     content: "";
@@ -169,6 +170,7 @@
     margin-top: 0.4rem;
   }
   .menu-trigger:hover {
+    content: none;
     box-shadow: none;
     color: transparent;
   }

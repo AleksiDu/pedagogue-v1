@@ -48,7 +48,10 @@ const Header: FC = () => {
             ref={dropdownRef}
             className={`menu ${isActive ? "active" : "inactive"}`}
           >
-            <div className="btn-search-bar">
+            <div
+              className="btn-search-bar"
+              onClick={(e) => e.stopPropagation()} //  <--- Prevent any propagation of the same event
+            >
               <Search />
             </div>
 
