@@ -106,8 +106,7 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
         errRef.current.focus();
       }
     }
-
-    //navigate("/"); // redirect to dashboard on successful registration
+    setTimeout(() => navigate("/"), 6000); // redirect to dashboard on successful registration;
   };
 
   return (
