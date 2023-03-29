@@ -38,8 +38,9 @@ const Header: FC = () => {
         <img src={logo} className="app-logo" alt="logo" />
         <span className="app-name">PEDAGOGUE</span>
       </a>
-
-      <Search />
+      <div className="header-search-bar">
+        <Search />
+      </div>
       <div className="left-header">
         <div className="menu-container" onClick={handleClick} ref={dropdownRef}>
           <button className="menu-trigger">MENU</button>
@@ -47,6 +48,10 @@ const Header: FC = () => {
             ref={dropdownRef}
             className={`menu ${isActive ? "active" : "inactive"}`}
           >
+            <div className="btn-search-bar">
+              <Search />
+            </div>
+
             <ul>
               <li>
                 <a href="/#">Profile</a>

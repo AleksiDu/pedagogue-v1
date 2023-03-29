@@ -118,7 +118,33 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+.header-search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 420px;
+  width: 100%;
+}
+
+.btn-search-bar {
+  display: none;
+  width: 100%;
+}
+
 @media (max-width: 700px) {
+  .header-search-bar {
+    display: none;
+  }
+  .btn-search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+  }
+  .ais-SearchBox {
+    max-width: none;
+  }
   .menu-container {
     position: inherit;
   }
