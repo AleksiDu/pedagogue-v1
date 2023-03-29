@@ -98,7 +98,7 @@ const Login = (): JSX.Element => {
           <h1>Sign In</h1>
           <form className={styles.registrarForm} onSubmit={handleSubmit}>
             <Input
-              name="Email"
+              name="Email:"
               id="username"
               type="email"
               PropRef={userEmailRef}
@@ -107,9 +107,8 @@ const Login = (): JSX.Element => {
               value={email}
               required
             />
-
             <Input
-              name="Password"
+              name="Password:"
               id="password"
               type="password"
               autoComplete="on"
@@ -123,7 +122,6 @@ const Login = (): JSX.Element => {
             Need an Account?
             <br />
             <span className="line">
-              {/*put router link here*/}
               <a href="/registration">Sign Up</a>
             </span>
           </p>
