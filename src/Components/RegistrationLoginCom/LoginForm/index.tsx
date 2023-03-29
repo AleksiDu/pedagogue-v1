@@ -10,6 +10,13 @@ interface LoginResponseData {
   roles: string[];
 }
 
+interface ErrorResponse {
+  status?: number;
+  detail: string;
+  title?: string;
+  // other properties of the error response object
+}
+
 const LOGIN_URL = "api/authentication/login";
 
 const Login = (): JSX.Element => {
@@ -57,14 +64,24 @@ const Login = (): JSX.Element => {
       setSuccess(true);
     } catch (err) {
       if (isAxiosError(err)) {
+        const error: ErrorResponse | undefined = err?.response?.data as
+          | ErrorResponse
+          | undefined;
+        const errLog =
+          "[ CODE: " + error?.status + " : " + error?.detail + " ]";
+
         if (!err.response) {
           setErrMsg("No Server Response");
+          console.error(errLog);
         } else if (err.response.status === 400) {
-          setErrMsg("Missing Username or Password");
+          setErrMsg("Missing Email or Password");
+          console.error(errLog);
         } else if (err.response.status === 401) {
           setErrMsg("Unauthorized");
+          console.error(errLog);
         } else {
           setErrMsg("Login Failed");
+          console.error(errLog);
         }
         if (errRef.current) {
           errRef.current.focus();
