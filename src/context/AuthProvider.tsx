@@ -6,7 +6,7 @@ type AuthContextType = {
 };
 
 type AuthState = {
-  user: string;
+  email: string;
   pwd: string;
   roles: string[];
   accessToken: string;
@@ -18,7 +18,7 @@ type AuthProviderProps = {
 
 export const AuthContext = createContext<AuthContextType>({
   auth: {
-    user: "",
+    email: "",
     pwd: "",
     roles: [],
     accessToken: "",
@@ -28,7 +28,7 @@ export const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [auth, setAuth] = useState<AuthState>({
-    user: "",
+    email: "",
     pwd: "",
     roles: [],
     accessToken: "",

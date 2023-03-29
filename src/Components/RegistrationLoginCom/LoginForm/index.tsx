@@ -2,6 +2,7 @@ import { useRef, useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../../context/AuthProvider";
 import axios from "../../../api/axios";
 import { AxiosError } from "axios";
+import styles from "../RegisterForm/styles.module.css";
 import Input from "../RegisterForm/Components/Input";
 
 interface LoginResponseData {
@@ -13,23 +14,23 @@ const LOGIN_URL = "/auth";
 
 const Login = (): JSX.Element => {
   const { setAuth } = useContext(AuthContext);
-  const userRef = useRef<HTMLInputElement>(null);
+  const userEmailRef = useRef<HTMLInputElement>(null);
   const errRef = useRef<HTMLParagraphElement>(null);
 
-  const [user, setUser] = useState("");
+  const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    if (userRef.current) {
-      userRef.current.focus();
+    if (userEmailRef.current) {
+      userEmailRef.current.focus();
     }
   }, []);
 
   useEffect(() => {
     setErrMsg("");
-  }, [user, pwd]);
+  }, [email, pwd]);
 
   // Type guard function
   const isAxiosError = (error: any): error is AxiosError => {
@@ -42,7 +43,7 @@ const Login = (): JSX.Element => {
     try {
       const response = await axios.post<LoginResponseData>(
         LOGIN_URL,
-        JSON.stringify({ user, pwd }),
+        JSON.stringify({ email, pwd }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
@@ -50,8 +51,8 @@ const Login = (): JSX.Element => {
       );
       const accessToken = response.data.accessToken;
       const roles = response.data.roles;
-      setAuth({ user, pwd, roles, accessToken });
-      setUser("");
+      setAuth({ email, pwd, roles, accessToken });
+      setEmail("");
       setPwd("");
       setSuccess(true);
     } catch (err) {
@@ -82,11 +83,11 @@ const Login = (): JSX.Element => {
           <h1>You are logged in!</h1>
           <br />
           <p>
-            <a href="#">Go to Home</a>
+            <a href="/#">Go to Home</a>
           </p>
         </section>
       ) : (
-        <section>
+        <section className={styles.registrarSection}>
           <p
             ref={errRef}
             className={errMsg ? "errmsg" : "offscreen"}
@@ -95,15 +96,15 @@ const Login = (): JSX.Element => {
             {errMsg}
           </p>
           <h1>Sign In</h1>
-          <form onSubmit={handleSubmit}>
+          <form className={styles.registrarForm} onSubmit={handleSubmit}>
             <Input
               name="Email"
               id="username"
               type="email"
-              PropRef={userRef}
+              PropRef={userEmailRef}
               autoComplete="on"
-              onChange={(e) => setUser(e.target.value)}
-              value={user}
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
               required
             />
 
@@ -123,7 +124,7 @@ const Login = (): JSX.Element => {
             <br />
             <span className="line">
               {/*put router link here*/}
-              <a href="#">Sign Up</a>
+              <a href="/registration">Sign Up</a>
             </span>
           </p>
         </section>
