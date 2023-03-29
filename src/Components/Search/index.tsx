@@ -2,11 +2,14 @@ import { InstantSearch, SearchBox } from "react-instantsearch-dom";
 import algoliasearch from "algoliasearch/lite";
 import "./styles.css";
 
-const searchClient = algoliasearch("YourApplicationID", "YourSearchOnlyAPIKey");
+const searchClient = algoliasearch(
+  "L882NFNKX0",
+  "673f8744159f97dc36689c0a394bf018"
+);
 
 const Search = () => {
   return (
-    <InstantSearch indexName={"instant_search"} searchClient={searchClient}>
+    <InstantSearch indexName={"pedagogue"} searchClient={searchClient}>
       <SearchBox />
     </InstantSearch>
   );
