@@ -53,7 +53,7 @@ const Login = (): JSX.Element => {
         JSON.stringify({ email, password: pwd }),
         {
           headers: { "Content-Type": "application/json" },
-          // withCredentials: true,
+          // withCredentials: true, // <-- request should include cookies
         }
       );
       const accessToken = response.data.accessToken;
@@ -72,7 +72,7 @@ const Login = (): JSX.Element => {
 
         if (!err.response) {
           setErrMsg("No Server Response");
-          console.error(errLog);
+          console.error("[No Server Response]");
         } else if (err.response.status === 400) {
           setErrMsg("Missing Email or Password");
           console.error(errLog);
@@ -96,7 +96,7 @@ const Login = (): JSX.Element => {
   return (
     <div>
       {success ? (
-        <section>
+        <section className={styles.registrarSection}>
           <h1>You are logged in!</h1>
           <br />
           <p>
@@ -107,7 +107,7 @@ const Login = (): JSX.Element => {
         <section className={styles.registrarSection}>
           <p
             ref={errRef}
-            className={errMsg ? "errmsg" : "offscreen"}
+            className={styles[errMsg ? "err-msg" : "offscreen"]}
             aria-live="assertive"
           >
             {errMsg}
@@ -138,7 +138,7 @@ const Login = (): JSX.Element => {
           <p>
             Need an Account?
             <br />
-            <span className="line">
+            <span className={styles.line}>
               <a href="/registration">Sign Up</a>
             </span>
           </p>

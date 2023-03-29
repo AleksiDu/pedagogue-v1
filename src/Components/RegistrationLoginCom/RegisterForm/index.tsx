@@ -4,6 +4,12 @@ import axios from "../../../api/axios";
 import styles from "./styles.module.css";
 import Input from "./Components/Input";
 
+interface ErrorResponse {
+  status?: number;
+  detail: string;
+  title?: string;
+  // other properties of the error response object
+}
 const USER_REGEX = /^[A-Za-z0-9_-]{4,24}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -82,22 +88,26 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
       setPwd("");
       setMatchPwd("");
     } catch (err: any) {
+      const error: ErrorResponse | undefined = err?.response?.data as
+        | ErrorResponse
+        | undefined;
+      const errLog = "[ CODE: " + error?.status + " : " + error?.detail + " ]";
       if (!err?.response) {
         setErrMsg("No Server Response");
-        console.error("No Server Response");
+        console.error("[No Server Response]");
       } else if (err.response?.status === 409) {
         setErrMsg("Email or Username Taken");
-        console.error("Email or Username Taken");
+        console.error(errLog);
       } else {
         setErrMsg("Registration Failed");
-        console.error("Registration Failed");
+        console.error(errLog);
       }
       if (errRef.current != null) {
         errRef.current.focus();
       }
     }
 
-    navigate("/"); // redirect to dashboard on successful registration
+    //navigate("/"); // redirect to dashboard on successful registration
   };
 
   return (
