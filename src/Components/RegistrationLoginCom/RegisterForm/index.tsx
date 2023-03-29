@@ -116,7 +116,7 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
         <section className={styles.registrarSection}>
           <h1>Success!</h1>
           <p>
-            <a href="/#">Sign In</a>
+            <a href="/login">Sign In</a>
           </p>
         </section>
       ) : (
