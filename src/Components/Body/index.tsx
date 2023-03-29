@@ -11,7 +11,7 @@ const Body = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/registration/*" element={<Registration />}></Route>
-        <Route path="/auth/*" element={<Login />}></Route>
+        <Route path="/login/*" element={<Login />}></Route>
       </Routes>
     </div>
   );

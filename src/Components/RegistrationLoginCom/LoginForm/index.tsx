@@ -10,7 +10,7 @@ interface LoginResponseData {
   roles: string[];
 }
 
-const LOGIN_URL = "/auth";
+const LOGIN_URL = "api/authentication/login";
 
 const Login = (): JSX.Element => {
   const { setAuth } = useContext(AuthContext);
@@ -43,10 +43,10 @@ const Login = (): JSX.Element => {
     try {
       const response = await axios.post<LoginResponseData>(
         LOGIN_URL,
-        JSON.stringify({ email, pwd }),
+        JSON.stringify({ email, password: pwd }),
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials: true,
+          // withCredentials: true,
         }
       );
       const accessToken = response.data.accessToken;

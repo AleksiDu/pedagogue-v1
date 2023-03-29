@@ -29,7 +29,7 @@ const Header: FC = () => {
   }, []);
 
   const handleAvatarBtn = () => {
-    navigate("/auth");
+    navigate("/login");
   };
 
   return (
