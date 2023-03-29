@@ -30,7 +30,8 @@ const NavBtn = (props: NavBtnProps) => {
     return () => {
       localStorage.removeItem("activeBtn");
     };
-  }, [location]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={styles.div}>
