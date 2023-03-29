@@ -215,8 +215,7 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
             Already registered?
             <br />
             <span className={styles.line}>
-              {/*put link here*/}
-              <a href="/#">Sign In</a>
+              <a href="/Auth">Sign In</a>
             </span>
           </p>
         </section>

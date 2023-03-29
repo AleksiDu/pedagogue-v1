@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "../../pages/home";
+import Login from "../RegistrationLoginCom/LoginForm";
 import Registration from "../../pages/Registration";
 
 import "./styles.css";
@@ -10,6 +11,7 @@ const Body = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/registration/*" element={<Registration />}></Route>
+        <Route path="/auth/*" element={<Login />}></Route>
       </Routes>
     </div>
   );

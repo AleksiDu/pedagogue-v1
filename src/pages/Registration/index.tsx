@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import NavBtn from "../../Components/RegistrationCom/NavBtn";
-import RegisterForm from "../../Components/RegistrationCom/RegisterForm";
+import NavBtn from "../../Components/RegistrationLoginCom/NavBtn";
+import RegisterForm from "../../Components/RegistrationLoginCom/RegisterForm";
 
 const Registration = () => {
   return (

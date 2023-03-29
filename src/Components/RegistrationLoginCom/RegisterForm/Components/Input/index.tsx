@@ -1,14 +1,4 @@
-import {
-  ChangeEventHandler,
-  FocusEventHandler,
-  JSXElementConstructor,
-  LegacyRef,
-  ReactElement,
-  ReactFragment,
-  ReactPortal,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEventHandler, LegacyRef } from "react";
 import {
   faCheck,
   faTimes,
@@ -26,16 +16,16 @@ const Input = (props: {
   onChange: ChangeEventHandler<HTMLInputElement> | undefined;
   value: string;
   required: boolean;
-  ariaInvalid: string | undefined;
-  ariaDescribedby: string | undefined;
-  onFocus: () => void;
-  onBlur: () => void;
+  ariaInvalid?: string | undefined;
+  ariaDescribedby?: string | undefined;
+  onFocus?: () => void;
+  onBlur?: () => void;
   note?: string;
   note2?: string;
   note3?: string;
-  inputType: string;
-  isValidInputType: boolean;
-  isInputTypeFocus: boolean;
+  inputType?: string;
+  isValidInputType?: boolean;
+  isInputTypeFocus?: boolean;
 }) => {
   return (
     <div className={styles.registrarForm}>
