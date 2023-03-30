@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 
 interface NavBtnProps {
@@ -9,7 +8,7 @@ interface NavBtnProps {
 const NavBtn = (props: NavBtnProps) => {
   const REGISTER_URL = "/registration";
   const navigate = useNavigate();
-  const location = useLocation();
+
   const activeBtn = localStorage.getItem("activeBtn") ?? "";
 
   const handleClick = () => {
@@ -21,17 +20,6 @@ const NavBtn = (props: NavBtnProps) => {
   const buttonClassName = `${styles.btn} ${styles[props.name]} ${
     activeBtn === props.name ? styles.active : ""
   }`;
-
-  useEffect(() => {
-    if (location.pathname === REGISTER_URL) {
-      localStorage.removeItem("activeBtn");
-    }
-
-    return () => {
-      localStorage.removeItem("activeBtn");
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className={styles.div}>
