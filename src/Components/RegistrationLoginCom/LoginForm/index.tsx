@@ -19,7 +19,7 @@ interface ErrorResponse {
 
 const LOGIN_URL = "api/authentication/login";
 
-const Login = (): JSX.Element => {
+const LoginForm = (): JSX.Element => {
   const { setAuth } = useContext(AuthContext);
   const userEmailRef = useRef<HTMLInputElement>(null);
   const errRef = useRef<HTMLParagraphElement>(null);
@@ -94,7 +94,7 @@ const Login = (): JSX.Element => {
   };
 
   return (
-    <div>
+    <>
       {success ? (
         <section className={styles.registrarSection}>
           <h1>You are logged in!</h1>
@@ -144,8 +144,8 @@ const Login = (): JSX.Element => {
           </p>
         </section>
       )}
-    </div>
+    </>
   );
 };
 
-export default Login;
+export default LoginForm;

@@ -1,6 +1,6 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "../../pages/home";
-import Login from "../RegistrationLoginCom/LoginForm";
+import Login from "../../pages/Login";
 import Registration from "../../pages/Registration";
 
 import "./styles.css";
@@ -20,17 +20,15 @@ const Body = () => {
         localStorage.removeItem("activeBtn");
         break;
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
   return (
-    <div className="landing-page">
+    <section className="landing-page">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/registration/*" element={<Registration />}></Route>
         <Route path="/login/*" element={<Login />}></Route>
       </Routes>
-    </div>
+    </section>
   );
 };
 
