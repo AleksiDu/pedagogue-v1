@@ -23,6 +23,7 @@ const Input = (props: {
   note?: string;
   note2?: string;
   note3?: string;
+  inputType?: string;
   isValidInputType?: boolean;
   isInputTypeFocus?: boolean;
   checked?: boolean;
@@ -34,13 +35,15 @@ const Input = (props: {
         <FontAwesomeIcon
           icon={faCheck}
           className={
-            styles[props.isValidInputType && props.value ? "valid" : "hide"]
+            styles[props.isValidInputType && props.inputType ? "valid" : "hide"]
           }
         />
         <FontAwesomeIcon
           icon={faTimes}
           className={
-            styles[props.isValidInputType || !props.value ? "hide" : "invalid"]
+            styles[
+              props.isValidInputType || !props.inputType ? "hide" : "invalid"
+            ]
           }
         />
       </label>
@@ -62,7 +65,7 @@ const Input = (props: {
         id={props.ariaDescribedby}
         className={
           styles[
-            props.isInputTypeFocus && props.value && !props.isValidInputType
+            props.isInputTypeFocus && props.inputType && !props.isValidInputType
               ? "instructions"
               : "offscreen"
           ]

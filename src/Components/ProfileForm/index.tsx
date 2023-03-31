@@ -1,11 +1,9 @@
-import { useState } from "react";
-import Input from "../RegistrationLoginCom/RegisterForm/Components/Input";
-import StepOne from "./Components/StepOne";
+import StepOne from "./Components/StepOne/index";
 
 const ProfileForm = () => {
   return (
     <section>
-      <StepOne />
+      <StepOne name="one" />
     </section>
   );
 };

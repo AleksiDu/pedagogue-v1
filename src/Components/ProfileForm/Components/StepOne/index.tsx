@@ -1,154 +1,130 @@
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import Input from "../../../RegistrationLoginCom/RegisterForm/Components/Input";
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from "react-places-autocomplete";
+import Select from "react-select";
+import styles from ".././styles.module.css";
 
 /**
  * Todo
  * Algolia Places API
  */
 
-const StepOne = () => {
+const StepOne = (props: { name: string }) => {
   const NAME_REGEX = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-  const [selectedAddress, setSelectedAddress] = useState<string>("");
-  const [location, setLocation] = useState<{ lat: number; lng: number }>();
 
-  const [info1, setInfo1] = useState({ name: "" });
-  const [error, setError] = useState("");
-  const [firstName, setFirstName] = useState("");
+  const errRef = useRef<HTMLDivElement>(null);
 
-  const [gender, setGender] = useState("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [isValidFirstName, setIsValidFirstName] = useState(false);
+  const [isFirstNameFocus, setIsFirstNameFocus] = useState(false);
 
-  const handleAddressSelect = async (address: string) => {
-    try {
-      const results = await geocodeByAddress(address);
-      const latLng = await getLatLng(results[0]);
+  const [lastName, setLastName] = useState<string>("");
+  const [isValidLastName, setIsValidLastName] = useState(false);
+  const [isLastNameFocus, setIsLastNameFocus] = useState(false);
 
-      const formattedAddress = results[0].formatted_address;
-      setSelectedAddress(formattedAddress);
-    } catch (error) {
-      console.log("Error: ", error);
-    }
-  };
+  const [birthDate, setBirthDate] = useState<string>("");
 
-  const handleAddressChange = (address: string) => {
-    setSelectedAddress(address);
-  };
+  const [gender, setGender] = useState<string>("");
+  const options = [
+    { label: "male", value: 1 },
+    { label: "female", value: 2 },
+  ];
+  const selectedValues = ["male", "female"];
+
+  const [errMsg, setErrMsg] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+    setIsValidFirstName(NAME_REGEX.test(firstName));
+    setIsValidLastName(NAME_REGEX.test(lastName));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [firstName, lastName]);
 
   const handleGenderChange = (e: {
     target: { value: SetStateAction<string> };
   }) => {
     setGender(e.target.value);
-    console.log(e.target.value);
   };
 
-  const onInputChanged = (event: { target: { name: any; value: any } }) => {
-    const targetName = event.target.name;
-    const targetValue = event.target.value;
-
-    setInfo1((info1) => ({
-      ...info1,
-      [targetName]: targetValue,
-    }));
-  };
-
-  const validate = () => {
-    if (!info1?.name) setError("Name is mandatory field");
-    else {
-      setError("");
-      // props.nextStep();
-      // props.userCallback(info1);
-    }
+  const handleSubmit = () => {
+    console.log("[SUBMIT]");
   };
 
   return (
     <div>
-      <span style={{ color: "red" }}>{error}</span>
-      <h1>This is step 1 content</h1>
-
-      <Input
-        name="First Name:"
-        type="text"
-        onChange={onInputChanged}
-        value={firstName}
-        required
-      />
-      <Input
-        name="Last Name:"
-        type="text"
-        onChange={onInputChanged}
-        value={firstName}
-        required
-      />
-      <Input
-        name="Birth Date:"
-        type="date"
-        onChange={(e: { target: { value: SetStateAction<string> } }) =>
-          setFirstName(e.target.value)
-        }
-        value={firstName}
-        required
-      />
-      <Input
-        name="Gender"
-        type="radio"
-        checked={gender === "male"}
-        onChange={handleGenderChange}
-        value="male"
-      />
-      <Input
-        name="Gender"
-        type="radio"
-        checked={gender === "female"}
-        onChange={handleGenderChange}
-        value="female"
-      />
-      <h1>Address:</h1>
-      <PlacesAutocomplete
-        value={selectedAddress}
-        onChange={handleAddressChange}
-        onSelect={handleAddressSelect}
-      >
-        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div>
-            <input {...getInputProps({ placeholder: "Enter an address" })} />
-            <div>
-              {loading && <div>Loading...</div>}
-              {suggestions.map((suggestion) => {
-                const style = {
-                  backgroundColor: suggestion.active ? "#41b6e6" : "#fff",
-                };
-                return (
-                  <div
-                    {...getSuggestionItemProps(suggestion, { style })}
-                    key={suggestion.placeId}
-                  >
-                    {suggestion.description}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </PlacesAutocomplete>
-      <p>Latitude: {location?.lat}</p>
-      <p>Longitude: {location?.lng}</p>
-      <Input
-        name="City:"
-        type="text"
-        onChange={onInputChanged}
-        value={firstName}
-        required
-      />
-      <Input
-        name="Street:"
-        type="text"
-        onChange={onInputChanged}
-        value={firstName}
-        required
-      />
+      {isSuccess ? (
+        <section className={styles.registrarSection}>
+          <h1>Success!</h1>
+          <p>
+            <a href="/login">Sign In</a>
+          </p>
+        </section>
+      ) : (
+        <section className={styles.registrarSection}>
+          <p
+            ref={errRef}
+            className={styles[errMsg ? "err-msg" : "offscreen"]}
+            aria-live="assertive"
+          >
+            {errMsg}
+          </p>
+          <h1>{props.name}</h1>
+          <form onSubmit={handleSubmit} className={styles.registrarForm}>
+            <Input
+              isValidInputType={isValidFirstName}
+              isInputTypeFocus={isFirstNameFocus}
+              name="First Name:"
+              id="first-name"
+              type="text"
+              autoComplete="off"
+              onChange={(e) => {
+                setFirstName(e.target.value);
+              }}
+              value={firstName}
+              required
+              ariaInvalid={isValidFirstName ? "false" : "true"}
+              ariaDescribedby="firstNameId-note"
+              onFocus={() => setIsFirstNameFocus(true)}
+              onBlur={() => setIsFirstNameFocus(false)}
+              note=" Not A Valid First Name"
+            />
+            <Input
+              isValidInputType={isValidLastName}
+              isInputTypeFocus={isLastNameFocus}
+              name="Last Name:"
+              id="last-name"
+              type="text"
+              autoComplete="off"
+              onChange={(e) => {
+                setLastName(e.target.value);
+              }}
+              value={lastName}
+              required
+              ariaInvalid={isValidLastName ? "false" : "true"}
+              ariaDescribedby="lastNameId-note"
+              onFocus={() => setIsLastNameFocus(true)}
+              onBlur={() => setIsLastNameFocus(false)}
+              note=" Not A Valid Last Name"
+            />
+            <Input
+              name="Birth Date:"
+              type="date"
+              onChange={(e: { target: { value: SetStateAction<string> } }) =>
+                setBirthDate(e.target.value)
+              }
+              value={birthDate}
+              required
+            />
+            <br />
+            Gender:
+            <Select
+              {...props}
+              className={"genderSelectContainer"}
+              classNamePrefix={"genderSelect"}
+              options={options}
+            />
+          </form>
+        </section>
+      )}
     </div>
   );
 };

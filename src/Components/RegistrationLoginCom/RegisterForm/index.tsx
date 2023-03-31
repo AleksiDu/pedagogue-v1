@@ -130,6 +130,7 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
           <h1>{props.name} Register</h1>
           <form onSubmit={handleSubmit} className={styles.registrarForm}>
             <Input
+              inputType={email}
               isValidInputType={isValidEmail}
               isInputTypeFocus={isEmailFocus}
               name="Email:"
@@ -149,6 +150,7 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
               note=" Not a Valid email"
             />
             <Input
+              inputType={user}
               isValidInputType={isValidName}
               isInputTypeFocus={isUserFocus}
               name="Username:"
@@ -169,6 +171,7 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
               note3=" Letters, numbers, underscores, hyphens allowed."
             />
             <Input
+              inputType={pwd}
               isValidInputType={isValidPwd}
               isInputTypeFocus={isPwdFocus}
               name="Password:"
@@ -190,6 +193,7 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
             />
 
             <Input
+              inputType={matchPwd}
               isValidInputType={isValidMatch}
               isInputTypeFocus={isMatchFocus}
               name="Confirm Password:"
