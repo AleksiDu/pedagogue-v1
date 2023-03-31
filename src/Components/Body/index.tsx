@@ -5,6 +5,7 @@ import Registration from "../../pages/Registration";
 
 import "./styles.css";
 import { useEffect } from "react";
+import Profile from "../../pages/Profile";
 
 const Body = () => {
   const REGISTER_URL = "/registration";
@@ -27,6 +28,7 @@ const Body = () => {
         <Route path="/" element={<Home />} />
         <Route path="/registration/*" element={<Registration />}></Route>
         <Route path="/login/*" element={<Login />}></Route>
+        <Route path="/profile/*" element={<Profile />}></Route>
       </Routes>
     </section>
   );

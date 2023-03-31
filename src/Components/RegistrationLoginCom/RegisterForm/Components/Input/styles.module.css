@@ -11,6 +11,8 @@ a:visited {
 }
 input[type="email"],
 input[type="text"],
+input[type="date"],
+input[type="radio"],
 .registrarForm input[type="password"],
 .registrarForm button,
 .registrarForm textarea {

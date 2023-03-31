@@ -57,7 +57,7 @@ const Header: FC = () => {
 
             <ul>
               <li>
-                <a href="/#">Profile</a>
+                <a href="/profile">Profile</a>
               </li>
               <li>
                 <a href="/#">Settings</a>

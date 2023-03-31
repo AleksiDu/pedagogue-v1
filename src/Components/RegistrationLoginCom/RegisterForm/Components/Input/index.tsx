@@ -15,17 +15,17 @@ const Input = (props: {
   autoComplete?: string;
   onChange: ChangeEventHandler<HTMLInputElement> | undefined;
   value: string;
-  required: boolean;
-  ariaInvalid?: string | undefined;
-  ariaDescribedby?: string | undefined;
+  required?: boolean;
+  ariaInvalid?: string;
+  ariaDescribedby?: string;
   onFocus?: () => void;
   onBlur?: () => void;
   note?: string;
   note2?: string;
   note3?: string;
-  inputType?: string;
   isValidInputType?: boolean;
   isInputTypeFocus?: boolean;
+  checked?: boolean;
 }) => {
   return (
     <div className={styles.registrarForm}>
@@ -34,15 +34,13 @@ const Input = (props: {
         <FontAwesomeIcon
           icon={faCheck}
           className={
-            styles[props.isValidInputType && props.inputType ? "valid" : "hide"]
+            styles[props.isValidInputType && props.value ? "valid" : "hide"]
           }
         />
         <FontAwesomeIcon
           icon={faTimes}
           className={
-            styles[
-              props.isValidInputType || !props.inputType ? "hide" : "invalid"
-            ]
+            styles[props.isValidInputType || !props.value ? "hide" : "invalid"]
           }
         />
       </label>
@@ -52,18 +50,19 @@ const Input = (props: {
         ref={props.PropRef}
         autoComplete={props.autoComplete}
         onChange={props.onChange}
-        value={props.inputType}
+        value={props.value}
         required
         aria-invalid={props.isValidInputType ? "false" : "true"}
         aria-describedby={props.ariaDescribedby}
         onFocus={props.onFocus}
         onBlur={props.onBlur}
+        checked={props.checked}
       />
       <p
         id={props.ariaDescribedby}
         className={
           styles[
-            props.isInputTypeFocus && props.inputType && !props.isValidInputType
+            props.isInputTypeFocus && props.value && !props.isValidInputType
               ? "instructions"
               : "offscreen"
           ]
