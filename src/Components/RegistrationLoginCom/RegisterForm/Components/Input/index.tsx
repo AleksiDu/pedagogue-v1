@@ -14,7 +14,7 @@ const Input = (props: {
   PropRef?: LegacyRef<HTMLInputElement>;
   autoComplete?: string;
   onChange: ChangeEventHandler<HTMLInputElement> | undefined;
-  value: string;
+  value: string | number;
   required?: boolean;
   ariaInvalid?: string;
   ariaDescribedby?: string;

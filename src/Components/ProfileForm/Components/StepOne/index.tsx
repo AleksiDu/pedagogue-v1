@@ -1,14 +1,22 @@
 import { SetStateAction, useEffect, useRef, useState } from "react";
 import Input from "../../../RegistrationLoginCom/RegisterForm/Components/Input";
-import Select from "react-select";
+import Select, { StylesConfig } from "react-select";
 import styles from ".././styles.module.css";
+import axios from "axios";
 
 /**
  * Todo
- * Algolia Places API
+ * Possible Tutor documentation check,
+ * Geolocation, auto address
  */
 
-const StepOne = (props: { name: string }) => {
+interface OneProps {
+  nextStep: () => void;
+  userCallback: (val: any) => void;
+  name: string;
+}
+
+const StepOne: React.FC<OneProps> = (props) => {
   const NAME_REGEX = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
 
   const errRef = useRef<HTMLDivElement>(null);
@@ -23,15 +31,65 @@ const StepOne = (props: { name: string }) => {
 
   const [birthDate, setBirthDate] = useState<string>("");
 
-  const [gender, setGender] = useState<string>("");
-  const options = [
+  const gender = [
     { label: "male", value: 1 },
     { label: "female", value: 2 },
   ];
-  const selectedValues = ["male", "female"];
+
+  const city = [
+    { label: "Tbilis", value: 1 },
+    { label: "Kutaisi", value: 2 },
+    { label: "Batumi", value: 3 },
+  ];
 
   const [errMsg, setErrMsg] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const customStyles: StylesConfig = {
+    container: (provided) => ({
+      ...provided,
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-evenly",
+      flexGrow: 1,
+      paddingBottom: "1rem",
+    }),
+    control: (provided) => ({
+      ...provided,
+      fontSize: "22px",
+      borderRadius: "0.5rem",
+      borderWidth: "2px",
+      borderColor:
+        "-internal-light-dark(rgb(118, 118, 118),rgb(133, 133, 133))",
+    }),
+    input: (provided) => ({
+      ...provided,
+      margin: 0,
+      padding: 0,
+      color: "#000",
+    }),
+    menu: (provided) => ({
+      ...provided,
+      backgroundColor: "black",
+      marginTop: "-18px",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isFocused
+        ? "rgba(118, 118, 118, 0.4)"
+        : state.isSelected
+        ? "rgb(118, 118, 118)"
+        : "white",
+      ":hover": {
+        color: "white",
+        backgroundColor: "rgba(118, 118, 118, 0.4)",
+      },
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "#000",
+    }),
+  };
 
   useEffect(() => {
     setIsValidFirstName(NAME_REGEX.test(firstName));
@@ -39,26 +97,41 @@ const StepOne = (props: { name: string }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [firstName, lastName]);
 
-  const handleGenderChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setGender(e.target.value);
-  };
+  useEffect(() => {
+    setErrMsg("");
+  }, [firstName, lastName]);
 
-  const handleSubmit = () => {
-    console.log("[SUBMIT]");
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "/api/profile/step-one",
+        {
+          firstName,
+          lastName,
+          birthDate,
+          gender,
+          city,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      // Handle success response here
+      console.log(response);
+
+      // Update the state or perform any other actions as necessary
+      setIsSuccess(true);
+    } catch (error) {
+      console.error(error);
+      // Handle errors here
+    }
   };
 
   return (
     <div>
-      {isSuccess ? (
-        <section className={styles.registrarSection}>
-          <h1>Success!</h1>
-          <p>
-            <a href="/login">Sign In</a>
-          </p>
-        </section>
-      ) : (
+      {
         <section className={styles.registrarSection}>
           <p
             ref={errRef}
@@ -115,16 +188,20 @@ const StepOne = (props: { name: string }) => {
               required
             />
             <br />
-            Gender:
-            <Select
-              {...props}
-              className={"genderSelectContainer"}
-              classNamePrefix={"genderSelect"}
-              options={options}
-            />
+            <label htmlFor="gender">Gender:</label>
+            <Select styles={customStyles} options={gender} />
+            <label htmlFor="city">City:</label>
+            <Select styles={customStyles} options={city} />
+            <button
+              type="submit"
+              // onClick={props.nextStep}
+              className={styles.nextButton}
+            >
+              Next
+            </button>
           </form>
         </section>
-      )}
+      }
     </div>
   );
 };

@@ -1,10 +1,12 @@
-const ActionButtons = (props: {
+interface ActionButtonsProps {
+  currentStep: number;
+  totalSteps: number;
   previousStep: () => void;
   nextStep: () => void;
   lastStep: () => void;
-  currentStep: number;
-  totalSteps: number;
-}) => {
+}
+
+const ActionButtons: React.FC<ActionButtonsProps> = (props) => {
   const handleBack = () => {
     props.previousStep();
   };
