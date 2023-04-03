@@ -36,9 +36,9 @@ const StepOne: React.FC<OneProps> = (props) => {
 
   const [birthDate, setBirthDate] = useState<string>("");
 
-  const [genderSelect, setGenderSelect] = useState<string | null>(null);
+  const [genderSelect, setGenderSelect] = useState<number | null>(null);
 
-  const [citySelect, setCitySelect] = useState("");
+  const [citySelect, setCitySelect] = useState<number | null>(null);
 
   const genderOption: Option[] = [
     { label: "male", value: 1 },
@@ -202,7 +202,7 @@ const StepOne: React.FC<OneProps> = (props) => {
               options={genderOption}
               onChange={(newValue: unknown) => {
                 const selectedOption = newValue as Option;
-                setGenderSelect(selectedOption.label);
+                setGenderSelect(selectedOption.value);
               }}
             />
             <label htmlFor="city">City:</label>
@@ -211,7 +211,7 @@ const StepOne: React.FC<OneProps> = (props) => {
               options={cityOption}
               onChange={(newValue: unknown) => {
                 const selectedOption = newValue as Option;
-                setCitySelect(selectedOption.label);
+                setCitySelect(selectedOption.value);
               }}
             />
             <button
