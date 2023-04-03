@@ -1,6 +1,6 @@
 import { SetStateAction, useEffect, useRef, useState } from "react";
 import Input from "../../../RegistrationLoginCom/RegisterForm/Components/Input";
-import Select, { StylesConfig } from "react-select";
+import Select, { ActionMeta, StylesConfig } from "react-select";
 import styles from ".././styles.module.css";
 import axios from "axios";
 
@@ -14,6 +14,11 @@ interface OneProps {
   nextStep: () => void;
   userCallback: (val: any) => void;
   name: string;
+}
+
+interface Option {
+  label: string;
+  value: number;
 }
 
 const StepOne: React.FC<OneProps> = (props) => {
@@ -31,12 +36,16 @@ const StepOne: React.FC<OneProps> = (props) => {
 
   const [birthDate, setBirthDate] = useState<string>("");
 
-  const gender = [
+  const [genderSelect, setGenderSelect] = useState<string | null>(null);
+
+  const [citySelect, setCitySelect] = useState("");
+
+  const genderOption: Option[] = [
     { label: "male", value: 1 },
     { label: "female", value: 2 },
   ];
 
-  const city = [
+  const cityOption: Option[] = [
     { label: "Tbilis", value: 1 },
     { label: "Kutaisi", value: 2 },
     { label: "Batumi", value: 3 },
@@ -111,8 +120,8 @@ const StepOne: React.FC<OneProps> = (props) => {
           firstName,
           lastName,
           birthDate,
-          gender,
-          city,
+          genderSelect,
+          citySelect,
         },
         {
           headers: { "Content-Type": "application/json" },
@@ -120,6 +129,7 @@ const StepOne: React.FC<OneProps> = (props) => {
       );
       // Handle success response here
       console.log(response);
+      console.log(genderOption.values);
 
       // Update the state or perform any other actions as necessary
       setIsSuccess(true);
@@ -181,17 +191,29 @@ const StepOne: React.FC<OneProps> = (props) => {
             <Input
               name="Birth Date:"
               type="date"
-              onChange={(e: { target: { value: SetStateAction<string> } }) =>
-                setBirthDate(e.target.value)
-              }
+              onChange={(e) => setBirthDate(e.target.value)}
               value={birthDate}
               required
             />
             <br />
             <label htmlFor="gender">Gender:</label>
-            <Select styles={customStyles} options={gender} />
+            <Select
+              styles={customStyles}
+              options={genderOption}
+              onChange={(newValue: unknown) => {
+                const selectedOption = newValue as Option;
+                setGenderSelect(selectedOption.label);
+              }}
+            />
             <label htmlFor="city">City:</label>
-            <Select styles={customStyles} options={city} />
+            <Select
+              styles={customStyles}
+              options={cityOption}
+              onChange={(newValue: unknown) => {
+                const selectedOption = newValue as Option;
+                setCitySelect(selectedOption.label);
+              }}
+            />
             <button
               type="submit"
               // onClick={props.nextStep}
