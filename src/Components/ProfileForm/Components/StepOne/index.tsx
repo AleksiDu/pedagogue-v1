@@ -126,25 +126,15 @@ const StepOne: React.FC<OneProps> = (props) => {
   }, [firstName, lastName]);
 
   const validate = () => {
-    let isValid = true;
     if (!isValidFirstName) {
       setErrMsg("Please enter a valid first name");
-      isValid = false;
+      return;
     }
     if (!isValidLastName) {
       setErrMsg("Please enter a valid last name");
-      isValid = false;
+      return;
     }
 
-    if (isValid) {
-      setStepOneState({
-        firstName,
-        lastName,
-        birthDate,
-        genderSelect,
-        citySelect,
-      });
-    }
     // Call next step if all validation passes
     props.nextStep();
   };

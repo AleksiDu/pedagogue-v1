@@ -1,11 +1,11 @@
-import React from "react";
+import "./styles.css";
 import ProfileForm from "../../Components/ProfileForm";
 
 const Profile = () => {
   return (
-    <div>
+    <>
       <ProfileForm />
-    </div>
+    </>
   );
 };
 
