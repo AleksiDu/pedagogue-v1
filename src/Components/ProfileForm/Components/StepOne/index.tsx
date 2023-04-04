@@ -48,7 +48,13 @@ const StepOne: React.FC<OneProps> = (props) => {
 
   const [citySelect, setCitySelect] = useState<number | null>(null);
 
-  const [stepOneState, setStepOneState] = useState<StepOneState>();
+  const [stepOneState, setStepOneState] = useState<StepOneState>({
+    firstName: "",
+    lastName: "",
+    birthDate: "",
+    genderSelect: 0,
+    citySelect: 0,
+  });
 
   const genderOption: Option[] = [
     { label: "male", value: 1 },
@@ -131,6 +137,7 @@ const StepOne: React.FC<OneProps> = (props) => {
 
     // Call next step if all validation passes
     props.nextStep();
+    props.userCallback(stepOneState);
   };
 
   return (
@@ -155,6 +162,7 @@ const StepOne: React.FC<OneProps> = (props) => {
               autoComplete="off"
               onChange={(e) => {
                 setFirstName(e.target.value);
+                setStepOneState({ ...stepOneState, firstName: e.target.value });
               }}
               value={firstName}
               required
@@ -173,6 +181,7 @@ const StepOne: React.FC<OneProps> = (props) => {
               autoComplete="off"
               onChange={(e) => {
                 setLastName(e.target.value);
+                setStepOneState({ ...stepOneState, lastName: e.target.value });
               }}
               value={lastName}
               required
@@ -185,7 +194,10 @@ const StepOne: React.FC<OneProps> = (props) => {
             <Input
               name="Birth Date:"
               type="date"
-              onChange={(e) => setBirthDate(e.target.value)}
+              onChange={(e) => {
+                setBirthDate(e.target.value);
+                setStepOneState({ ...stepOneState, birthDate: e.target.value });
+              }}
               value={birthDate}
               required
             />
@@ -197,6 +209,10 @@ const StepOne: React.FC<OneProps> = (props) => {
               onChange={(newValue: unknown) => {
                 const selectedOption = newValue as Option;
                 setGenderSelect(selectedOption.value);
+                setStepOneState({
+                  ...stepOneState,
+                  genderSelect: selectedOption.value,
+                });
               }}
             />
             <label htmlFor="city">City:</label>
@@ -206,6 +222,10 @@ const StepOne: React.FC<OneProps> = (props) => {
               onChange={(newValue: unknown) => {
                 const selectedOption = newValue as Option;
                 setCitySelect(selectedOption.value);
+                setStepOneState({
+                  ...stepOneState,
+                  citySelect: selectedOption.value,
+                });
               }}
             />
             <ActionButton
