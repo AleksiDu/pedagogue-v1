@@ -6,7 +6,7 @@ interface ActionButtonsProps {
   lastStep: () => void;
 }
 
-const ActionButtons: React.FC<ActionButtonsProps> = (props) => {
+const ActionButton: React.FC<ActionButtonsProps> = (props) => {
   const handleBack = () => {
     props.previousStep();
   };
@@ -20,7 +20,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = (props) => {
   };
 
   return (
-    <div>
+    <>
       {props.currentStep > 1 && <button onClick={handleBack}>Back</button>}
       {props.currentStep < props.totalSteps && (
         <button onClick={handleNext}>Next</button>
@@ -28,8 +28,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = (props) => {
       {props.currentStep === props.totalSteps && (
         <button onClick={handleFinish}>Finish</button>
       )}
-    </div>
+    </>
   );
 };
 
-export default ActionButtons;
+export default ActionButton;

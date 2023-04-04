@@ -1,8 +1,8 @@
-import { SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Input from "../../../RegistrationLoginCom/RegisterForm/Components/Input";
-import Select, { ActionMeta, StylesConfig } from "react-select";
+import Select, { StylesConfig } from "react-select";
 import styles from ".././styles.module.css";
-import axios from "axios";
+import ActionButton from "../ActionButton";
 
 /**
  * Todo
@@ -19,6 +19,14 @@ interface OneProps {
 interface Option {
   label: string;
   value: number;
+}
+
+interface StepOneState {
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  genderSelect: number | null;
+  citySelect: number | null;
 }
 
 const StepOne: React.FC<OneProps> = (props) => {
@@ -40,6 +48,14 @@ const StepOne: React.FC<OneProps> = (props) => {
 
   const [citySelect, setCitySelect] = useState<number | null>(null);
 
+  const [stepOneState, setStepOneState] = useState<StepOneState>({
+    firstName: "",
+    lastName: "",
+    birthDate: "",
+    genderSelect: null,
+    citySelect: null,
+  });
+
   const genderOption: Option[] = [
     { label: "male", value: 1 },
     { label: "female", value: 2 },
@@ -52,7 +68,6 @@ const StepOne: React.FC<OneProps> = (props) => {
   ];
 
   const [errMsg, setErrMsg] = useState("");
-  const [isSuccess, setIsSuccess] = useState(false);
 
   const customStyles: StylesConfig = {
     container: (provided) => ({
@@ -110,33 +125,28 @@ const StepOne: React.FC<OneProps> = (props) => {
     setErrMsg("");
   }, [firstName, lastName]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        "/api/profile/step-one",
-        {
-          firstName,
-          lastName,
-          birthDate,
-          genderSelect,
-          citySelect,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      // Handle success response here
-      console.log(response);
-      console.log(genderOption.values);
-
-      // Update the state or perform any other actions as necessary
-      setIsSuccess(true);
-    } catch (error) {
-      console.error(error);
-      // Handle errors here
+  const validate = () => {
+    let isValid = true;
+    if (!isValidFirstName) {
+      setErrMsg("Please enter a valid first name");
+      isValid = false;
     }
+    if (!isValidLastName) {
+      setErrMsg("Please enter a valid last name");
+      isValid = false;
+    }
+
+    if (isValid) {
+      setStepOneState({
+        firstName,
+        lastName,
+        birthDate,
+        genderSelect,
+        citySelect,
+      });
+    }
+    // Call next step if all validation passes
+    props.nextStep();
   };
 
   return (
@@ -151,7 +161,7 @@ const StepOne: React.FC<OneProps> = (props) => {
             {errMsg}
           </p>
           <h1>{props.name}</h1>
-          <form onSubmit={handleSubmit} className={styles.registrarForm}>
+          <form className={styles.registrarForm}>
             <Input
               isValidInputType={isValidFirstName}
               isInputTypeFocus={isFirstNameFocus}
@@ -214,13 +224,17 @@ const StepOne: React.FC<OneProps> = (props) => {
                 setCitySelect(selectedOption.value);
               }}
             />
-            <button
-              type="submit"
-              // onClick={props.nextStep}
-              className={styles.nextButton}
-            >
-              Next
-            </button>
+            <ActionButton
+              nextStep={validate}
+              currentStep={1}
+              totalSteps={3}
+              previousStep={function (): void {
+                throw new Error("Function not implemented.");
+              }}
+              lastStep={function (): void {
+                throw new Error("Function not implemented.");
+              }}
+            />
           </form>
         </section>
       }
