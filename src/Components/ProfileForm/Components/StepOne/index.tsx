@@ -12,7 +12,7 @@ import ActionButton from "../ActionButton";
 
 interface OneProps {
   nextStep: () => void;
-  userCallback: (val: any) => void;
+  userCallback: (stepOneState: object) => void;
   name: string;
 }
 
@@ -48,13 +48,7 @@ const StepOne: React.FC<OneProps> = (props) => {
 
   const [citySelect, setCitySelect] = useState<number | null>(null);
 
-  const [stepOneState, setStepOneState] = useState<StepOneState>({
-    firstName: "",
-    lastName: "",
-    birthDate: "",
-    genderSelect: null,
-    citySelect: null,
-  });
+  const [stepOneState, setStepOneState] = useState<StepOneState>();
 
   const genderOption: Option[] = [
     { label: "male", value: 1 },
