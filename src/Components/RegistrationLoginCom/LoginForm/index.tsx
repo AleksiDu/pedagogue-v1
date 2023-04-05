@@ -4,6 +4,7 @@ import axios from "../../../api/axios";
 import { AxiosError } from "axios";
 import styles from "../RegisterForm/styles.module.css";
 import Input from "../RegisterForm/Components/Input";
+import { Link } from "react-router-dom";
 
 interface LoginResponseData {
   accessToken: string;
@@ -100,7 +101,7 @@ const LoginForm = (): JSX.Element => {
           <h1>You are logged in!</h1>
           <br />
           <p>
-            <a href="/#">Go to Home</a>
+            <Link to={"/#"}>Go to Home</Link>
           </p>
         </section>
       ) : (
@@ -139,7 +140,7 @@ const LoginForm = (): JSX.Element => {
             Need an Account?
             <br />
             <span className={styles.line}>
-              <a href="/registration">Sign Up</a>
+              <Link to={"/registration"}>Sign Up</Link>
             </span>
           </p>
         </section>

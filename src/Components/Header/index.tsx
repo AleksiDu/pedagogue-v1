@@ -3,7 +3,7 @@ import Avatar from "react-avatar";
 import { useOnClickOutside } from "usehooks-ts";
 import logo from "../../assets/icons/logo.svg";
 import Search from "../Search";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./styles.css";
 
@@ -34,10 +34,10 @@ const Header: FC = () => {
 
   return (
     <header className="app-header">
-      <a href="/#" className="app-logo-name">
+      <Link to={"/#"} className="app-logo-name">
         <img src={logo} className="app-logo" alt="logo" />
         <span className="app-name">PEDAGOGUE</span>
-      </a>
+      </Link>
       <div className="header-search-bar">
         <Search />
       </div>
@@ -57,13 +57,13 @@ const Header: FC = () => {
 
             <ul>
               <li>
-                <a href="/profile">Profile</a>
+                <Link to={"/profile"}>Profile</Link>
               </li>
               <li>
-                <a href="/#">Settings</a>
+                <Link to={"/#"}>Settings</Link>
               </li>
               <li>
-                <a href="/#">Curriculum</a>
+                <Link to={"/#"}>Curriculum</Link>
               </li>
             </ul>
           </nav>

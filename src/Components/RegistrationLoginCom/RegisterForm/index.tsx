@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "../../../api/axios";
 import styles from "./styles.module.css";
 import Input from "./Components/Input";
@@ -115,7 +115,7 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
         <section className={styles.registrarSection}>
           <h1>Success!</h1>
           <p>
-            <a href="/login">Sign In</a>
+            <Link to={"/login"}>Sign In</Link>
           </p>
         </section>
       ) : (
@@ -224,7 +224,7 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
             Already registered?
             <br />
             <span className={styles.line}>
-              <a href="/login">Sign In</a>
+              <Link to={"/login"}>Sign In</Link>
             </span>
           </p>
         </section>
