@@ -1,22 +1,77 @@
+import { useEffect, useState } from "react";
+import Input from "../../../RegistrationLoginCom/RegisterForm/Components/Input";
 import ActionButton from "../ActionButton";
+import styles from "../styles.module.css";
 
-const StepTwo = () => {
+type TwoProps = {
+  name: string;
+  userCallback: (val: any) => void;
+  nextStep: () => void;
+};
+
+const StepTwo = (props: TwoProps) => {
+  const [experience, setExperience] = useState<number>();
+  const [subject, setSubject] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [experience, subject]);
+
+  const validate = () => {
+    console.log(errMsg);
+    props.nextStep();
+  };
+
   return (
     <div>
-      Step Two
-      <ActionButton
-        currentStep={2}
-        totalSteps={3}
-        previousStep={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-        nextStep={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-        lastStep={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
+      {
+        <section className={styles.registrarSection}>
+          <p
+            // ref={"errRef"}
+            className={styles[errMsg ? "err-msg" : "offscreen"]}
+            aria-live="assertive"
+          >
+            {errMsg}
+          </p>
+          <h1>{props.name}</h1>
+          <form className={styles.registrarForm}>
+            <Input
+              name={"Subject:"}
+              id="subject"
+              type="text"
+              autoComplete="off"
+              onChange={(e) => {
+                setSubject(e.target.value);
+              }}
+              value={subject}
+              required
+            />
+            <Input
+              name={"Experience:"}
+              id="experience"
+              type="number"
+              autoComplete="off"
+              onChange={(e) => {
+                setExperience(e.target.valueAsNumber);
+              }}
+              value={experience?.toFixed(0)}
+              required
+            />
+            <ActionButton
+              nextStep={validate}
+              currentStep={2}
+              totalSteps={3}
+              previousStep={function (): void {
+                throw new Error("Function not implemented.");
+              }}
+              lastStep={function (): void {
+                throw new Error("Function not implemented.");
+              }}
+            />
+          </form>
+        </section>
+      }
     </div>
   );
 };

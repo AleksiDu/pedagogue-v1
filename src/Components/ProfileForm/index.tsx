@@ -47,7 +47,13 @@ const ProfileForm = () => {
           }}
           userCallback={assignUser}
         />
-        <StepTwo />
+        <StepTwo
+          name="two"
+          nextStep={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+          userCallback={assignUser}
+        />
         <StepConfirm />
       </StepWizard>
     </section>

@@ -26,6 +26,7 @@
 .registrarForm input[type="password"],
 .registrarForm input[type="data"],
 .registrarForm input[type="radio"],
+.registrarForm input[type="number"],
 .registrarForm button,
 .registrarForm textarea {
   font-size: 22px;
