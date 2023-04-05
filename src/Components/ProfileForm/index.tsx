@@ -54,7 +54,15 @@ const ProfileForm = () => {
           }}
           userCallback={assignUser}
         />
-        <StepConfirm />
+        <StepConfirm
+          name={"name"}
+          completeCallback={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+          lastStep={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
       </StepWizard>
     </section>
   );

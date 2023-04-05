@@ -9,7 +9,7 @@ type TwoProps = {
   nextStep: () => void;
 };
 
-const StepTwo = (props: TwoProps) => {
+const StepTwo: React.FC<TwoProps> = (props) => {
   const [experience, setExperience] = useState<number>();
   const [subject, setSubject] = useState("");
   const [errMsg, setErrMsg] = useState("");
