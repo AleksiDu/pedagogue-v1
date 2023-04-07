@@ -14,6 +14,7 @@ interface ConfirmProps {
 
   completeCallback: () => void;
   lastStep: () => void;
+  prevStep: () => void;
 }
 
 interface Prop {
@@ -24,6 +25,10 @@ interface Prop {
 const StepConfirm: React.FC<ConfirmProps> = (props) => {
   const validate = () => {
     props.lastStep();
+  };
+
+  const goBack = () => {
+    props.prevStep();
   };
 
   const propArray: Prop[] = [
@@ -55,9 +60,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
             <ActionButton
               currentStep={3}
               totalSteps={3}
-              previousStep={function (): void {
-                throw new Error("Function not implemented.");
-              }}
+              previousStep={goBack}
               nextStep={function (): void {
                 throw new Error("Function not implemented.");
               }}

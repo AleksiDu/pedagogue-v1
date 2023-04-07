@@ -7,6 +7,7 @@ type TwoProps = {
   name: string;
   userCallback: (val: any) => void;
   nextStep: () => void;
+  prevStep: () => void;
 };
 
 const StepTwo: React.FC<TwoProps> = (props) => {
@@ -21,6 +22,10 @@ const StepTwo: React.FC<TwoProps> = (props) => {
   const validate = () => {
     console.log(errMsg);
     props.nextStep();
+  };
+
+  const goBack = () => {
+    props.prevStep();
   };
 
   return (
@@ -62,9 +67,7 @@ const StepTwo: React.FC<TwoProps> = (props) => {
               nextStep={validate}
               currentStep={2}
               totalSteps={3}
-              previousStep={function (): void {
-                throw new Error("Function not implemented.");
-              }}
+              previousStep={goBack}
               lastStep={function (): void {
                 throw new Error("Function not implemented.");
               }}
