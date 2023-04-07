@@ -3,15 +3,39 @@ import ActionButton from "../ActionButton";
 import styles from "../styles.module.css";
 
 interface ConfirmProps {
-  name: string;
+  name: any;
+  firstName: any;
+  lastName: any;
+  birthDate: any;
+  gender: any;
+  city: any;
+  subject: any;
+  experience: any;
+
   completeCallback: () => void;
   lastStep: () => void;
+}
+
+interface Prop {
+  name: string;
+  value: any;
 }
 
 const StepConfirm: React.FC<ConfirmProps> = (props) => {
   const validate = () => {
     props.lastStep();
   };
+
+  const propArray: Prop[] = [
+    { name: "First Name", value: props?.firstName },
+    { name: "Last Name", value: props?.lastName },
+    { name: "Birth Date", value: props?.birthDate },
+    { name: "Gender", value: props?.gender },
+    { name: "City", value: props?.city },
+    { name: "Subject", value: props?.subject },
+    { name: "Experience", value: props?.experience },
+  ];
+
   return (
     <div>
       {
@@ -21,48 +45,13 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
           </p>
           <h1>Summery</h1>
           <form className={styles.registrarForm}>
-            <Input
-              name="First Name:"
-              type="text"
-              value={props?.name}
-              onChange={(e) => console.log(e)}
-            />
-            <Input
-              name="Last Name:"
-              type="text"
-              value={props?.name}
-              onChange={(e) => console.log(e)}
-            />
-            <Input
-              name="Subject:"
-              type="text"
-              value={props?.name}
-              onChange={(e) => console.log(e)}
-            />
-            <Input
-              name="Experience:"
-              type="text"
-              value={props?.name}
-              onChange={(e) => console.log(e)}
-            />
-            <Input
-              name="Age:"
-              type="text"
-              value={props?.name}
-              onChange={(e) => console.log(e)}
-            />
-            <Input
-              name="Gender:"
-              type="text"
-              value={props?.name}
-              onChange={(e) => console.log(e)}
-            />
-            <Input
-              name="City:"
-              type="text"
-              value={props?.name}
-              onChange={(e) => console.log(e)}
-            />
+            {propArray.map((prop) => (
+              <p key={prop.name}>
+                <strong>{prop.name}: </strong>
+                {prop.value}
+              </p>
+            ))}
+
             <ActionButton
               currentStep={3}
               totalSteps={3}

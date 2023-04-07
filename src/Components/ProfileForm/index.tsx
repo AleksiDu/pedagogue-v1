@@ -4,10 +4,28 @@ import StepConfirm from "./Components/Confirmation";
 import StepOne from "./Components/StepOne/index";
 import StepTwo from "./Components/StepTwo";
 
+interface UserProps {
+  firstName: any;
+  lastName: any;
+  birthDate: any;
+  gender: any;
+  city: any;
+  subject: any;
+  experience: any;
+}
+
 const ProfileForm = () => {
   const [stepWizard, setStepWizard] = useState<StepWizardProps | null>(null);
   const [activeStep, setActiveStep] = useState(0);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState<UserProps>({
+    firstName: "",
+    lastName: "",
+    birthDate: "",
+    gender: "",
+    city: "",
+    subject: "",
+    experience: "",
+  });
 
   const assignStepWizard = (instance: StepWizardProps) => {
     setStepWizard(instance);
@@ -24,7 +42,6 @@ const ProfileForm = () => {
 
   const handleStepChange = (e: { activeStep: number }) => {
     console.log("step change");
-    console.log(e);
     setActiveStep(e.activeStep - 1);
   };
 
@@ -36,7 +53,7 @@ const ProfileForm = () => {
     () => console.log({ user, activeStep, stepWizard }),
     [activeStep, stepWizard, user]
   );
-
+  console.log("prof", user?.firstName);
   return (
     <section>
       <StepWizard instance={assignStepWizard} onStepChange={handleStepChange}>
@@ -56,6 +73,13 @@ const ProfileForm = () => {
         />
         <StepConfirm
           name={"name"}
+          firstName={user.firstName}
+          lastName={user.lastName}
+          birthDate={user.birthDate}
+          gender={user.gender}
+          city={user.city}
+          subject={user.subject}
+          experience={user.experience}
           completeCallback={function (): void {
             throw new Error("Function not implemented.");
           }}
