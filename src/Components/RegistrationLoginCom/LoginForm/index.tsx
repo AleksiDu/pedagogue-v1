@@ -7,7 +7,7 @@ import Input from "../RegisterForm/Components/Input";
 import { Link } from "react-router-dom";
 
 interface LoginResponseData {
-  accessToken: string;
+  token: string;
   roles: string[];
 }
 
@@ -57,7 +57,7 @@ const LoginForm = (): JSX.Element => {
           // withCredentials: true, // <-- request should include cookies
         }
       );
-      const accessToken = response.data.accessToken;
+      const accessToken = response.data.token;
       const roles = response.data.roles;
       setAuth({ email, pwd, roles, accessToken });
       setEmail("");
