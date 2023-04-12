@@ -8,7 +8,7 @@ type AuthContextType = {
 type AuthState = {
   email: string;
   pwd: string;
-  roles: string[];
+  roles?: string[];
   accessToken: string;
 };
 
