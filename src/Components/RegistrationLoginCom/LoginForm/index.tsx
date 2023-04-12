@@ -60,6 +60,13 @@ const LoginForm = (): JSX.Element => {
       const accessToken = response.data.token;
       const roles = response.data.roles;
       setAuth({ email, pwd, roles, accessToken });
+
+      // Set a local storage
+      localStorage.setItem("email", email);
+      localStorage.setItem("password", pwd);
+      localStorage.setItem("roles", String(roles));
+      localStorage.setItem("accessToken", accessToken);
+
       setEmail("");
       setPwd("");
       setSuccess(true);

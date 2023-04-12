@@ -1,4 +1,4 @@
-import { createContext, useState, ReactNode, useMemo } from "react";
+import { createContext, useState, ReactNode, useMemo, useEffect } from "react";
 
 type AuthContextType = {
   auth: AuthState;
@@ -32,6 +32,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     pwd: "",
     roles: [],
     accessToken: "",
+  });
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    const pwd = localStorage.getItem("password");
+    const email = localStorage.getItem("email");
+    const roles = localStorage.getItem("roles") || "[]";
+
+    if (accessToken && pwd && email && roles) {
+      console.log("accessToken:", accessToken);
+      console.log("pwd:", pwd);
+      console.log("email:", email);
+      console.log("roles:", roles);
+    } else {
+      // At least one variable is missing from localStorage
+      console.log("Some variables are missing from localStorage");
+    }
   });
 
   const authContextValue = useMemo(() => ({ auth, setAuth }), [auth, setAuth]);
