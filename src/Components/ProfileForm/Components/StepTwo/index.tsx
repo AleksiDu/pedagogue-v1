@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Input from "../../../RegistrationLoginCom/RegisterForm/Components/Input";
 import ActionButton from "../ActionButton";
 import styles from "../styles.module.css";
@@ -10,18 +10,37 @@ type TwoProps = {
   prevStep: () => void;
 };
 
+interface StepTwoState {
+  subject: string;
+  experience?: number;
+}
+
 const StepTwo: React.FC<TwoProps> = (props) => {
+  const errRef = useRef<HTMLDivElement>(null);
+
   const [experience, setExperience] = useState<number>();
   const [subject, setSubject] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [stepTwoState, setStepTwoState] = useState<StepTwoState>({
+    subject: "",
+    experience: undefined,
+  });
 
   useEffect(() => {
     setErrMsg("");
   }, [experience, subject]);
 
   const validate = () => {
-    console.log(errMsg);
+    if (!experience) {
+      setErrMsg("Please enter a year");
+    }
+    if (!subject) {
+      setErrMsg("Please enter a subject");
+    }
+
+    // Call next step if all validation passes
     props.nextStep();
+    props.userCallback(stepTwoState === undefined ? "" : stepTwoState);
   };
 
   const goBack = () => {
@@ -33,7 +52,7 @@ const StepTwo: React.FC<TwoProps> = (props) => {
       {
         <section className={styles.registrarSection}>
           <p
-            // ref={"errRef"}
+            ref={errRef}
             className={styles[errMsg ? "err-msg" : "offscreen"]}
             aria-live="assertive"
           >
@@ -48,6 +67,7 @@ const StepTwo: React.FC<TwoProps> = (props) => {
               autoComplete="off"
               onChange={(e) => {
                 setSubject(e.target.value);
+                setStepTwoState({ ...stepTwoState, subject: e.target.value });
               }}
               value={subject}
               required
@@ -59,6 +79,11 @@ const StepTwo: React.FC<TwoProps> = (props) => {
               autoComplete="off"
               onChange={(e) => {
                 setExperience(e.target.valueAsNumber);
+                setStepTwoState({
+                  ...stepTwoState,
+                  experience:
+                    experience === undefined ? 0 : e.target.valueAsNumber,
+                });
               }}
               value={experience === undefined ? "" : experience.toFixed(0)}
               required
