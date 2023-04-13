@@ -118,7 +118,6 @@ const StepOne: React.FC<OneProps> = (props) => {
   useEffect(() => {
     setIsValidFirstName(NAME_REGEX.test(firstName));
     setIsValidLastName(NAME_REGEX.test(lastName));
-    console.log(isValidFirstName);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [firstName, lastName]);
 
@@ -201,6 +200,7 @@ const StepOne: React.FC<OneProps> = (props) => {
               onChange={(e) => {
                 setBirthDate(e.target.value);
                 setStepOneState({ ...stepOneState, birthDate: e.target.value });
+                console.log();
               }}
               required
               value={birthDate}

@@ -60,7 +60,7 @@ const StepTwo: React.FC<TwoProps> = (props) => {
               onChange={(e) => {
                 setExperience(e.target.valueAsNumber);
               }}
-              value={experience?.toFixed(0)}
+              value={experience === undefined ? "" : experience.toFixed(0)}
               required
             />
             <ActionButton

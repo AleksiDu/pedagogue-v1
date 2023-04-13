@@ -14,8 +14,6 @@ const Body = () => {
 
   const { auth } = useContext(AuthContext);
 
-  console.log(auth);
-
   useEffect(() => {
     switch (location.pathname) {
       case REGISTER_URL + "/Tutor":

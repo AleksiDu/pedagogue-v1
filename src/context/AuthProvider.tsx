@@ -42,9 +42,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     if (accessToken && pwd && email && roles) {
       console.log("accessToken:", accessToken);
-      console.log("pwd:", pwd);
-      console.log("email:", email);
-      console.log("roles:", roles);
     } else {
       // At least one variable is missing from localStorage
       console.log("Some variables are missing from localStorage");

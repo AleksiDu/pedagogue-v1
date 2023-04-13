@@ -21,9 +21,15 @@ const ActionButton: React.FC<ActionButtonsProps> = (props) => {
 
   return (
     <>
-      {props.currentStep > 1 && <button onClick={handleBack}>Back</button>}
+      {props.currentStep > 1 && (
+        <button type="button" onClick={handleBack}>
+          Back
+        </button>
+      )}
       {props.currentStep < props.totalSteps && (
-        <button onClick={handleNext}>Next</button>
+        <button type="button" onClick={handleNext}>
+          Next
+        </button>
       )}
       {props.currentStep === props.totalSteps && (
         <button onClick={handleFinish}>Finish</button>

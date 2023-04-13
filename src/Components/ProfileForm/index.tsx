@@ -5,13 +5,13 @@ import StepOne from "./Components/StepOne/index";
 import StepTwo from "./Components/StepTwo";
 
 interface UserProps {
-  firstName: any;
-  lastName: any;
-  birthDate: any;
-  gender: any;
-  city: any;
-  subject: any;
-  experience: any;
+  firstName?: string;
+  lastName?: string;
+  birthDate?: string;
+  gender?: number;
+  city?: number;
+  subject?: string;
+  experience?: number;
 }
 
 interface ExtendedStepWizardProps extends StepWizardProps {
@@ -25,15 +25,7 @@ const ProfileForm = () => {
   );
 
   const [activeStep, setActiveStep] = useState(0);
-  const [user, setUser] = useState<UserProps>({
-    firstName: "",
-    lastName: "",
-    birthDate: "",
-    gender: "",
-    city: "",
-    subject: "",
-    experience: "",
-  });
+  const [user, setUser] = useState<UserProps>({});
 
   const assignStepWizard = (instance: StepWizardProps) => {
     setStepWizard(instance);
@@ -41,7 +33,7 @@ const ProfileForm = () => {
 
   const assignUser = (val: {}) => {
     console.log("parent receive user callback");
-
+    console.log("val", val);
     setUser((user) => ({
       ...user,
       ...val,
