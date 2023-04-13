@@ -78,12 +78,14 @@ const StepTwo: React.FC<TwoProps> = (props) => {
               type="number"
               autoComplete="off"
               onChange={(e) => {
-                setExperience(e.target.valueAsNumber);
-                setStepTwoState({
-                  ...stepTwoState,
-                  experience:
-                    experience === undefined ? 0 : e.target.valueAsNumber,
-                });
+                const value = e.target.valueAsNumber;
+                if (!isNaN(value)) {
+                  setExperience(value);
+                  setStepTwoState({
+                    ...stepTwoState,
+                    experience: value === undefined ? 0 : value,
+                  });
+                }
               }}
               value={experience === undefined ? "" : experience.toFixed(0)}
               required

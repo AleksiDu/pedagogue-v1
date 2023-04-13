@@ -25,8 +25,8 @@ interface StepOneState {
   firstName: string;
   lastName: string;
   birthDate: string;
-  genderSelect: number | null;
-  citySelect: number | null;
+  genderSelect: Option;
+  citySelect: Option;
 }
 
 const StepOne: React.FC<OneProps> = (props) => {
@@ -44,16 +44,12 @@ const StepOne: React.FC<OneProps> = (props) => {
 
   const [birthDate, setBirthDate] = useState<string>("");
 
-  const [genderSelect, setGenderSelect] = useState<number | null>(null);
-
-  const [citySelect, setCitySelect] = useState<number | null>(null);
-
   const [stepOneState, setStepOneState] = useState<StepOneState>({
     firstName: "",
     lastName: "",
     birthDate: "",
-    genderSelect: 0,
-    citySelect: 0,
+    genderSelect: { label: "", value: 0 },
+    citySelect: { label: "", value: 0 },
   });
 
   const genderOption: Option[] = [
@@ -62,7 +58,7 @@ const StepOne: React.FC<OneProps> = (props) => {
   ];
 
   const cityOption: Option[] = [
-    { label: "Tbilis", value: 1 },
+    { label: "Tbilisi", value: 1 },
     { label: "Kutaisi", value: 2 },
     { label: "Batumi", value: 3 },
   ];
@@ -200,7 +196,6 @@ const StepOne: React.FC<OneProps> = (props) => {
               onChange={(e) => {
                 setBirthDate(e.target.value);
                 setStepOneState({ ...stepOneState, birthDate: e.target.value });
-                console.log();
               }}
               required
               value={birthDate}
@@ -211,11 +206,11 @@ const StepOne: React.FC<OneProps> = (props) => {
               styles={customStyles}
               options={genderOption}
               onChange={(newValue: unknown) => {
+                console.log(newValue);
                 const selectedOption = newValue as Option;
-                setGenderSelect(selectedOption.value);
                 setStepOneState({
                   ...stepOneState,
-                  genderSelect: selectedOption.value,
+                  genderSelect: selectedOption,
                 });
               }}
             />
@@ -225,10 +220,9 @@ const StepOne: React.FC<OneProps> = (props) => {
               options={cityOption}
               onChange={(newValue: unknown) => {
                 const selectedOption = newValue as Option;
-                setCitySelect(selectedOption.value);
                 setStepOneState({
                   ...stepOneState,
-                  citySelect: selectedOption.value,
+                  citySelect: selectedOption,
                 });
               }}
             />

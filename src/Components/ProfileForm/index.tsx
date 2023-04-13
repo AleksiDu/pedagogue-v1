@@ -8,8 +8,8 @@ interface UserProps {
   firstName?: string;
   lastName?: string;
   birthDate?: string;
-  gender?: number;
-  city?: number;
+  genderSelect?: { label: string; value: number };
+  citySelect?: { label: string; value: number };
   subject?: string;
   experience?: number;
 }
@@ -73,8 +73,8 @@ const ProfileForm = () => {
           firstName={user.firstName}
           lastName={user.lastName}
           birthDate={user.birthDate}
-          gender={user.gender}
-          city={user.city}
+          gender={user.genderSelect}
+          city={user.citySelect}
           subject={user.subject}
           experience={user.experience}
           completeCallback={() => stepWizard?.nextStep?.()}

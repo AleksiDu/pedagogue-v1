@@ -32,7 +32,9 @@ const ActionButton: React.FC<ActionButtonsProps> = (props) => {
         </button>
       )}
       {props.currentStep === props.totalSteps && (
-        <button onClick={handleFinish}>Finish</button>
+        <button type="button" onClick={handleFinish}>
+          Finish
+        </button>
       )}
     </>
   );

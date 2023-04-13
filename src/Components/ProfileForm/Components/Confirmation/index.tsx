@@ -24,6 +24,7 @@ interface Prop {
 
 const StepConfirm: React.FC<ConfirmProps> = (props) => {
   const validate = () => {
+    console.log(props);
     props.lastStep();
   };
 
@@ -35,8 +36,8 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
     { name: "First Name", value: props?.firstName },
     { name: "Last Name", value: props?.lastName },
     { name: "Birth Date", value: props?.birthDate },
-    { name: "Gender", value: props?.gender },
-    { name: "City", value: props?.city },
+    { name: "Gender", value: props?.gender?.label },
+    { name: "City", value: props?.city?.label },
     { name: "Subject", value: props?.subject },
     { name: "Experience", value: props?.experience },
   ];
