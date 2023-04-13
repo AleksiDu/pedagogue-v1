@@ -1,9 +1,11 @@
-import Input from "../../../RegistrationLoginCom/RegisterForm/Components/Input";
+import { useState } from "react";
 import ActionButton from "../ActionButton";
 import styles from "../styles.module.css";
+import axios from "../../../../api/axios";
+import { isAxiosError } from "axios";
 
 interface ConfirmProps {
-  name: any;
+  name: string;
   firstName: any;
   lastName: any;
   birthDate: any;
@@ -12,9 +14,15 @@ interface ConfirmProps {
   subject: any;
   experience: any;
 
-  completeCallback: () => void;
+  completeCallback: (data: any) => void;
   lastStep: () => void;
   prevStep: () => void;
+}
+interface ErrorResponse {
+  status?: number;
+  detail: string;
+  title?: string;
+  // other properties of the error response object
 }
 
 interface Prop {
@@ -23,9 +31,53 @@ interface Prop {
 }
 
 const StepConfirm: React.FC<ConfirmProps> = (props) => {
-  const validate = () => {
-    console.log(props);
-    props.lastStep();
+  const EDIT_INFO = `/api/Teacher/edit-info`;
+  const [loading, setLoading] = useState(false);
+  const validate = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        EDIT_INFO,
+        JSON.stringify({
+          firstName: props.firstName,
+          lastName: props.lastName,
+          birthDate: props.birthDate,
+          gender: props.gender,
+          city: props.city,
+          subject: props.subject,
+          experience: props.experience,
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+          // withCredentials: true, // <-- request should include cookies
+        }
+      );
+      console.log(response);
+      props.completeCallback(props); // Pass props data to parent component
+      props.lastStep();
+    } catch (err) {
+      if (isAxiosError(err)) {
+        const error: ErrorResponse | undefined = err?.response?.data as
+          | ErrorResponse
+          | undefined;
+        const errLog =
+          "[ CODE: " + error?.status + " : " + error?.detail + " ]";
+        if (!err.response) {
+          console.error("[No Server Response]");
+        } else if (err.response.status === 400) {
+          console.error(errLog);
+        } else if (err.response.status === 401) {
+          console.error(errLog);
+        } else {
+          console.error(errLog);
+        }
+      } else {
+        // Handle other types of errors here
+        console.log("Other error");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const goBack = () => {
@@ -49,7 +101,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
           <p className={styles["err-msg"]} aria-live="assertive">
             {"errMsg"}
           </p>
-          <h1>Summery</h1>
+          <h1>{props.name}</h1>
           <form className={styles.registrarForm}>
             {propArray.map((prop) => (
               <p key={prop.name}>
@@ -62,9 +114,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
               currentStep={3}
               totalSteps={3}
               previousStep={goBack}
-              nextStep={function (): void {
-                throw new Error("Function not implemented.");
-              }}
+              nextStep={validate}
               lastStep={validate}
             />
           </form>

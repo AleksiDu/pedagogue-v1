@@ -16,6 +16,7 @@ const ActionButton: React.FC<ActionButtonsProps> = (props) => {
   };
 
   const handleFinish = () => {
+    console.log("handleFinish", props);
     props.lastStep();
   };
 

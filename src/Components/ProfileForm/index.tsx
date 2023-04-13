@@ -51,6 +51,7 @@ const ProfileForm = () => {
   };
 
   const handleComplete = () => {
+    console.log("finish");
     alert("Done");
   };
 
@@ -69,7 +70,7 @@ const ProfileForm = () => {
           prevStep={handleBack}
         />
         <StepConfirm
-          name={"name"}
+          name="confirm"
           firstName={user.firstName}
           lastName={user.lastName}
           birthDate={user.birthDate}
@@ -77,7 +78,7 @@ const ProfileForm = () => {
           city={user.citySelect}
           subject={user.subject}
           experience={user.experience}
-          completeCallback={() => stepWizard?.nextStep?.()}
+          completeCallback={assignUser}
           prevStep={handleBack}
           lastStep={handleComplete}
         />
