@@ -1,15 +1,20 @@
 import { Route, Routes, useLocation } from "react-router-dom";
+import { useEffect, useContext } from "react";
+import Profile from "../../pages/Profile";
 import Home from "../../pages/home";
 import Login from "../../pages/Login";
 import Registration from "../../pages/Registration";
+import { AuthContext } from "../../context/AuthProvider";
 
 import "./styles.css";
-import { useEffect } from "react";
-import Profile from "../../pages/Profile";
 
 const Body = () => {
   const REGISTER_URL = "/registration";
   const location = useLocation();
+
+  const { auth } = useContext(AuthContext);
+
+  console.log(auth);
 
   useEffect(() => {
     switch (location.pathname) {

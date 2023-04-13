@@ -1,4 +1,4 @@
-import React, { useRef, useState, FC, useEffect } from "react";
+import { useRef, useState, FC, useEffect } from "react";
 import Avatar from "react-avatar";
 import { useOnClickOutside } from "usehooks-ts";
 import logo from "../../assets/icons/logo.svg";

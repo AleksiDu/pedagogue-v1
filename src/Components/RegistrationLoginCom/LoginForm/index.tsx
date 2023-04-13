@@ -131,6 +131,7 @@ const LoginForm = (): JSX.Element => {
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               required
+              note=" Not a Valid email"
             />
             <Input
               name="Password:"

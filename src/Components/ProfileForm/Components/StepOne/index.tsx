@@ -118,6 +118,7 @@ const StepOne: React.FC<OneProps> = (props) => {
   useEffect(() => {
     setIsValidFirstName(NAME_REGEX.test(firstName));
     setIsValidLastName(NAME_REGEX.test(lastName));
+    console.log(isValidFirstName);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [firstName, lastName]);
 
@@ -154,6 +155,7 @@ const StepOne: React.FC<OneProps> = (props) => {
           <h1>{props.name}</h1>
           <form className={styles.registrarForm}>
             <Input
+              inputType={firstName}
               isValidInputType={isValidFirstName}
               isInputTypeFocus={isFirstNameFocus}
               name="First Name:"
@@ -173,6 +175,7 @@ const StepOne: React.FC<OneProps> = (props) => {
               note=" Not A Valid First Name"
             />
             <Input
+              inputType={lastName}
               isValidInputType={isValidLastName}
               isInputTypeFocus={isLastNameFocus}
               name="Last Name:"
@@ -193,13 +196,14 @@ const StepOne: React.FC<OneProps> = (props) => {
             />
             <Input
               name="Birth Date:"
+              id="birth-date"
               type="date"
               onChange={(e) => {
                 setBirthDate(e.target.value);
                 setStepOneState({ ...stepOneState, birthDate: e.target.value });
               }}
-              value={birthDate}
               required
+              value={birthDate}
             />
             <br />
             <label htmlFor="gender">Gender:</label>
