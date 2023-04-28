@@ -20,6 +20,7 @@ const StepTwo: React.FC<TwoProps> = (props) => {
 
   const [experience, setExperience] = useState<number>();
   const [subject, setSubject] = useState("");
+  const [selectedImage, setSelectedImage] = useState<File | undefined>();
   const [errMsg, setErrMsg] = useState("");
   const [stepTwoState, setStepTwoState] = useState<StepTwoState>({
     subject: "",
@@ -88,6 +89,19 @@ const StepTwo: React.FC<TwoProps> = (props) => {
                 }
               }}
               value={experience === undefined ? "" : experience.toFixed(0)}
+              required
+            />
+            <Input
+              name={"Upload an image:"}
+              id="upload"
+              type="file"
+              autoComplete="off"
+              accept="image/*"
+              onChange={(e) => {
+                const value = e.target?.files?.[0];
+                console.log(value);
+                setSelectedImage(value);
+              }}
               required
             />
             <ActionButton

@@ -14,7 +14,7 @@ const Input = (props: {
   PropRef?: LegacyRef<HTMLInputElement>;
   autoComplete?: string;
   onChange: ChangeEventHandler<HTMLInputElement> | undefined;
-  value: string | number | undefined;
+  value?: string | number;
   required?: boolean;
   ariaInvalid?: string;
   ariaDescribedby?: string;
@@ -27,6 +27,7 @@ const Input = (props: {
   isValidInputType?: boolean;
   isInputTypeFocus?: boolean;
   checked?: boolean;
+  accept?: string;
 }) => {
   return (
     <div className={styles.registrarForm}>
