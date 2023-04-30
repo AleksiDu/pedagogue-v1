@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ActionButton from "../ActionButton";
 import styles from "../styles.module.css";
 import axios from "../../../../api/axios";
@@ -13,6 +13,7 @@ interface ConfirmProps {
   city: any;
   subject: any;
   experience: any;
+  image: any;
 
   completeCallback: (data: any) => void;
   lastStep: () => void;
@@ -33,6 +34,17 @@ interface Prop {
 const StepConfirm: React.FC<ConfirmProps> = (props) => {
   const EDIT_INFO = `/api/Teacher/edit-info`;
   const [loading, setLoading] = useState(false);
+  const [preview, setPreview] = useState("");
+
+  useEffect(() => {
+    if (props.image) {
+      const objectUrl = URL.createObjectURL(props.image);
+      setPreview(objectUrl);
+    }
+  }, [props.image]);
+
+  console.log("image link", preview);
+
   const validate = async () => {
     try {
       setLoading(true);
@@ -46,6 +58,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
           city: props.city,
           subject: props.subject,
           experience: props.experience,
+          image: props.image,
         }),
         {
           headers: { "Content-Type": "application/json" },
@@ -103,6 +116,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
           </p>
           <h1>{props.name}</h1>
           <form className={styles.registrarForm}>
+            <img src={preview} alt="profile image" width="50" height="50" />
             {propArray.map((prop) => (
               <p key={prop.name}>
                 <strong>{prop.name}: </strong>

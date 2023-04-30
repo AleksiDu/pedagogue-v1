@@ -12,6 +12,7 @@ interface UserProps {
   citySelect?: { label: string; value: number };
   subject?: string;
   experience?: number;
+  image?: File;
 }
 
 interface ExtendedStepWizardProps extends StepWizardProps {
@@ -78,6 +79,7 @@ const ProfileForm = () => {
           city={user.citySelect}
           subject={user.subject}
           experience={user.experience}
+          image={user.image}
           completeCallback={assignUser}
           prevStep={handleBack}
           lastStep={handleComplete}

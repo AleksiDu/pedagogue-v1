@@ -13,6 +13,7 @@ type TwoProps = {
 interface StepTwoState {
   subject: string;
   experience?: number;
+  image?: File;
 }
 
 const StepTwo: React.FC<TwoProps> = (props) => {
@@ -25,11 +26,12 @@ const StepTwo: React.FC<TwoProps> = (props) => {
   const [stepTwoState, setStepTwoState] = useState<StepTwoState>({
     subject: "",
     experience: undefined,
+    image: undefined,
   });
 
   useEffect(() => {
     setErrMsg("");
-  }, [experience, subject]);
+  }, [experience, subject, selectedImage]);
 
   const validate = () => {
     if (!experience) {
@@ -37,6 +39,9 @@ const StepTwo: React.FC<TwoProps> = (props) => {
     }
     if (!subject) {
       setErrMsg("Please enter a subject");
+    }
+    if (!selectedImage) {
+      setErrMsg("Please upload an image");
     }
 
     // Call next step if all validation passes
@@ -99,8 +104,11 @@ const StepTwo: React.FC<TwoProps> = (props) => {
               accept="image/*"
               onChange={(e) => {
                 const value = e.target?.files?.[0];
-                console.log(value);
                 setSelectedImage(value);
+                setStepTwoState({
+                  ...stepTwoState,
+                  image: value === undefined ? undefined : value, //TODO undefined change default image!
+                });
               }}
               required
             />
