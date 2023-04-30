@@ -3,6 +3,7 @@ import ActionButton from "../ActionButton";
 import styles from "../styles.module.css";
 import axios from "../../../../api/axios";
 import { isAxiosError } from "axios";
+import { access } from "fs";
 
 interface ConfirmProps {
   name: string;
@@ -43,14 +44,28 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
     }
   }, [props.image]);
 
-  console.log("image link", preview);
+  console.log("uploaded image", props.image);
 
   const validate = async () => {
     try {
       setLoading(true);
+
+      const formData = new FormData();
+      formData.append("image", props.image);
+
+      axios
+        .post("/api/upload", formData) //TODO change post address!!!
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
       const response = await axios.post(
         EDIT_INFO,
         JSON.stringify({
+          accessToken: localStorage.getItem("accessToken"),
           firstName: props.firstName,
           lastName: props.lastName,
           birthDate: props.birthDate,
@@ -58,7 +73,6 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
           city: props.city,
           subject: props.subject,
           experience: props.experience,
-          image: props.image,
         }),
         {
           headers: { "Content-Type": "application/json" },
