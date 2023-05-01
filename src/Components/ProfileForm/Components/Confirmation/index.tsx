@@ -54,7 +54,9 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
       formData.append("image", props.image);
 
       axios
-        .post("/api/upload", formData) //TODO change post address!!!
+        .post("/api/Photo/upload", formData, {
+          headers: { "Content-Type": "multipart/from-data" },
+        }) //TODO change post address!!!
         .then((response) => {
           console.log(response);
         })

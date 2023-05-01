@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 interface LoginResponseData {
   token: string;
-  roles: string[];
+  role: string;
 }
 
 interface ErrorResponse {
@@ -58,13 +58,13 @@ const LoginForm = (): JSX.Element => {
         }
       );
       const accessToken = response.data.token;
-      const roles = response.data.roles;
-      setAuth({ email, pwd, roles, accessToken });
+      const role = response.data.role;
+      setAuth({ email, pwd, role, accessToken });
 
       // Set a local storage
       localStorage.setItem("email", email);
       localStorage.setItem("password", pwd);
-      localStorage.setItem("roles", String(roles));
+      localStorage.setItem("role", role);
       localStorage.setItem("accessToken", accessToken);
 
       setEmail("");

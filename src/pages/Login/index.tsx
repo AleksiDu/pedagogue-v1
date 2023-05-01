@@ -1,9 +1,12 @@
 import LoginForm from "../../Components/RegistrationLoginCom/LoginForm";
+import { AuthProvider } from "../../context/AuthProvider";
 
 const Login = () => {
   return (
     <>
-      <LoginForm />
+      <AuthProvider>
+        <LoginForm />
+      </AuthProvider>
     </>
   );
 };

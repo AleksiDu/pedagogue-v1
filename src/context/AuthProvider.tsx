@@ -8,7 +8,7 @@ type AuthContextType = {
 type AuthState = {
   email: string;
   pwd: string;
-  roles?: string[];
+  role?: string;
   accessToken: string;
 };
 
@@ -20,33 +20,36 @@ export const AuthContext = createContext<AuthContextType>({
   auth: {
     email: "",
     pwd: "",
-    roles: [],
+    role: "",
     accessToken: "",
   },
   setAuth: () => {},
 });
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  console.log(children);
   const [auth, setAuth] = useState<AuthState>({
     email: "",
     pwd: "",
-    roles: [],
+    role: "",
     accessToken: "",
   });
 
+  let counter = 1;
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     const pwd = localStorage.getItem("password");
     const email = localStorage.getItem("email");
-    const roles = localStorage.getItem("roles") || "[]";
+    const role = localStorage.getItem("role") || "";
 
-    if (accessToken && pwd && email && roles) {
+    if (accessToken && pwd && email && role) {
       console.log("accessToken:", accessToken);
     } else {
       // At least one variable is missing from localStorage
       console.log("Some variables are missing from localStorage");
     }
-  });
+    console.log("context/auth = ", counter++);
+  }, []);
 
   const authContextValue = useMemo(() => ({ auth, setAuth }), [auth, setAuth]);
 

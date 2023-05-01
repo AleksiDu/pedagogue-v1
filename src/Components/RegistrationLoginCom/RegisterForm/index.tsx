@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, FC } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "../../../api/axios";
 import styles from "./styles.module.css";
 import Input from "./Components/Input";
@@ -10,6 +10,7 @@ interface ErrorResponse {
   title?: string;
   // other properties of the error response object
 }
+
 const USER_REGEX = /^[A-Za-z0-9_-]{4,24}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -39,6 +40,23 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
 
   const [errMsg, setErrMsg] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+
+  let role: number;
+
+  switch (props.name) {
+    case "Tutor":
+      role = 1;
+      break;
+    case "Student":
+      role = 2;
+      break;
+    case "Parent":
+      role = 3;
+      break;
+    default:
+      role = 0;
+      break;
+  }
 
   useEffect(() => {
     if (userEmailRef.current) {
@@ -71,7 +89,7 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
     try {
       const response = await axios.post(
         REGISTER_URL,
-        JSON.stringify({ email, user, password: pwd }),
+        JSON.stringify({ email, user, password: pwd, role }),
         {
           headers: { "Content-Type": "application/json" },
           // withCredentials: true, //authorization headers or TLS client certificates in the request
@@ -234,3 +252,6 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
 };
 
 export default RegisterForm;
+function userParams(arg0: { role: string }): { role: any } {
+  throw new Error("Function not implemented.");
+}
