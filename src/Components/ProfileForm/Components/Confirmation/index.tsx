@@ -3,7 +3,6 @@ import ActionButton from "../ActionButton";
 import styles from "../styles.module.css";
 import axios from "../../../../api/axios";
 import { isAxiosError } from "axios";
-import { access } from "fs";
 
 interface ConfirmProps {
   name: string;
@@ -36,6 +35,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
   const EDIT_INFO = `/api/Teacher/edit-info`;
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState("");
+  const accessToken = localStorage.getItem("accessToken");
 
   useEffect(() => {
     if (props.image) {
@@ -49,9 +49,10 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
   const validate = async () => {
     try {
       setLoading(true);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
       const formData = new FormData();
-      formData.append("image", props.image);
+      formData.append("File", props.image);
 
       axios
         .post("/api/Photo/upload", formData, {
@@ -67,7 +68,6 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
       const response = await axios.post(
         EDIT_INFO,
         JSON.stringify({
-          accessToken: localStorage.getItem("accessToken"),
           firstName: props.firstName,
           lastName: props.lastName,
           birthDate: props.birthDate,
@@ -81,7 +81,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
           // withCredentials: true, // <-- request should include cookies
         }
       );
-      console.log(response);
+      console.log("response", response);
       props.completeCallback(props); // Pass props data to parent component
       props.lastStep();
     } catch (err) {
