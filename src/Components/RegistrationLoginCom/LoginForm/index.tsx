@@ -128,13 +128,19 @@ const LoginForm = (): JSX.Element => {
   const getProfileData = async (accessToken: string, role: string) => {
     try {
       const response = await axios.get<{
+        age: string;
+        city: string;
+        email: string;
+        experience: string;
         firstName: string;
         lastName: string;
-        birthDate: string;
-        gender: string;
-        city: string;
-        subject: string;
-        experience: string;
+        sex: string;
+        subject: string | string[];
+        feedbacks: string | string[];
+        pupils: string | string[];
+        calendar: string;
+        averageRating: string;
+        images: string;
       }>(`/api/${role}/${accessToken}/profile`, {
         //TODO /api/role/accessToken??
         headers: {

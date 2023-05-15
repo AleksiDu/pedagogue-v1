@@ -32,14 +32,38 @@ const Header: FC = () => {
   const fetchImage = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
+      const role = localStorage.getItem("role");
+
+      // Set the userRole state based on the role value
+      let updatedUserRole = "";
+      switch (Number(role)) {
+        case 1:
+          updatedUserRole = "Tutor";
+          break;
+        case 2:
+          updatedUserRole = "Student";
+          break;
+        case 3:
+          updatedUserRole = "Parent";
+          break;
+        default:
+          updatedUserRole = "default";
+          break;
+      }
+
       if (!accessToken) {
         console.log("Access token not found.");
         return;
       }
-      const response = await axios.get(
-        `/api/Photo/${localStorage.getItem("accessToken")}`
-      );
-      setImageURL(response.data.url);
+      const response = await axios.get<{
+        images: string;
+      }>(`/api/${updatedUserRole}/${accessToken}/profile`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const { images } = response.data;
+      setImageURL(images);
     } catch (error) {
       console.log("Error fetching image:", error);
     }
