@@ -70,6 +70,9 @@ const LoginForm = (): JSX.Element => {
       setEmail("");
       setPwd("");
       setSuccess(true);
+
+      // Call the getProfileData function
+      getProfileData();
     } catch (err) {
       if (isAxiosError(err)) {
         const error: ErrorResponse | undefined = err?.response?.data as
@@ -98,6 +101,31 @@ const LoginForm = (): JSX.Element => {
         // Handle other types of errors here
         console.log("Other error");
       }
+    }
+  };
+
+  const getProfileData = async () => {
+    const response = await axios.get<{
+      firstName: string;
+      lastName: string;
+      birthDate: string;
+      gender: string;
+      city: string;
+      subject: string;
+      experience: string;
+    }>(`/api/user/${localStorage.getItem("accessToken")}/profile`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+
+    if (response.status === 200) {
+      const profileData = response.data;
+
+      // TODO add states for data
+      console.log(profileData);
+    } else {
+      console.log("Error getting profile data");
     }
   };
 

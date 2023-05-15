@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ActionButton from "../ActionButton";
 import styles from "../styles.module.css";
 import axios from "../../../../api/axios";
-import { isAxiosError } from "axios";
+import { AxiosError, isAxiosError } from "axios";
 
 interface ConfirmProps {
   name: string;
@@ -45,6 +45,11 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
   }, [props.image]);
 
   console.log("uploaded image", props.image);
+
+  // Type guard function
+  const isAxiosError = (error: any): error is AxiosError => {
+    return error.isAxiosError !== undefined && error.config !== undefined;
+  };
 
   const validate = async () => {
     try {

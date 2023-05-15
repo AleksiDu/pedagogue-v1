@@ -35,9 +35,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     accessToken: "",
   });
 
-  let counter = 1;
+  const accessToken = useMemo(() => localStorage.getItem("accessToken"), []);
+
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
     const pwd = localStorage.getItem("password");
     const email = localStorage.getItem("email");
     const role = localStorage.getItem("role") || "";
@@ -48,8 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       // At least one variable is missing from localStorage
       console.log("Some variables are missing from localStorage");
     }
-    console.log("context/auth = ", counter++);
-  }, []);
+  }, [auth, accessToken]);
 
   const authContextValue = useMemo(() => ({ auth, setAuth }), [auth, setAuth]);
 
