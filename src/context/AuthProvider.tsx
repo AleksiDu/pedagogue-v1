@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const pwd = localStorage.getItem("password");
     const email = localStorage.getItem("email");
-    const role = localStorage.getItem("role") || "";
+    const role = localStorage.getItem("") || "";
 
     if (accessToken && pwd && email && role) {
       console.log("accessToken:", accessToken);

@@ -30,8 +30,6 @@ const LoginForm = (): JSX.Element => {
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const [userRole, setUserRole] = useState("");
-
   useEffect(() => {
     if (userEmailRef.current) {
       userEmailRef.current.focus();
@@ -61,6 +59,7 @@ const LoginForm = (): JSX.Element => {
       );
       const accessToken = response.data.token;
       const role = response.data.role;
+
       setAuth({ email, pwd, role, accessToken });
 
       // Set a local storage
@@ -74,23 +73,24 @@ const LoginForm = (): JSX.Element => {
       setSuccess(true);
 
       // Set the userRole state based on the role value
-      switch (role) {
-        case "1":
-          setUserRole("Tutor");
+      let updatedUserRole = "";
+      switch (Number(role)) {
+        case 1:
+          updatedUserRole = "Tutor";
           break;
-        case "2":
-          setUserRole("Student");
+        case 2:
+          updatedUserRole = "Student";
           break;
-        case "3":
-          setUserRole("Parent");
+        case 3:
+          updatedUserRole = "Parent";
           break;
         default:
-          setUserRole("");
+          updatedUserRole = "default";
           break;
       }
 
       // Call the getProfileData function
-      getProfileData(accessToken);
+      getProfileData(accessToken, updatedUserRole);
     } catch (err) {
       if (isAxiosError(err)) {
         const error: ErrorResponse | undefined = err?.response?.data as
@@ -125,7 +125,7 @@ const LoginForm = (): JSX.Element => {
     }
   };
 
-  const getProfileData = async (accessToken: string) => {
+  const getProfileData = async (accessToken: string, role: string) => {
     try {
       const response = await axios.get<{
         firstName: string;
@@ -135,7 +135,7 @@ const LoginForm = (): JSX.Element => {
         city: string;
         subject: string;
         experience: string;
-      }>(`/api/${userRole}/${accessToken}/profile`, {
+      }>(`/api/${role}/${accessToken}/profile`, {
         //TODO /api/role/accessToken??
         headers: {
           Authorization: `Bearer ${accessToken}`,

@@ -11,7 +11,9 @@ import axios from "axios";
 const Header: FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
-  const [imageURL, setImageURL] = useState<string>("");
+  const [imageURL, setImageURL] = useState<string>(
+    "https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
+  );
 
   const navigate = useNavigate();
 
@@ -29,6 +31,11 @@ const Header: FC = () => {
 
   const fetchImage = async () => {
     try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        console.log("Access token not found.");
+        return;
+      }
       const response = await axios.get(
         `/api/Photo/${localStorage.getItem("accessToken")}`
       );
@@ -88,7 +95,7 @@ const Header: FC = () => {
         </div>
         <div className="avatar-container">
           <Avatar
-            src="https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
+            src={imageURL}
             size="30"
             style={{
               borderColor: "black",
