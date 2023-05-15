@@ -30,6 +30,8 @@ const LoginForm = (): JSX.Element => {
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
+  const [userRole, setUserRole] = useState("");
+
   useEffect(() => {
     if (userEmailRef.current) {
       userEmailRef.current.focus();
@@ -71,8 +73,24 @@ const LoginForm = (): JSX.Element => {
       setPwd("");
       setSuccess(true);
 
+      // Set the userRole state based on the role value
+      switch (role) {
+        case "1":
+          setUserRole("Tutor");
+          break;
+        case "2":
+          setUserRole("Student");
+          break;
+        case "3":
+          setUserRole("Parent");
+          break;
+        default:
+          setUserRole("");
+          break;
+      }
+
       // Call the getProfileData function
-      getProfileData();
+      getProfileData(accessToken);
     } catch (err) {
       if (isAxiosError(err)) {
         const error: ErrorResponse | undefined = err?.response?.data as
@@ -100,32 +118,41 @@ const LoginForm = (): JSX.Element => {
       } else {
         // Handle other types of errors here
         console.log("Other error");
+        // Display a message to the user
+        const errMsg = "An unexpected error occurred. Please try again later.";
+        setErrMsg(errMsg);
       }
     }
   };
 
-  const getProfileData = async () => {
-    const response = await axios.get<{
-      firstName: string;
-      lastName: string;
-      birthDate: string;
-      gender: string;
-      city: string;
-      subject: string;
-      experience: string;
-    }>(`/api/user/${localStorage.getItem("accessToken")}/profile`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    });
+  const getProfileData = async (accessToken: string) => {
+    try {
+      const response = await axios.get<{
+        firstName: string;
+        lastName: string;
+        birthDate: string;
+        gender: string;
+        city: string;
+        subject: string;
+        experience: string;
+      }>(`/api/${userRole}/${accessToken}/profile`, {
+        //TODO /api/role/accessToken??
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
-    if (response.status === 200) {
-      const profileData = response.data;
+      if (response.status === 200) {
+        const profileData = response.data;
 
-      // TODO add states for data
-      console.log(profileData);
-    } else {
-      console.log("Error getting profile data");
+        // TODO add states for data
+        console.log(profileData);
+      } else {
+        console.log("Error getting profile data");
+      }
+    } catch (err) {
+      // Handle error while retrieving profile data
+      console.log("Error getting profile data", err);
     }
   };
 

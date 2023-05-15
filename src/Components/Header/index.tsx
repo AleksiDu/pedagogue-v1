@@ -6,10 +6,13 @@ import Search from "../Search";
 import { Link, useNavigate } from "react-router-dom";
 
 import "./styles.css";
+import axios from "axios";
 
 const Header: FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
+  const [imageURL, setImageURL] = useState<string>("");
+
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -18,6 +21,21 @@ const Header: FC = () => {
 
   const handleClickOutside = () => {
     setIsActive(false);
+  };
+
+  useEffect(() => {
+    fetchImage();
+  }, []);
+
+  const fetchImage = async () => {
+    try {
+      const response = await axios.get(
+        `/api/Photo/${localStorage.getItem("accessToken")}`
+      );
+      setImageURL(response.data.url);
+    } catch (error) {
+      console.log("Error fetching image:", error);
+    }
   };
 
   useOnClickOutside(dropdownRef, handleClickOutside);
