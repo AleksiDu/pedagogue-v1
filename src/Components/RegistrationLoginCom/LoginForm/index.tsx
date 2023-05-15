@@ -141,7 +141,7 @@ const LoginForm = (): JSX.Element => {
         calendar: string;
         averageRating: string;
         images: string;
-      }>(`/api/${role}/${accessToken}/profile`, {
+      }>(`/api/${role}/profile`, {
         //TODO /api/role/accessToken??
         headers: {
           Authorization: `Bearer ${accessToken}`,
