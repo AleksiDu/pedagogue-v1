@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ActionButton from "../ActionButton";
 import styles from "../styles.module.css";
 import axios from "../../../../api/axios";
-import { AxiosError, isAxiosError } from "axios";
+import { AxiosError } from "axios";
 
 interface ConfirmProps {
   name: string;
@@ -32,6 +32,7 @@ interface Prop {
 }
 
 const StepConfirm: React.FC<ConfirmProps> = (props) => {
+  // TODO change Teacher to userRole
   const EDIT_INFO = `/api/Teacher/edit-info`;
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState("");
@@ -54,7 +55,11 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
   const validate = async () => {
     try {
       setLoading(true);
-      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      if (accessToken) {
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${accessToken}`;
+      }
 
       const formData = new FormData();
       formData.append("File", props.image);
