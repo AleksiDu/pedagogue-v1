@@ -1,0 +1,34 @@
+.school-subjects {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 2px;
+  position: absolute;
+  top: 60px;
+  right: 15%;
+  width: 70%;
+  z-index: -1;
+  border: 1px solid #000000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.school-subjects li {
+  border-bottom: 1px solid #000000;
+}
+
+.school-subjects li a {
+  text-decoration: none;
+  color: #333333;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.school-subjects li:hover a {
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}

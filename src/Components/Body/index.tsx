@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/AuthProvider";
 import SettingsPage from "../../pages/SettingsPage";
 
 import "./styles.css";
+import Curriculum from "../../pages/Curriculum";
 
 const Body = () => {
   const REGISTER_URL = "/registration";
@@ -43,6 +44,7 @@ const Body = () => {
             <SettingsPage userName={userName} accessToken={accessToken} />
           }
         ></Route>
+        <Route path="/Curriculum/*" element={<Curriculum />}></Route>
       </Routes>
     </section>
   );

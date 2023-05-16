@@ -23,10 +23,10 @@ const SettingsForm: React.FC<SettingsPageProps> = ({
     setUsername(e.target.value);
   };
 
-  const checkUsernameExists = async (username: string) => {
+  const checkUsernameExists = async (user: string) => {
     try {
       const response = await axios.get("/api/checkUsername", {
-        params: { username },
+        params: { user },
       });
 
       return response.data.exists;
@@ -48,8 +48,8 @@ const SettingsForm: React.FC<SettingsPageProps> = ({
 
     try {
       const response = await axios.put(
-        "/api/updateUsername",
-        { username },
+        "/api/Authentication/register",
+        { user: username },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
