@@ -1,0 +1,27 @@
+.radio-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.radio-button input[type="radio"] {
+  margin-right: 8px;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: #25313b;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.radio-button label {
+  cursor: pointer;
+}
+
+.privacy-button {
+  display: flex;
+  align-items: center;
+}

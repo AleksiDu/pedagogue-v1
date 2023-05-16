@@ -5,6 +5,7 @@ import Home from "../../pages/home";
 import Login from "../../pages/Login";
 import Registration from "../../pages/Registration";
 import { AuthContext } from "../../context/AuthProvider";
+import SettingsPage from "../../pages/SettingsPage";
 
 import "./styles.css";
 
@@ -32,6 +33,7 @@ const Body = () => {
         <Route path="/registration/*" element={<Registration />}></Route>
         <Route path="/login/*" element={<Login />}></Route>
         <Route path="/profile/*" element={<Profile />}></Route>
+        <Route path="/settings/*" element={<SettingsPage />}></Route>
       </Routes>
     </section>
   );

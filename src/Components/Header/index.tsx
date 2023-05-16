@@ -109,7 +109,7 @@ const Header: FC = () => {
                 <Link to={"/profile"}>Profile</Link>
               </li>
               <li>
-                <Link to={"/#"}>Settings</Link>
+                <Link to={"/settings"}>Settings</Link>
               </li>
               <li>
                 <Link to={"/#"}>Curriculum</Link>
