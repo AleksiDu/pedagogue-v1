@@ -57,7 +57,7 @@ const Header: FC = () => {
       }
       const response = await axios.get<{
         images: string;
-      }>(`/api/${updatedUserRole}/${accessToken}/profile`, {
+      }>(`/api/${updatedUserRole}/profile`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

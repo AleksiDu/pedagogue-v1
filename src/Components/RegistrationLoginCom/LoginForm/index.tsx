@@ -140,7 +140,10 @@ const LoginForm = (): JSX.Element => {
         pupils: string | string[];
         calendar: string;
         averageRating: string;
-        images: string;
+        images: {
+          profilePhoto: boolean;
+          url: string;
+        };
       }>(`/api/${role}/profile`, {
         //TODO /api/role/accessToken??
         headers: {
