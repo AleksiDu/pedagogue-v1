@@ -1,9 +1,16 @@
 import SettingsForm from "../../Components/SettingsForm";
 
-const SettingsPage = () => {
+interface SettingsPageProps {
+  userName: string;
+  accessToken: string;
+}
+const SettingsPage: React.FC<SettingsPageProps> = ({
+  userName,
+  accessToken,
+}) => {
   return (
     <>
-      <SettingsForm />
+      <SettingsForm userName={userName} accessToken={accessToken} />
     </>
   );
 };

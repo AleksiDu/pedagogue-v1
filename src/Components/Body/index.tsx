@@ -15,6 +15,10 @@ const Body = () => {
 
   const { auth } = useContext(AuthContext);
 
+  // TODO update from localStorage!!!
+  const userName = localStorage.getItem("username") || "";
+  const accessToken = localStorage.getItem("accessToken") || "";
+
   useEffect(() => {
     switch (location.pathname) {
       case REGISTER_URL + "/Tutor":
@@ -33,7 +37,12 @@ const Body = () => {
         <Route path="/registration/*" element={<Registration />}></Route>
         <Route path="/login/*" element={<Login />}></Route>
         <Route path="/profile/*" element={<Profile />}></Route>
-        <Route path="/settings/*" element={<SettingsPage />}></Route>
+        <Route
+          path="/settings/*"
+          element={
+            <SettingsPage userName={userName} accessToken={accessToken} />
+          }
+        ></Route>
       </Routes>
     </section>
   );
