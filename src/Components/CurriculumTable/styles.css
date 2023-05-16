@@ -15,6 +15,12 @@
 
 .school-subjects li {
   border-bottom: 1px solid #000000;
+  transition: transform 0.3s ease;
+}
+
+.school-subjects li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .school-subjects li a {
@@ -24,7 +30,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, font-size 0.3s ease;
+}
+.school-subjects li a:hover {
+  background-color: #e0e0e0;
+  font-size: 18px;
 }
 
 .school-subjects li:hover a {

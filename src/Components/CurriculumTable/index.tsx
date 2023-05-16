@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import "./styles.css";
+
 const Curriculum = () => {
   // Example Data
   const schoolSubjects = [
@@ -20,7 +22,7 @@ const Curriculum = () => {
     <ul className="school-subjects">
       {schoolSubjects.map((subject) => (
         <li key={subject}>
-          <a>{subject}</a>
+          <Link to={`/curriculum/${subject}`}>{subject}</Link>
         </li>
       ))}
     </ul>
