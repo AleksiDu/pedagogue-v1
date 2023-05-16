@@ -149,7 +149,6 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
                 {prop.value}
               </p>
             ))}
-
             <ActionButton
               currentStep={3}
               totalSteps={3}

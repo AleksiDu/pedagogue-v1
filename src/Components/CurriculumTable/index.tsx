@@ -19,13 +19,15 @@ const Curriculum = () => {
   ];
 
   return (
-    <ul className="school-subjects">
-      {schoolSubjects.map((subject) => (
-        <li key={subject}>
-          <Link to={`/curriculum/${subject}`}>{subject}</Link>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className="school-subjects">
+        {schoolSubjects.map((subject) => (
+          <li key={subject}>
+            <Link to={`/curriculum/${subject}`}>{subject}</Link>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
 
