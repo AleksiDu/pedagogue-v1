@@ -14,6 +14,7 @@ const Header: FC = () => {
   const [imageURL, setImageURL] = useState<string>(
     "https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
   );
+  const [login, setLogin] = useState(false);
 
   const navigate = useNavigate();
 
@@ -26,12 +27,15 @@ const Header: FC = () => {
   };
 
   useEffect(() => {
-    fetchImage();
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      setLogin(true);
+      fetchImage();
+    }
   }, []);
 
   const fetchImage = async () => {
     try {
-      const accessToken = localStorage.getItem("accessToken");
       const role = localStorage.getItem("role");
 
       // Set the userRole state based on the role value
@@ -50,6 +54,8 @@ const Header: FC = () => {
           updatedUserRole = "default";
           break;
       }
+
+      const accessToken = localStorage.getItem("accessToken");
 
       if (!accessToken) {
         console.log("Access token not found.");
@@ -78,7 +84,11 @@ const Header: FC = () => {
   }, []);
 
   const handleAvatarBtn = () => {
-    navigate("/login");
+    navigate("/curriculum");
+  };
+
+  const handleLogin = () => {
+    navigate("/Login");
   };
 
   return (
@@ -117,18 +127,33 @@ const Header: FC = () => {
             </ul>
           </nav>
         </div>
-        <div className="avatar-container">
-          <Avatar
-            src={imageURL}
-            size="30"
-            style={{
-              borderColor: "black",
-              borderRadius: 4,
-              borderStyle: "solid",
-            }}
-            onClick={handleAvatarBtn}
-          />
-        </div>
+        {login ? (
+          <div className="avatar-container">
+            <Avatar
+              src={imageURL}
+              size="30"
+              style={{
+                borderColor: "black",
+                borderRadius: 4,
+                borderStyle: "solid",
+              }}
+              onClick={handleAvatarBtn}
+            />
+          </div>
+        ) : (
+          <div className="avatar-container">
+            <Avatar
+              src={require("../../assets/icons/login_logo.png")}
+              size="30"
+              style={{
+                borderColor: "black",
+                borderRadius: 4,
+                borderStyle: "solid",
+              }}
+              onClick={handleLogin}
+            />
+          </div>
+        )}
       </div>
     </header>
   );
