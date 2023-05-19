@@ -4,6 +4,13 @@ import "./styles.css";
 const Curriculum = () => {
   // Example Data
 
+  let isDarkMode = "";
+
+  if (localStorage.getItem("isDarkMode") === "true") {
+    isDarkMode = "school-subjects dark-mode";
+  } else {
+    isDarkMode = "school-subjects";
+  }
   const schoolSubjects = [
     "Mathematics",
     "Science",
@@ -21,7 +28,7 @@ const Curriculum = () => {
 
   return (
     <>
-      <ul className="school-subjects">
+      <ul className={isDarkMode}>
         {schoolSubjects.map((subject) => (
           <li key={subject}>
             <Link to={`/curriculum/${subject}`}>{subject}</Link>

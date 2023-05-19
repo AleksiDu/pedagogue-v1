@@ -109,7 +109,7 @@
 
 .menu li a {
   text-decoration: none;
-  color: #333333;
+  color: #333333 !important;
   padding: 15px 20px;
   display: block;
 }

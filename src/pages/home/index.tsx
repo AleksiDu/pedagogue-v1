@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./styles.module.css";
 import Hero from "../../Components/Hero";
 import Card from "../../Components/Card";
 
 const Home: React.FC = () => {
+  let isDarkMode = false;
+  if (localStorage.getItem("isDarkMode") === "true") {
+    isDarkMode = true;
+  } else {
+    isDarkMode = false;
+  }
+
   return (
     <div className={styles.homeContainer}>
       <Hero
@@ -31,12 +38,16 @@ const Home: React.FC = () => {
       </section>
       <section className={styles.testimonials}>
         <Card
-          className={styles.testimonial}
+          className={
+            styles.testimonial + ` ${isDarkMode ? styles.darkMode : ""}`
+          }
           paragraph="Pedagogue helped me land my dream University."
           author="- Aleksi Duluzauri"
         />
         <Card
-          className={styles.testimonial}
+          className={
+            styles.testimonial + ` ${isDarkMode ? styles.darkMode : ""}`
+          }
           paragraph="The curriculum is well-structured and easy to follow."
           author="- Archil Zivzivadze"
         />

@@ -1,7 +1,7 @@
 .school-subjects {
   list-style: none;
   padding: 0;
-  margin: 4% 15%;
+  margin: 0 15% 4% 15%;
   background: rgba(0, 0, 0, 0.4);
   border-radius: 2px;
   width: 70%;
@@ -12,13 +12,13 @@
 }
 
 .school-subjects li {
-  border-bottom: 1px solid #000000;
+  border-bottom: 1px solid black;
   transition: transform 0.3s ease;
 }
 
 .school-subjects li:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
 }
 
 .school-subjects li a {
@@ -39,4 +39,13 @@
   color: #ffffff;
   background-color: rgba(0, 0, 0, 0.4);
   cursor: pointer;
+}
+
+.dark-mode li a {
+  color: white;
+}
+
+.dark-mode li:hover a {
+  background-color: white;
+  color: rgba(0, 0, 0, 0.8);
 }
