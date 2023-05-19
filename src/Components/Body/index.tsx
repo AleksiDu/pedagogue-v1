@@ -10,7 +10,11 @@ import SettingsPage from "../../pages/SettingsPage";
 import "./styles.css";
 import Curriculum from "../../pages/Curriculum";
 
-const Body = () => {
+interface BodyProps {
+  isDarkMode: boolean;
+  onToggleMode: (nightMode: boolean) => void;
+}
+const Body: React.FC<BodyProps> = ({ onToggleMode, isDarkMode }) => {
   const REGISTER_URL = "/registration";
   const location = useLocation();
 
@@ -41,7 +45,12 @@ const Body = () => {
         <Route
           path="/settings/*"
           element={
-            <SettingsPage userName={userName} accessToken={accessToken} />
+            <SettingsPage
+              userName={userName}
+              accessToken={accessToken}
+              isDarkMode={isDarkMode}
+              onToggleMode={onToggleMode}
+            />
           }
         ></Route>
         <Route path="/Curriculum/*" element={<Curriculum />}></Route>

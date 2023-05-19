@@ -2,3 +2,9 @@
   display: block;
   margin-top: 50px;
 }
+
+.landing-page.night-mode {
+  /* Add your night mode styles here */
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+}

@@ -23,7 +23,7 @@
 
 .school-subjects li a {
   text-decoration: none;
-  color: #333333;
+  color: #000000;
   padding: 15px 20px;
   display: flex;
   justify-content: center;
@@ -31,7 +31,7 @@
   transition: background-color 0.3s ease, font-size 0.3s ease;
 }
 .school-subjects li a:hover {
-  background-color: #e0e0e0;
+  background-color: rgba(0, 0, 0, 0.1);
   font-size: min(6vw, 1.3em);
 }
 

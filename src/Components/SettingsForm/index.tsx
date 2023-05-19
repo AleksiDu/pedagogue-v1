@@ -6,18 +6,26 @@ import ToggleSwitch from "./Components/ToggleSwitch";
 import RadioButton from "./Components/RadioButton";
 import axios from "axios";
 
-interface SettingsPageProps {
+interface SettingsFormProps {
   userName: string;
   accessToken: string;
+  isDarkMode: boolean;
+  onToggleMode: (nightMode: boolean) => void;
 }
 
-const SettingsForm: React.FC<SettingsPageProps> = ({
+const SettingsForm: React.FC<SettingsFormProps> = ({
   userName,
   accessToken,
+  isDarkMode,
+  onToggleMode,
 }) => {
   const [username, setUsername] = useState(userName);
   const [errMsg, setErrMsg] = useState("");
   const errRef = useRef<HTMLParagraphElement>(null);
+
+  const handleNightModeToggle = () => {
+    onToggleMode(!isDarkMode);
+  };
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -91,7 +99,11 @@ const SettingsForm: React.FC<SettingsPageProps> = ({
           />
           <button>Save</button>
           <span className={styles.toggleSwitch}>
-            Night Mode: <ToggleSwitch />
+            Night Mode:{" "}
+            <ToggleSwitch
+              isChecked={isDarkMode}
+              onChange={handleNightModeToggle}
+            />
           </span>
           <span className={styles.toggleSwitch}>
             Notifications: <ToggleSwitch />

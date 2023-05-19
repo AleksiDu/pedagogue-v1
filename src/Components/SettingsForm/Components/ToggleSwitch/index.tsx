@@ -1,11 +1,16 @@
-import React, { useState } from "react";
-import "./styles.css"; // Import the CSS file for styling
+import "./styles.css";
 
-function ToggleSwitch() {
-  const [isChecked, setIsChecked] = useState(false);
+interface ToggleSwitchProps {
+  isChecked?: boolean;
+  onChange?: (isChecked: boolean) => void;
+}
 
+const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
+  isChecked = false,
+  onChange = () => {},
+}) => {
   const handleChange = () => {
-    setIsChecked(!isChecked);
+    onChange(!isChecked);
   };
 
   return (
@@ -14,6 +19,6 @@ function ToggleSwitch() {
       <span className="slider"></span>
     </label>
   );
-}
+};
 
 export default ToggleSwitch;
