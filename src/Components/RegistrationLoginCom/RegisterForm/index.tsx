@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "../../../api/axios";
 import styles from "./styles.module.css";
 import Input from "./Components/Input";
+import Loader from "../../Loader";
 
 interface ErrorResponse {
   status?: number;
@@ -40,6 +41,8 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
 
   const [errMsg, setErrMsg] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   let role: number;
 
@@ -87,6 +90,7 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
     }
 
     try {
+      setLoading(true);
       const response = await axios.post(
         REGISTER_URL,
         JSON.stringify({ email, user, password: pwd, role }),
@@ -123,13 +127,17 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
       if (errRef.current != null) {
         errRef.current.focus();
       }
+    } finally {
+      setLoading(false);
+      setTimeout(() => navigate("/"), 6000); // redirect to dashboard on successful registration;
     }
-    setTimeout(() => navigate("/"), 6000); // redirect to dashboard on successful registration;
   };
 
   return (
     <div>
-      {isSuccess ? (
+      {loading ? (
+        <Loader />
+      ) : isSuccess ? (
         <section className={styles.registrarSection}>
           <h1>Success!</h1>
           <p>
@@ -252,6 +260,3 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
 };
 
 export default RegisterForm;
-function userParams(arg0: { role: string }): { role: any } {
-  throw new Error("Function not implemented.");
-}
