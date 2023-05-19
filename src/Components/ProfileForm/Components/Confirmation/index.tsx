@@ -34,7 +34,7 @@ interface Prop {
 
 const StepConfirm: React.FC<ConfirmProps> = (props) => {
   // TODO change Teacher to userRole
-  const EDIT_INFO = `/api/Teacher/edit-info`;
+  const EDIT_INFO = `/api/tutor/edit-info`;
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState("");
   const accessToken = localStorage.getItem("accessToken");
