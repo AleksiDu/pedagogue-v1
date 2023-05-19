@@ -5,6 +5,8 @@ import { AxiosError } from "axios";
 import styles from "../RegisterForm/styles.module.css";
 import Input from "../RegisterForm/Components/Input";
 import { Link } from "react-router-dom";
+import { loadavg } from "os";
+import Loader from "../../Loader";
 
 interface LoginResponseData {
   token: string;
@@ -29,6 +31,7 @@ const LoginForm = (): JSX.Element => {
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (userEmailRef.current) {
@@ -49,6 +52,7 @@ const LoginForm = (): JSX.Element => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const response = await axios.post<LoginResponseData>(
         LOGIN_URL,
         JSON.stringify({ email, password: pwd }),
@@ -122,6 +126,8 @@ const LoginForm = (): JSX.Element => {
         const errMsg = "An unexpected error occurred. Please try again later.";
         setErrMsg(errMsg);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -167,7 +173,9 @@ const LoginForm = (): JSX.Element => {
 
   return (
     <>
-      {success ? (
+      {loading ? (
+        <Loader />
+      ) : success ? (
         <section className={styles.registrarSection}>
           <h1>You are logged in!</h1>
           <br />
