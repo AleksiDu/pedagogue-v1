@@ -8,6 +8,7 @@
   z-index: -1;
   border: 1px solid #000000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: min(5vw, 1.2em);
 }
 
 .school-subjects li {
@@ -31,7 +32,7 @@
 }
 .school-subjects li a:hover {
   background-color: #e0e0e0;
-  font-size: 18px;
+  font-size: min(6vw, 1.3em);
 }
 
 .school-subjects li:hover a {

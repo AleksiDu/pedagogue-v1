@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import "./styles.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Curriculum = () => {
   // Example Data
+
   const schoolSubjects = [
     "Mathematics",
     "Science",
