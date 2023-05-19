@@ -3,6 +3,7 @@ import ActionButton from "../ActionButton";
 import styles from "../styles.module.css";
 import axios from "../../../../api/axios";
 import { AxiosError } from "axios";
+import Loader from "../../../Loader";
 
 interface ConfirmProps {
   name: string;
@@ -135,7 +136,9 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
 
   return (
     <div>
-      {
+      {loading ? (
+        <Loader />
+      ) : (
         <section className={styles.registrarSection}>
           <p className={styles["err-msg"]} aria-live="assertive">
             {"errMsg"}
@@ -158,7 +161,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
             />
           </form>
         </section>
-      }
+      )}
     </div>
   );
 };
