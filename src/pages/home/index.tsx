@@ -1,15 +1,9 @@
-import React, { useEffect } from "react";
 import styles from "./styles.module.css";
 import Hero from "../../Components/Hero";
 import Card from "../../Components/Card";
 
 const Home: React.FC = () => {
-  let isDarkMode = false;
-  if (localStorage.getItem("isDarkMode") === "true") {
-    isDarkMode = true;
-  } else {
-    isDarkMode = false;
-  }
+  const isDarkMode = localStorage.getItem("isDarkMode") === "true";
 
   return (
     <div className={styles.homeContainer}>

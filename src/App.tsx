@@ -21,6 +21,18 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    const clearLocalStorage = () => {
+      localStorage.clear();
+    };
+
+    // Set the timeout to clear localStorage after 24 hours (86400000 milliseconds)
+    const timeout = setTimeout(clearLocalStorage, 86400000);
+
+    // Clean up the timeout when the component unmounts
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <div className={`App app-container ${isDarkMode ? "dark-mode" : ""}`}>
       <AuthProvider>
