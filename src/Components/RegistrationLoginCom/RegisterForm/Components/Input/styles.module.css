@@ -1,7 +1,7 @@
 .registrarForm {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   flex-grow: 1;
 }
 

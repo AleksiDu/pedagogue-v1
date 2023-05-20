@@ -2,11 +2,11 @@ import { useRef, useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../../context/AuthProvider";
 import axios from "../../../api/axios";
 import { AxiosError } from "axios";
-import styles from "../RegisterForm/styles.module.css";
+import styles from "../../../styles/RegistrationProfileStyles/styles.module.css";
 import Input from "../RegisterForm/Components/Input";
 import { Link } from "react-router-dom";
-import { loadavg } from "os";
 import Loader from "../../Loader";
+import RegistrationAction from "../RegistrationAction";
 
 interface LoginResponseData {
   token: string;
@@ -196,7 +196,7 @@ const LoginForm = (): JSX.Element => {
           <form className={styles.registrarForm} onSubmit={handleSubmit}>
             <Input
               name="Email:"
-              id="username"
+              id="email"
               type="email"
               PropRef={userEmailRef}
               autoComplete="on"
@@ -214,15 +214,21 @@ const LoginForm = (): JSX.Element => {
               value={pwd}
               required
             />
+            <RegistrationAction
+              className={styles.line}
+              to="/forget_password"
+              nextLine={false}
+              text="Forget a Password?"
+            />
             <button>Sign In</button>
           </form>
-          <p>
-            Need an Account?
-            <br />
-            <span className={styles.line}>
-              <Link to={"/registration"}>Sign Up</Link>
-            </span>
-          </p>
+          <RegistrationAction
+            className={styles.line}
+            paragraph="Need an Account?"
+            to="/registration"
+            nextLine={true}
+            text="Sign Up"
+          />
         </section>
       )}
     </>

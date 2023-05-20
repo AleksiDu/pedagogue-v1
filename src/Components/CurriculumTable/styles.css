@@ -1,11 +1,10 @@
 .school-subjects {
   list-style: none;
   padding: 0;
-  margin: 0 15% 4% 15%;
   background: rgba(0, 0, 0, 0.4);
   border-radius: 2px;
-  width: 70%;
-  z-index: -1;
+  width: 70vh;
+  z-index: 1;
   border: 1px solid #000000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   font-size: min(5vw, 1.2em);
@@ -30,6 +29,7 @@
   align-items: center;
   transition: background-color 0.3s ease, font-size 0.3s ease;
 }
+
 .school-subjects li a:hover {
   background-color: rgba(0, 0, 0, 0.1);
   font-size: min(6vw, 1.3em);
@@ -41,11 +41,11 @@
   cursor: pointer;
 }
 
-.dark-mode li a {
+.dark-mode .school-subjects li a {
   color: white;
 }
 
-.dark-mode li:hover a {
+.dark-mode .school-subjects li:hover a {
   background-color: white;
   color: rgba(0, 0, 0, 0.8);
 }

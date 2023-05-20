@@ -9,6 +9,7 @@ import SettingsPage from "../../pages/SettingsPage";
 
 import "./styles.css";
 import Curriculum from "../../pages/Curriculum";
+import ForgetPassword from "../RegistrationLoginCom/ForgetPassword";
 
 interface BodyProps {
   isDarkMode: boolean;
@@ -41,6 +42,7 @@ const Body: React.FC<BodyProps> = ({ onToggleMode, isDarkMode }) => {
         <Route path="/" element={<Home />} />
         <Route path="/registration/*" element={<Registration />}></Route>
         <Route path="/login/*" element={<Login />}></Route>
+        <Route path="/forget_password/*" element={<ForgetPassword />}></Route>
         <Route path="/profile/*" element={<Profile />}></Route>
         <Route
           path="/settings/*"

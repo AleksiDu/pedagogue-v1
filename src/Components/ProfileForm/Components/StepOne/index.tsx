@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Input from "../../../RegistrationLoginCom/RegisterForm/Components/Input";
 import Select, { StylesConfig } from "react-select";
-import styles from ".././styles.module.css";
+import styles from "../../../../styles/RegistrationProfileStyles/styles.module.css";
 import ActionButton from "../ActionButton";
 
 /**

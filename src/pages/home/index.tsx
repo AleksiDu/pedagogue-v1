@@ -11,7 +11,7 @@ const Home: React.FC = () => {
         header="Welcome to Pedagogue"
         paragraph="Learn from professionals"
         article="Get Started"
-        link="/curriculum"
+        link="/registration"
       />
       <section className={styles.features}>
         <Card

@@ -6,9 +6,11 @@
   justify-content: flex-start;
   padding: 1rem;
   background-color: rgba(0, 0, 0, 0.4);
+  width: 50vh;
 }
 
-.registrarForm {
+.registrarForm,
+.genderSelectContainer {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -23,6 +25,9 @@
 .registrarForm input[type="email"],
 .registrarForm input[type="text"],
 .registrarForm input[type="password"],
+.registrarForm input[type="data"],
+.registrarForm input[type="radio"],
+.registrarForm input[type="number"],
 .registrarForm button,
 .registrarForm textarea {
   font-size: 22px;
@@ -82,4 +87,11 @@
 
 .line {
   display: inline-block;
+}
+
+.toggleSwitch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
 }

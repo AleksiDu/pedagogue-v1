@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import StepWizard, { StepWizardProps } from "react-step-wizard";
 import StepConfirm from "./Components/Confirmation";
 import StepOne from "./Components/StepOne/index";

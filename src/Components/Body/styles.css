@@ -1,6 +1,8 @@
 .landing-page {
-  display: block;
   margin-top: 50px;
+  display: grid;
+  align-content: center;
+  justify-content: center;
 }
 
 .landing-page.night-mode {
