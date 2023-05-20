@@ -3,6 +3,9 @@ import RegistrationAction from "../RegistrationAction";
 import styles from "../../../styles/RegistrationProfileStyles/styles.module.css";
 import { useRef, useState, useEffect } from "react";
 import { AxiosError } from "axios";
+import Loader from "../../Loader";
+import axios from "../../../api/axios";
+import { Link } from "react-router-dom";
 
 const ForgetPassword = () => {
   const userEmailRef = useRef<HTMLInputElement>(null);
@@ -10,6 +13,10 @@ const ForgetPassword = () => {
 
   const [email, setEmail] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [countdown, setCountdown] = useState(false);
+  const [timer, setTimer] = useState(10);
 
   useEffect(() => {
     if (userEmailRef.current) {
@@ -21,57 +28,99 @@ const ForgetPassword = () => {
     setErrMsg("");
   }, [email]);
 
-  // Type guard function
-  const isAxiosError = (error: any): error is AxiosError => {
-    return error.isAxiosError !== undefined && error.config !== undefined;
-  };
+  useEffect(() => {
+    let countdownTimer: NodeJS.Timeout;
+    if (countdown) {
+      setTimer(10);
+      countdownTimer = setInterval(() => {
+        setTimer((prevTimer) => {
+          if (prevTimer === 1) {
+            clearInterval(countdownTimer);
+            setCountdown(false);
+            setErrMsg("");
+          }
+          return prevTimer - 1;
+        });
+      }, 1000);
+    }
+
+    return () => {
+      clearInterval(countdownTimer);
+    };
+  }, [countdown]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (countdown) {
+      return;
+    }
+
     try {
-      console.log("try");
+      setLoading(true);
+      const response = await axios.post("/api/forgotPassword", { email });
+
+      // Handle successful response
+      console.log(response.data);
+      setSuccess(true);
     } catch (err) {
-      console.log(err);
+      setCountdown(true);
+      const error = err as AxiosError<unknown>;
+
+      if (error.response) {
+        const errorMessage = (error.response.data as { message: string })
+          .message;
+        setErrMsg(errorMessage);
+      } else {
+        setErrMsg(error.message);
+        console.log("Error", error.message);
+      }
     } finally {
-      console.log("finally");
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <section className={styles.registrarSection}>
-        <p
-          ref={errRef}
-          className={styles[errMsg ? "err-msg" : "offscreen"]}
-          aria-live="assertive"
-        >
-          {errMsg}
-        </p>
-        <h1>Forgot Password</h1>
-        <form className={styles.registrarForm} onSubmit={handleSubmit}>
-          <Input
-            name="Email:"
-            id="email"
-            type="email"
-            PropRef={userEmailRef}
-            autoComplete="on"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            required
-            note=" Not a Valid email"
-          />
-
-          <RegistrationAction
-            className={"styles.line"}
-            to="/forget_password"
-            nextLine={false}
-            text="Resent a Code"
-          />
-          <button>Send Reset Code</button>
-        </form>
-      </section>
-    </div>
+    <>
+      {loading ? (
+        <Loader />
+      ) : success ? (
+        <section className={styles.registrarSection}>
+          <h1>Email was Successfully</h1>
+          <br />
+          <p>
+            <Link to={"/login"}>Login</Link>
+          </p>
+        </section>
+      ) : (
+        <section className={styles.registrarSection}>
+          <p
+            ref={errRef}
+            className={styles[errMsg ? "err-msg" : "offscreen"]}
+            aria-live="assertive"
+          >
+            {errMsg}
+          </p>
+          <h1>Forgot Password</h1>
+          <form className={styles.registrarForm} onSubmit={handleSubmit}>
+            <Input
+              name="Email:"
+              id="email"
+              type="email"
+              PropRef={userEmailRef}
+              autoComplete="on"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              required
+              note=" Not a Valid email"
+            />
+            <button disabled={loading || countdown}>
+              {countdown ? `Resend in ${timer}s` : "Send Reset Code"}
+            </button>
+          </form>
+        </section>
+      )}
+    </>
   );
 };
 
