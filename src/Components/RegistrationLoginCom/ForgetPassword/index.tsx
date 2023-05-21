@@ -1,5 +1,4 @@
 import Input from "../RegisterForm/Components/Input";
-import RegistrationAction from "../RegistrationAction";
 import styles from "../../../styles/RegistrationProfileStyles/styles.module.css";
 import { useRef, useState, useEffect } from "react";
 import { AxiosError } from "axios";
@@ -58,7 +57,9 @@ const ForgetPassword = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post("/api/forgotPassword", { email });
+      const response = await axios.post("/api/forgotPassword", {
+        email,
+      });
 
       // Handle successful response
       console.log(response.data);
@@ -86,7 +87,7 @@ const ForgetPassword = () => {
         <Loader />
       ) : success ? (
         <section className={styles.registrarSection}>
-          <h1>Email was Successfully</h1>
+          <h1>Email was Successfully sent</h1>
           <br />
           <p>
             <Link to={"/login"}>Login</Link>
