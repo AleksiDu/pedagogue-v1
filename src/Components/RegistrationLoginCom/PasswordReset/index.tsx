@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, FC } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "../../../api/axios";
 import styles from "../../../styles/RegistrationProfileStyles/styles.module.css";
 import Input from "../RegisterForm/Components/Input";
@@ -16,8 +16,6 @@ const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%]).{8,24}$/;
 const PASSWORD_UPDATE_URL = `api/authentication/register`;
 
 const PasswordReset: FC = () => {
-  const navigate = useNavigate();
-
   const errRef = useRef<HTMLDivElement>(null);
 
   const [pwd, setPwd] = useState("");

@@ -4,13 +4,15 @@ import { useRef, useState, useEffect } from "react";
 import { AxiosError } from "axios";
 import Loader from "../../Loader";
 import axios from "../../../api/axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const ForgetPassword = () => {
-  const userEmailRef = useRef<HTMLInputElement>(null);
+const EmailVerification = () => {
+  const navigate = useNavigate();
+
+  const userCodeRef = useRef<HTMLInputElement>(null);
   const errRef = useRef<HTMLParagraphElement>(null);
 
-  const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -18,14 +20,14 @@ const ForgetPassword = () => {
   const [timer, setTimer] = useState(10);
 
   useEffect(() => {
-    if (userEmailRef.current) {
-      userEmailRef.current.focus();
+    if (userCodeRef.current) {
+      userCodeRef.current.focus();
     }
   }, []);
 
   useEffect(() => {
     setErrMsg("");
-  }, [email]);
+  }, [code]);
 
   useEffect(() => {
     let countdownTimer: NodeJS.Timeout;
@@ -57,16 +59,14 @@ const ForgetPassword = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post(
-        "/Api/authentication/password-recover",
-        {
-          email,
-        }
-      );
+      const response = await axios.post(`api/authentication/verify`, { code });
 
       // Handle successful response
       console.log(response.data);
       setSuccess(true);
+      setTimeout(() => {
+        navigate("/login");
+      }, 6000);
     } catch (err) {
       setCountdown(true);
       const error = err as AxiosError<unknown>;
@@ -76,7 +76,7 @@ const ForgetPassword = () => {
           .message;
         setErrMsg(errorMessage);
       } else {
-        setErrMsg(error.message);
+        setErrMsg("An error occurred. Please try again.");
         console.log("Error", error.message);
       }
     } finally {
@@ -90,7 +90,7 @@ const ForgetPassword = () => {
         <Loader />
       ) : success ? (
         <section className={styles.registrarSection}>
-          <h1>Email was Successfully sent</h1>
+          <h1>Email was Successfully Verified</h1>
           <br />
           <p>
             <Link to={"/login"}>Login</Link>
@@ -105,21 +105,20 @@ const ForgetPassword = () => {
           >
             {errMsg}
           </p>
-          <h1>Forgot Password</h1>
+          <h1>Email Verification</h1>
           <form className={styles.registrarForm} onSubmit={handleSubmit}>
             <Input
-              name="Email:"
-              id="email"
-              type="email"
-              PropRef={userEmailRef}
-              autoComplete="on"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
+              name="Verification Code:"
+              id="code"
+              type="text"
+              PropRef={userCodeRef}
+              autoComplete="off"
+              onChange={(e) => setCode(e.target.value)}
+              value={code}
               required
-              note=" Not a Valid email"
             />
             <button disabled={loading || countdown}>
-              {countdown ? `Resend in ${timer}s` : "Send Reset Code"}
+              {countdown ? `Reverify in ${timer}s` : "Verify"}
             </button>
           </form>
         </section>
@@ -128,4 +127,4 @@ const ForgetPassword = () => {
   );
 };
 
-export default ForgetPassword;
+export default EmailVerification;

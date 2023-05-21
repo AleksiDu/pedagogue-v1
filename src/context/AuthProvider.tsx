@@ -27,7 +27,6 @@ export const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  console.log(children);
   const [auth, setAuth] = useState<AuthState>({
     email: "",
     pwd: "",

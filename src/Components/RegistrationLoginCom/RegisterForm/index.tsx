@@ -129,7 +129,7 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
       }
     } finally {
       setLoading(false);
-      setTimeout(() => navigate("/"), 6000); // redirect to dashboard on successful registration;
+      navigate("/email_verification");
     }
   };
 

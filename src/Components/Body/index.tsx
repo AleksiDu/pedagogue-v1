@@ -11,6 +11,7 @@ import "./styles.css";
 import Curriculum from "../../pages/Curriculum";
 import ForgetPassword from "../RegistrationLoginCom/ForgetPassword";
 import PasswordReset from "../RegistrationLoginCom/PasswordReset";
+import EmailVerification from "../RegistrationLoginCom/EmailVerification";
 
 interface BodyProps {
   isDarkMode: boolean;
@@ -47,6 +48,10 @@ const Body: React.FC<BodyProps> = ({ onToggleMode, isDarkMode }) => {
         <Route
           path="/reset_password/:resetCode"
           element={<PasswordReset />}
+        ></Route>
+        <Route
+          path="/email_verification"
+          element={<EmailVerification />}
         ></Route>
         <Route path="/profile/*" element={<Profile />}></Route>
         <Route
