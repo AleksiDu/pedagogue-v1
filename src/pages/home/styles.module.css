@@ -97,7 +97,6 @@
   border-style: outset;
   border-color: black;
   border-image: initial;
-  color: black !important;
   cursor: pointer;
   transition: background-color 0.3s ease;
   background-color: rgb(240, 240, 240);

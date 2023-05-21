@@ -2,8 +2,28 @@ import styles from "./styles.module.css";
 import Hero from "../../Components/Hero";
 import Card from "../../Components/Card";
 
+import { useState } from "react";
+import Input from "../../Components/RegistrationLoginCom/RegisterForm/Components/Input";
+import axios from "axios";
+
 const Home: React.FC = () => {
   const isDarkMode = localStorage.getItem("isDarkMode") === "true";
+
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("/api/subscribe", { email });
+      console.log(response.data);
+      // Reset email field after successful submission
+      setEmail("");
+    } catch (error) {
+      console.log("An error occurred:", error);
+      // Handle error
+    }
+  };
 
   return (
     <div className={styles.homeContainer}>
@@ -54,9 +74,18 @@ const Home: React.FC = () => {
             "Get the latest news, tips, and resources delivered to your inbox."
           }
         />
-        <form className={styles.newsletterForm}>
-          <input type="email" placeholder="Enter your email" />
-          <button type="submit">Subscribe</button>
+        <form className={styles.newsletterForm} onSubmit={handleSubmit}>
+          <Input
+            placeholder="Enter you email"
+            type="email"
+            autoComplete="on"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            required
+          />
+          <button disabled={!email.includes("@")} type="submit">
+            Subscribe
+          </button>
         </form>
       </section>
     </div>

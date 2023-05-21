@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./styles.module.css";
 
 const Input = (props: {
-  name: string;
+  name?: string;
   id?: string;
   type: string | undefined;
   PropRef?: LegacyRef<HTMLInputElement>;
@@ -28,26 +28,33 @@ const Input = (props: {
   isInputTypeFocus?: boolean;
   checked?: boolean;
   accept?: string;
+  placeholder?: string;
 }) => {
   return (
     <div className={styles.registrarForm}>
-      <label htmlFor={props.id}>
-        {props.name}
-        <FontAwesomeIcon
-          icon={faCheck}
-          className={
-            styles[props.isValidInputType && props.inputType ? "valid" : "hide"]
-          }
-        />
-        <FontAwesomeIcon
-          icon={faTimes}
-          className={
-            styles[
-              props.isValidInputType || !props.inputType ? "hide" : "invalid"
-            ]
-          }
-        />
-      </label>
+      {props.name ? (
+        <label htmlFor={props.id}>
+          {props.name}
+          <FontAwesomeIcon
+            icon={faCheck}
+            className={
+              styles[
+                props.isValidInputType && props.inputType ? "valid" : "hide"
+              ]
+            }
+          />
+          <FontAwesomeIcon
+            icon={faTimes}
+            className={
+              styles[
+                props.isValidInputType || !props.inputType ? "hide" : "invalid"
+              ]
+            }
+          />
+        </label>
+      ) : (
+        <></>
+      )}
       <input
         id={props.id}
         type={props.type}
@@ -61,6 +68,7 @@ const Input = (props: {
         onFocus={props.onFocus}
         onBlur={props.onBlur}
         checked={props.checked}
+        placeholder={props.placeholder}
       />
       <p
         id={props.ariaDescribedby}
