@@ -7,10 +7,15 @@ import Input from "../RegisterForm/Components/Input";
 import { Link } from "react-router-dom";
 import Loader from "../../Loader";
 import RegistrationAction from "../RegistrationAction";
+import { type } from "os";
 
 interface LoginResponseData {
   token: string;
   role: string;
+}
+
+interface LoginFormProps {
+  onLoginSuccess: () => void;
 }
 
 interface ErrorResponse {
@@ -22,7 +27,9 @@ interface ErrorResponse {
 
 const LOGIN_URL = "api/authentication/login";
 
-const LoginForm = (): JSX.Element => {
+const LoginForm: React.FC<LoginFormProps> = ({
+  onLoginSuccess,
+}): JSX.Element => {
   const { setAuth } = useContext(AuthContext);
   const userEmailRef = useRef<HTMLInputElement>(null);
   const errRef = useRef<HTMLParagraphElement>(null);
@@ -95,6 +102,7 @@ const LoginForm = (): JSX.Element => {
 
       // Call the getProfileData function
       getProfileData(accessToken, updatedUserRole);
+      onLoginSuccess();
     } catch (err) {
       if (isAxiosError(err)) {
         const error: ErrorResponse | undefined = err?.response?.data as

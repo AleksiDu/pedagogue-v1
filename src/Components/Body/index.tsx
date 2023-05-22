@@ -11,17 +11,22 @@ import "./styles.css";
 import Curriculum from "../../pages/Curriculum";
 import ForgetPassword from "../RegistrationLoginCom/ForgetPassword";
 import PasswordReset from "../RegistrationLoginCom/PasswordReset";
-import EmailVerification from "../RegistrationLoginCom/EmailVerification";
 
 interface BodyProps {
   isDarkMode: boolean;
   onToggleMode: (nightMode: boolean) => void;
+  onLoginSuccess: () => void;
 }
-const Body: React.FC<BodyProps> = ({ onToggleMode, isDarkMode }) => {
+const Body: React.FC<BodyProps> = ({
+  onToggleMode,
+  isDarkMode,
+  onLoginSuccess,
+}) => {
   const REGISTER_URL = "/registration";
   const location = useLocation();
 
   const { auth } = useContext(AuthContext);
+  const isLoggedIn = auth && auth.accessToken;
 
   // TODO update from localStorage!!!
   const userName = localStorage.getItem("username") || "";
@@ -43,7 +48,10 @@ const Body: React.FC<BodyProps> = ({ onToggleMode, isDarkMode }) => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/registration/*" element={<Registration />}></Route>
-        <Route path="/login/*" element={<Login />}></Route>
+        <Route
+          path="/login/*"
+          element={<Login onLoginSuccess={onLoginSuccess} />}
+        ></Route>
         <Route path="/forget_password/*" element={<ForgetPassword />}></Route>
         <Route
           path="/reset_password/:resetCode"

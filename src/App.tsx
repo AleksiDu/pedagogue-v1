@@ -8,16 +8,31 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const toggleMode = () => {
     setIsDarkMode((prevMode) => !prevMode);
-    localStorage.setItem("isDarkMode", String(!isDarkMode));
+    localStorage.setItem("App isDarkMode", String(!isDarkMode));
+  };
+
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+    localStorage.setItem("isLoggedIn", "true");
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem("isLoggedIn");
   };
 
   useEffect(() => {
     const storedDarkMode = localStorage.getItem("isDarkMode");
     if (storedDarkMode !== null) {
       setIsDarkMode(storedDarkMode === "true");
+    }
+    const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
+    if (storedIsLoggedIn !== null) {
+      setIsLoggedIn(storedIsLoggedIn === "true");
     }
   }, []);
 
@@ -36,8 +51,15 @@ function App() {
   return (
     <div className={`App app-container ${isDarkMode ? "dark-mode" : ""}`}>
       <AuthProvider>
-        <Header />
-        <Body onToggleMode={toggleMode} isDarkMode={isDarkMode} />
+        <Header isLoggedIn={isLoggedIn} />
+        <Body
+          onToggleMode={toggleMode}
+          isDarkMode={isDarkMode}
+          onLoginSuccess={handleLoginSuccess}
+        />
+        <button type="submit" onClick={handleLogout}>
+          logout
+        </button>
         <Footer />
       </AuthProvider>
     </div>

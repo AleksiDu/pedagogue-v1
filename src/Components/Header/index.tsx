@@ -8,15 +8,18 @@ import { Link, useNavigate } from "react-router-dom";
 import "./styles.css";
 import axios from "axios";
 
-const Header: FC = () => {
+const Header: FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [imageKey, setImageKey] = useState<number>(0);
   const [isActive, setIsActive] = useState(false);
   const [imageURL, setImageURL] = useState<string>(
     "https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
   );
   const [login, setLogin] = useState(false);
-
+  const accessToken = localStorage.getItem("accessToken");
   const navigate = useNavigate();
+
+  console.log("isLoggedIn", isLoggedIn);
 
   const handleClick = () => {
     setIsActive(!isActive);
@@ -27,10 +30,11 @@ const Header: FC = () => {
   };
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       setLogin(true);
       fetchImage();
+    } else {
+      setLogin(false);
     }
   }, []);
 
@@ -55,8 +59,6 @@ const Header: FC = () => {
           break;
       }
 
-      const accessToken = localStorage.getItem("accessToken");
-
       if (!accessToken) {
         console.log("Access token not found.");
         return;
@@ -69,7 +71,9 @@ const Header: FC = () => {
         },
       });
       const { images } = response.data;
-      setImageURL(images);
+      const timestamp = new Date().getTime();
+      setImageURL(`${images}?t=${timestamp}`);
+      setImageKey((prevKey) => prevKey + 1);
     } catch (error) {
       console.log("Error fetching image:", error);
     }
@@ -127,9 +131,10 @@ const Header: FC = () => {
             </ul>
           </nav>
         </div>
-        {login ? (
+        {isLoggedIn ? (
           <div className="avatar-container">
             <Avatar
+              key={imageKey}
               src={imageURL}
               size="30"
               style={{

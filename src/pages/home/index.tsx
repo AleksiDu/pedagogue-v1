@@ -2,14 +2,29 @@ import styles from "./styles.module.css";
 import Hero from "../../Components/Hero";
 import Card from "../../Components/Card";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../../Components/RegistrationLoginCom/RegisterForm/Components/Input";
 import axios from "axios";
 
 const Home: React.FC = () => {
   const isDarkMode = localStorage.getItem("isDarkMode") === "true";
-
+  const [link, setLink] = useState("");
   const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      const accessToken = localStorage.getItem("accessToken");
+      const isLoggedIn = !!accessToken;
+
+      if (isLoggedIn) {
+        setLink("/curriculum");
+      } else {
+        setLink("/registration");
+      }
+    };
+
+    checkAuthentication();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,7 +46,7 @@ const Home: React.FC = () => {
         header="Welcome to Pedagogue"
         paragraph="Learn from professionals"
         article="Get Started"
-        link="/registration"
+        link={link}
       />
       <section className={styles.features}>
         <Card
