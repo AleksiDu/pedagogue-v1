@@ -4,7 +4,6 @@ import Profile from "../../pages/Profile";
 import Home from "../../pages/home";
 import Login from "../../pages/Login";
 import Registration from "../../pages/Registration";
-import { AuthContext } from "../../context/AuthProvider";
 import SettingsPage from "../../pages/SettingsPage";
 
 import "./styles.css";
@@ -14,19 +13,18 @@ import PasswordReset from "../RegistrationLoginCom/PasswordReset";
 
 interface BodyProps {
   isDarkMode: boolean;
+  isLoggedIn: boolean;
   onToggleMode: (nightMode: boolean) => void;
   onLoginSuccess: () => void;
 }
 const Body: React.FC<BodyProps> = ({
   onToggleMode,
   isDarkMode,
+  isLoggedIn,
   onLoginSuccess,
 }) => {
   const REGISTER_URL = "/registration";
   const location = useLocation();
-
-  const { auth } = useContext(AuthContext);
-  const isLoggedIn = auth && auth.accessToken;
 
   // TODO update from localStorage!!!
   const userName = localStorage.getItem("username") || "";
@@ -46,7 +44,7 @@ const Body: React.FC<BodyProps> = ({
   return (
     <section className="landing-page">
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
         <Route path="/registration/*" element={<Registration />}></Route>
         <Route
           path="/login/*"

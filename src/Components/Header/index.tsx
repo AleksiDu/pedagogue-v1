@@ -15,11 +15,8 @@ const Header: FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
   const [imageURL, setImageURL] = useState<string>(
     "https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
   );
-  const [login, setLogin] = useState(false);
   const accessToken = localStorage.getItem("accessToken");
   const navigate = useNavigate();
-
-  console.log("isLoggedIn", isLoggedIn);
 
   const handleClick = () => {
     setIsActive(!isActive);
@@ -30,13 +27,11 @@ const Header: FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
   };
 
   useEffect(() => {
-    if (accessToken) {
-      setLogin(true);
+    if (isLoggedIn) {
       fetchImage();
-    } else {
-      setLogin(false);
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn]);
 
   const fetchImage = async () => {
     try {

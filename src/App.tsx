@@ -56,6 +56,7 @@ function App() {
           onToggleMode={toggleMode}
           isDarkMode={isDarkMode}
           onLoginSuccess={handleLoginSuccess}
+          isLoggedIn={isLoggedIn}
         />
         <button type="submit" onClick={handleLogout}>
           logout

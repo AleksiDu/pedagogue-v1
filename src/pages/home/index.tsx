@@ -6,25 +6,18 @@ import { useEffect, useState } from "react";
 import Input from "../../Components/RegistrationLoginCom/RegisterForm/Components/Input";
 import axios from "axios";
 
-const Home: React.FC = () => {
+const Home: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
   const isDarkMode = localStorage.getItem("isDarkMode") === "true";
   const [link, setLink] = useState("");
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    const checkAuthentication = async () => {
-      const accessToken = localStorage.getItem("accessToken");
-      const isLoggedIn = !!accessToken;
-
-      if (isLoggedIn) {
-        setLink("/curriculum");
-      } else {
-        setLink("/registration");
-      }
-    };
-
-    checkAuthentication();
-  }, []);
+    if (isLoggedIn) {
+      setLink("/curriculum");
+    } else {
+      setLink("/registration");
+    }
+  }, [isLoggedIn]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
