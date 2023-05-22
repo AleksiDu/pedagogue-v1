@@ -121,7 +121,7 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
         setErrMsg("Email or Username Taken");
         console.error(errLog);
       } else {
-        setErrMsg("Registration Failed");
+        setErrMsg("Registration Failed: " + error?.detail);
         console.error(errLog);
       }
       if (errRef.current != null) {
@@ -129,7 +129,6 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
       }
     } finally {
       setLoading(false);
-      navigate("/email_verification");
     }
   };
 
@@ -139,7 +138,7 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
         <Loader />
       ) : isSuccess ? (
         <section className={styles.registrarSection}>
-          <h1>Success!</h1>
+          <h1>Check Email for Verification</h1>
           <p>
             <Link to={"/login"}>Sign In</Link>
           </p>

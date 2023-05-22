@@ -49,10 +49,6 @@ const Body: React.FC<BodyProps> = ({ onToggleMode, isDarkMode }) => {
           path="/reset_password/:resetCode"
           element={<PasswordReset />}
         ></Route>
-        <Route
-          path="/email_verification"
-          element={<EmailVerification />}
-        ></Route>
         <Route path="/profile/*" element={<Profile />}></Route>
         <Route
           path="/settings/*"
