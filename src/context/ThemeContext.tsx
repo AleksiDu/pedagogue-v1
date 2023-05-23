@@ -37,7 +37,6 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     [isDarkMode]
   );
 
-  console.log("theme", isDarkMode);
   return (
     <ThemeContext.Provider value={themeContextValue}>
       {children}

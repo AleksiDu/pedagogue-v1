@@ -2,18 +2,12 @@ import { useContext, useEffect } from "react";
 import Header from "./Components/Header";
 import Body from "./Components/Body";
 import Footer from "./Components/Footer";
+import { ThemeContext } from "./context/ThemeContext";
 
 import "./App.css";
 
-import { ThemeContext } from "./context/ThemeContext";
-
 function App() {
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
-
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.clear();
-  };
 
   useEffect(() => {
     const storedDarkMode = localStorage.getItem("isDarkMode");
@@ -38,9 +32,6 @@ function App() {
     <div className={`App app-container ${isDarkMode ? "dark-mode" : ""}`}>
       <Header />
       <Body />
-      <button type="submit" onClick={handleLogout}>
-        Logout
-      </button>
       <Footer />
     </div>
   );
