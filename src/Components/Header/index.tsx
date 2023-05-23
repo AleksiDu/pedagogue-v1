@@ -31,7 +31,6 @@ const Header: FC = () => {
   useEffect(() => {
     if (isLoggedIn) {
       fetchImage();
-      console.log("header", isLoggedIn);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);

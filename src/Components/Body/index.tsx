@@ -11,11 +11,7 @@ import Curriculum from "../../pages/Curriculum";
 import ForgetPassword from "../RegistrationLoginCom/ForgetPassword";
 import PasswordReset from "../RegistrationLoginCom/PasswordReset";
 
-interface BodyProps {
-  isDarkMode: boolean;
-  onToggleMode: (nightMode: boolean) => void;
-}
-const Body: React.FC<BodyProps> = ({ onToggleMode, isDarkMode }) => {
+const Body: React.FC = () => {
   const REGISTER_URL = "/registration";
   const location = useLocation();
 
@@ -49,12 +45,7 @@ const Body: React.FC<BodyProps> = ({ onToggleMode, isDarkMode }) => {
         <Route
           path="/settings/*"
           element={
-            <SettingsPage
-              userName={userName}
-              accessToken={accessToken}
-              isDarkMode={isDarkMode}
-              onToggleMode={onToggleMode}
-            />
+            <SettingsPage userName={userName} accessToken={accessToken} />
           }
         ></Route>
         <Route path="/Curriculum/*" element={<Curriculum />}></Route>

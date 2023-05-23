@@ -1,20 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import Header from "./Components/Header";
 import Body from "./Components/Body";
 import Footer from "./Components/Footer";
 
 import "./App.css";
-import { AuthContext, AuthProvider } from "./context/AuthContext";
+
+import { ThemeContext } from "./context/ThemeContext";
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-
-  const toggleMode = () => {
-    setIsDarkMode((prevMode) => !prevMode);
-    localStorage.setItem("isDarkMode", String(!isDarkMode));
-  };
+  const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -41,16 +35,14 @@ function App() {
   }, []);
 
   return (
-    <AuthProvider>
-      <div className={`App app-container ${isDarkMode ? "dark-mode" : ""}`}>
-        <Header />
-        <Body onToggleMode={toggleMode} isDarkMode={isDarkMode} />
-        <button type="submit" onClick={handleLogout}>
-          Logout
-        </button>
-        <Footer />
-      </div>
-    </AuthProvider>
+    <div className={`App app-container ${isDarkMode ? "dark-mode" : ""}`}>
+      <Header />
+      <Body />
+      <button type="submit" onClick={handleLogout}>
+        Logout
+      </button>
+      <Footer />
+    </div>
   );
 }
 

@@ -61,8 +61,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.setItem("accessToken", authUser.accessToken);
   }, [authUser.accessToken]);
 
-  console.log("Auth", isLoggedIn);
-
   const authContextValue: AuthContextType = useMemo(
     () => ({ authUser, setAuthUser, isLoggedIn, setIsLoggedIn }),
     [authUser, setAuthUser, isLoggedIn, setIsLoggedIn]

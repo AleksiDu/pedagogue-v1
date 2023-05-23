@@ -1,30 +1,28 @@
 import Input from "../RegistrationLoginCom/RegisterForm/Components/Input";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 
 import styles from "../../styles/SettingsFormStyles/styles.module.css";
 import ToggleSwitch from "./Components/ToggleSwitch";
 import RadioButton from "./Components/RadioButton";
 import axios from "axios";
+import { ThemeContext } from "../../context/ThemeContext";
 
 interface SettingsFormProps {
   userName: string;
   accessToken: string;
-  isDarkMode: boolean;
-  onToggleMode: (nightMode: boolean) => void;
 }
 
 const SettingsForm: React.FC<SettingsFormProps> = ({
   userName,
   accessToken,
-  isDarkMode,
-  onToggleMode,
 }) => {
   const [username, setUsername] = useState(userName);
   const [errMsg, setErrMsg] = useState("");
   const errRef = useRef<HTMLParagraphElement>(null);
+  const { isDarkMode, toggleTheme } = useContext(ThemeContext);
 
   const handleNightModeToggle = () => {
-    onToggleMode(!isDarkMode);
+    toggleTheme();
   };
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
