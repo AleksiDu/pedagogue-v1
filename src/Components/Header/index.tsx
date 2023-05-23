@@ -1,4 +1,4 @@
-import { useRef, useState, FC, useEffect } from "react";
+import { useRef, useState, FC, useEffect, useContext } from "react";
 import Avatar from "react-avatar";
 import { useOnClickOutside } from "usehooks-ts";
 import logo from "../../assets/icons/logo.svg";
@@ -7,8 +7,9 @@ import { Link, useNavigate } from "react-router-dom";
 
 import "./styles.css";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
-const Header: FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
+const Header: FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [imageKey, setImageKey] = useState<number>(0);
   const [isActive, setIsActive] = useState(false);
@@ -16,6 +17,7 @@ const Header: FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
     "https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
   );
   const accessToken = localStorage.getItem("accessToken");
+  const { isLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -29,6 +31,7 @@ const Header: FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
   useEffect(() => {
     if (isLoggedIn) {
       fetchImage();
+      console.log("header", isLoggedIn);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);

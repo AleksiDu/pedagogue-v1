@@ -1,38 +1,30 @@
+import React, { useContext, useEffect, useState } from "react";
 import Header from "./Components/Header";
 import Body from "./Components/Body";
+import Footer from "./Components/Footer";
 
 import "./App.css";
-import { AuthProvider } from "./context/AuthProvider";
-import Footer from "./Components/Footer";
-import { useEffect, useState } from "react";
+import { AuthContext, AuthProvider } from "./context/AuthContext";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
   const toggleMode = () => {
     setIsDarkMode((prevMode) => !prevMode);
-    localStorage.setItem("App isDarkMode", String(!isDarkMode));
-  };
-
-  const handleLoginSuccess = () => {
-    setIsLoggedIn(true);
-    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("isDarkMode", String(!isDarkMode));
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("accessToken");
+    localStorage.clear();
   };
 
   useEffect(() => {
     const storedDarkMode = localStorage.getItem("isDarkMode");
     if (storedDarkMode !== null) {
       setIsDarkMode(storedDarkMode === "true");
-    }
-    const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
-    if (storedIsLoggedIn !== null) {
-      setIsLoggedIn(storedIsLoggedIn === "true");
     }
   }, []);
 
@@ -49,21 +41,16 @@ function App() {
   }, []);
 
   return (
-    <div className={`App app-container ${isDarkMode ? "dark-mode" : ""}`}>
-      <AuthProvider>
-        <Header isLoggedIn={isLoggedIn} />
-        <Body
-          onToggleMode={toggleMode}
-          isDarkMode={isDarkMode}
-          onLoginSuccess={handleLoginSuccess}
-          isLoggedIn={isLoggedIn}
-        />
+    <AuthProvider>
+      <div className={`App app-container ${isDarkMode ? "dark-mode" : ""}`}>
+        <Header />
+        <Body onToggleMode={toggleMode} isDarkMode={isDarkMode} />
         <button type="submit" onClick={handleLogout}>
-          logout
+          Logout
         </button>
         <Footer />
-      </AuthProvider>
-    </div>
+      </div>
+    </AuthProvider>
   );
 }
 

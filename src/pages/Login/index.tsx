@@ -1,15 +1,10 @@
 import LoginForm from "../../Components/RegistrationLoginCom/LoginForm";
-import { AuthProvider } from "../../context/AuthProvider";
+import { AuthProvider } from "../../context/AuthContext";
 
-interface LoginProps {
-  onLoginSuccess: () => void;
-}
-const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
+const Login: React.FC = () => {
   return (
     <>
-      <AuthProvider>
-        <LoginForm onLoginSuccess={onLoginSuccess} />
-      </AuthProvider>
+      <LoginForm />
     </>
   );
 };

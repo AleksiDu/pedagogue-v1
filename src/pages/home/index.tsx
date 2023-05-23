@@ -1,12 +1,13 @@
 import styles from "./styles.module.css";
 import Hero from "../../Components/Hero";
 import Card from "../../Components/Card";
-
-import { useEffect, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { useEffect, useState, useContext } from "react";
 import Input from "../../Components/RegistrationLoginCom/RegisterForm/Components/Input";
 import axios from "axios";
 
-const Home: React.FC<{ isLoggedIn: boolean }> = ({ isLoggedIn }) => {
+const Home: React.FC = () => {
+  const { isLoggedIn } = useContext(AuthContext);
   const isDarkMode = localStorage.getItem("isDarkMode") === "true";
   const [link, setLink] = useState("");
   const [email, setEmail] = useState("");

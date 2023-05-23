@@ -1,5 +1,4 @@
-import { useRef, useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../../context/AuthProvider";
+import { useRef, useState, useEffect } from "react";
 import axios from "../../../api/axios";
 import { AxiosError } from "axios";
 import styles from "../../../styles/RegistrationProfileStyles/styles.module.css";
@@ -7,15 +6,11 @@ import Input from "../RegisterForm/Components/Input";
 import { Link } from "react-router-dom";
 import Loader from "../../Loader";
 import RegistrationAction from "../RegistrationAction";
-import { type } from "os";
+import { useAuth } from "../../../context/AuthContext";
 
 interface LoginResponseData {
   token: string;
   role: string;
-}
-
-interface LoginFormProps {
-  onLoginSuccess: () => void;
 }
 
 interface ErrorResponse {
@@ -27,10 +22,8 @@ interface ErrorResponse {
 
 const LOGIN_URL = "api/authentication/login";
 
-const LoginForm: React.FC<LoginFormProps> = ({
-  onLoginSuccess,
-}): JSX.Element => {
-  const { setAuth } = useContext(AuthContext);
+const LoginForm: React.FC = ({}): JSX.Element => {
+  const { setAuthUser, setIsLoggedIn } = useAuth();
   const userEmailRef = useRef<HTMLInputElement>(null);
   const errRef = useRef<HTMLParagraphElement>(null);
 
@@ -65,15 +58,22 @@ const LoginForm: React.FC<LoginFormProps> = ({
         JSON.stringify({ email, password: pwd }),
         {
           headers: { "Content-Type": "application/json" },
-          // withCredentials: true, // <-- request should include cookies
         }
       );
       const accessToken = response.data.token;
       const role = response.data.role;
 
-      setAuth({ email, pwd, role, accessToken });
+      // Set the user authentication data in the application state
+      // setAuth({ email, pwd, role, accessToken });
+      setIsLoggedIn(true);
+      setAuthUser({
+        email,
+        role,
+        pwd,
+        accessToken,
+      });
 
-      // Set a local storage
+      // Set the user authentication data in the localStorage
       localStorage.setItem("email", email);
       localStorage.setItem("password", pwd);
       localStorage.setItem("role", role);
@@ -102,7 +102,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
       // Call the getProfileData function
       getProfileData(accessToken, updatedUserRole);
-      onLoginSuccess();
     } catch (err) {
       if (isAxiosError(err)) {
         const error: ErrorResponse | undefined = err?.response?.data as

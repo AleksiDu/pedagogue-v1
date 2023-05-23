@@ -1,5 +1,5 @@
 import { Route, Routes, useLocation } from "react-router-dom";
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import Profile from "../../pages/Profile";
 import Home from "../../pages/home";
 import Login from "../../pages/Login";
@@ -13,16 +13,9 @@ import PasswordReset from "../RegistrationLoginCom/PasswordReset";
 
 interface BodyProps {
   isDarkMode: boolean;
-  isLoggedIn: boolean;
   onToggleMode: (nightMode: boolean) => void;
-  onLoginSuccess: () => void;
 }
-const Body: React.FC<BodyProps> = ({
-  onToggleMode,
-  isDarkMode,
-  isLoggedIn,
-  onLoginSuccess,
-}) => {
+const Body: React.FC<BodyProps> = ({ onToggleMode, isDarkMode }) => {
   const REGISTER_URL = "/registration";
   const location = useLocation();
 
@@ -44,12 +37,9 @@ const Body: React.FC<BodyProps> = ({
   return (
     <section className="landing-page">
       <Routes>
-        <Route path="/" element={<Home isLoggedIn={isLoggedIn} />} />
+        <Route path="/" element={<Home />} />
         <Route path="/registration/*" element={<Registration />}></Route>
-        <Route
-          path="/login/*"
-          element={<Login onLoginSuccess={onLoginSuccess} />}
-        ></Route>
+        <Route path="/login/*" element={<Login />}></Route>
         <Route path="/forget_password/*" element={<ForgetPassword />}></Route>
         <Route
           path="/reset_password/:resetCode"
