@@ -107,3 +107,18 @@
   border: solid 1px black;
   background-color: rgba(0, 0, 0, 0.4);
 }
+
+@media (max-width: 480px) {
+  .homeContainer {
+    padding: 0;
+    max-width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .features,
+  .testimonials {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}

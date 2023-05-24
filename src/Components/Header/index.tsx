@@ -17,8 +17,9 @@ const Header: FC = () => {
     "https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
   );
   const accessToken = localStorage.getItem("accessToken");
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   const handleClick = () => {
     setIsActive(!isActive);
@@ -29,60 +30,54 @@ const Header: FC = () => {
   };
 
   useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const role = localStorage.getItem("role");
+
+        // Set the userRole state based on the role value
+        let updatedUserRole = "";
+        switch (Number(role)) {
+          case 1:
+            updatedUserRole = "Tutor";
+            break;
+          case 2:
+            updatedUserRole = "Student";
+            break;
+          case 3:
+            updatedUserRole = "Parent";
+            break;
+          default:
+            updatedUserRole = "default";
+            break;
+        }
+
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+          console.log("Access token not found.");
+          return;
+        }
+        const response = await axios.get<{
+          images: string;
+        }>(`/api/${updatedUserRole}/profile`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        const { images } = response.data;
+        const timestamp = new Date().getTime();
+        setImageURL(`${images}?t=${timestamp}`);
+        setImageKey((prevKey) => prevKey + 1);
+      } catch (error) {
+        console.log("Error fetching image:", error);
+      }
+    };
+
     if (isLoggedIn) {
       fetchImage();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
 
-  const fetchImage = async () => {
-    try {
-      const role = localStorage.getItem("role");
-
-      // Set the userRole state based on the role value
-      let updatedUserRole = "";
-      switch (Number(role)) {
-        case 1:
-          updatedUserRole = "Tutor";
-          break;
-        case 2:
-          updatedUserRole = "Student";
-          break;
-        case 3:
-          updatedUserRole = "Parent";
-          break;
-        default:
-          updatedUserRole = "default";
-          break;
-      }
-
-      if (!accessToken) {
-        console.log("Access token not found.");
-        return;
-      }
-      const response = await axios.get<{
-        images: string;
-      }>(`/api/${updatedUserRole}/profile`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const { images } = response.data;
-      const timestamp = new Date().getTime();
-      setImageURL(`${images}?t=${timestamp}`);
-      setImageKey((prevKey) => prevKey + 1);
-    } catch (error) {
-      console.log("Error fetching image:", error);
-    }
-  };
-
   useOnClickOutside(dropdownRef, handleClickOutside);
-
-  useEffect(() => {
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   const handleAvatarBtn = () => {
     navigate("/curriculum");
@@ -90,6 +85,72 @@ const Header: FC = () => {
 
   const handleLogin = () => {
     navigate("/Login");
+  };
+
+  const handleLogout = () => {
+    const keyArr = ["accessToken", "email", "role", "password"];
+    keyArr.forEach((key) => localStorage.removeItem(key));
+    setIsLoggedIn(false);
+  };
+
+  const renderAvatarContainer = () => {
+    if (screenWidth < 480) {
+      return null; // Return null to not render the avatar container
+    }
+
+    if (isLoggedIn) {
+      return (
+        <div className="avatar-container">
+          <Avatar
+            key={imageKey}
+            src={imageURL}
+            size="30"
+            style={{
+              borderColor: "black",
+              borderRadius: 4,
+              borderStyle: "solid",
+            }}
+            onClick={handleAvatarBtn}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div className="avatar-container">
+          <Avatar
+            src={require("../../assets/icons/login_logo.png")}
+            size="30"
+            style={{
+              borderColor: "black",
+              borderRadius: 4,
+              borderStyle: "solid",
+            }}
+            onClick={handleLogin}
+          />
+        </div>
+      );
+    }
+  };
+
+  const renderMenuContainer = () => {
+    if (screenWidth >= 480) {
+      return null; // Return null to not render the avatar container
+    }
+    if (isLoggedIn) {
+      return (
+        <li>
+          <Link to={"/#"} onClick={handleLogout}>
+            Logout
+          </Link>
+        </li>
+      );
+    } else {
+      return (
+        <li>
+          <Link to={"/Login"}>Login</Link>
+        </li>
+      );
+    }
   };
 
   return (
@@ -125,37 +186,11 @@ const Header: FC = () => {
               <li>
                 <Link to={"/curriculum"}>Curriculum</Link>
               </li>
+              {renderMenuContainer()}
             </ul>
           </nav>
         </div>
-        {isLoggedIn ? (
-          <div className="avatar-container">
-            <Avatar
-              key={imageKey}
-              src={imageURL}
-              size="30"
-              style={{
-                borderColor: "black",
-                borderRadius: 4,
-                borderStyle: "solid",
-              }}
-              onClick={handleAvatarBtn}
-            />
-          </div>
-        ) : (
-          <div className="avatar-container">
-            <Avatar
-              src={require("../../assets/icons/login_logo.png")}
-              size="30"
-              style={{
-                borderColor: "black",
-                borderRadius: 4,
-                borderStyle: "solid",
-              }}
-              onClick={handleLogin}
-            />
-          </div>
-        )}
+        {renderAvatarContainer()}
       </div>
     </header>
   );

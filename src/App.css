@@ -16,7 +16,6 @@ html {
   background-color: var(--background-color);
   color: var(--font-color);
   min-height: 100vh;
-  display: grid;
 }
 
 .app-header {
