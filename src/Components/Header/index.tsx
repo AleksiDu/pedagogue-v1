@@ -16,7 +16,7 @@ const Header: FC = () => {
   const [imageURL, setImageURL] = useState<string>(
     "https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
   );
-  const accessToken = localStorage.getItem("accessToken");
+
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -76,6 +76,18 @@ const Header: FC = () => {
       fetchImage();
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useOnClickOutside(dropdownRef, handleClickOutside);
 
