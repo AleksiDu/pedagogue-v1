@@ -5,6 +5,7 @@ import Footer from "./Components/Footer";
 import { ThemeContext } from "./context/ThemeContext";
 
 import "./App.css";
+import { ScreenWidthProvider } from "./context/ScreenWidthContext";
 
 function App() {
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
@@ -29,11 +30,13 @@ function App() {
   }, []);
 
   return (
-    <div className={`App app-container ${isDarkMode ? "dark-mode" : ""}`}>
-      <Header />
-      <Body />
-      <Footer />
-    </div>
+    <ScreenWidthProvider>
+      <div className={`App app-container ${isDarkMode ? "dark-mode" : ""}`}>
+        <Header />
+        <Body />
+        <Footer />
+      </div>
+    </ScreenWidthProvider>
   );
 }
 

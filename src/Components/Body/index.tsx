@@ -1,5 +1,5 @@
 import { Route, Routes, useLocation } from "react-router-dom";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import Profile from "../../pages/Profile";
 import Home from "../../pages/home";
 import Login from "../../pages/Login";
@@ -11,11 +11,13 @@ import Curriculum from "../../pages/Curriculum";
 import ForgetPassword from "../RegistrationLoginCom/ForgetPassword";
 import PasswordReset from "../RegistrationLoginCom/PasswordReset";
 import { AuthContext } from "../../context/AuthContext";
+import { useScreenWidth } from "../../context/ScreenWidthContext";
 
 const Body: React.FC = () => {
   const REGISTER_URL = "/registration";
   const location = useLocation();
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const screenWidth = useScreenWidth();
 
   // TODO update from localStorage!!!
   const userName = localStorage.getItem("username") || "";
@@ -37,6 +39,23 @@ const Body: React.FC = () => {
         break;
     }
   }, [location]);
+
+  const renderLogoutBtn = () => {
+    if (screenWidth < 480) {
+      return null;
+    }
+    if (isLoggedIn) {
+      return (
+        <button className="logout-button" onClick={handleLogout}>
+          <span className="book"></span>
+          <span className="logout-text">Logout</span>
+        </button>
+      );
+    } else {
+      return;
+    }
+  };
+
   return (
     <>
       <section className="landing-page">
@@ -59,14 +78,7 @@ const Body: React.FC = () => {
           <Route path="/Curriculum/*" element={<Curriculum />}></Route>
         </Routes>
       </section>
-      {isLoggedIn ? (
-        <button className="logout-button" onClick={handleLogout}>
-          <span className="book"></span>
-          <span className="logout-text">Logout</span>
-        </button>
-      ) : (
-        ""
-      )}
+      {renderLogoutBtn()}
     </>
   );
 };

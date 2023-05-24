@@ -1,8 +1,10 @@
 .landing-page {
-  margin-top: 50px;
+  margin-top: 10px;
   display: grid;
   align-content: center;
   justify-content: center;
+  height: 100vh;
+  width: 100vw;
 }
 
 .landing-page.night-mode {
@@ -70,4 +72,11 @@
 
 .logout-button:hover .logout-text {
   color: #fff;
+}
+
+@media screen and (max-width: 480px) {
+  .landing-page {
+    margin-top: 50px;
+    height: auto;
+  }
 }

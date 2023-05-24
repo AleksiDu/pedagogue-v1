@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./styles.css";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
+import { useScreenWidth } from "../../context/ScreenWidthContext";
 
 const Header: FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -19,7 +20,7 @@ const Header: FC = () => {
 
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const screenWidth = useScreenWidth();
 
   const handleClick = () => {
     setIsActive(!isActive);
@@ -76,18 +77,6 @@ const Header: FC = () => {
       fetchImage();
     }
   }, [isLoggedIn]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   useOnClickOutside(dropdownRef, handleClickOutside);
 
