@@ -78,3 +78,9 @@ input[type="file"],
 .line {
   display: inline-block;
 }
+
+@media screen and (max-width: 480px) {
+  .registrarForm {
+    width: 100%;
+  }
+}

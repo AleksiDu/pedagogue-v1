@@ -36,3 +36,18 @@ ul {
 .social:hover {
   cursor: pointer;
 }
+
+@media screen and (max-width: 480px) {
+  .container {
+    flex-direction: column;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .column {
+    width: 100%;
+  }
+  .footer ul {
+    display: flex;
+    justify-content: space-around;
+  }
+}
