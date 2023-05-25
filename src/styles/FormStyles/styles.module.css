@@ -1,5 +1,5 @@
 .registrarSection {
-  max-width: 420px;
+  min-width: 400px;
   min-height: 400px;
   display: flex;
   flex-direction: column;
@@ -93,4 +93,10 @@
   align-items: center;
   justify-content: space-between;
   margin-top: 16px;
+}
+
+@media screen and (max-width: 480px) {
+  .registrarSection {
+    min-width: auto;
+  }
 }

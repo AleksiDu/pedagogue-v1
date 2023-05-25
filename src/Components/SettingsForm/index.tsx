@@ -1,7 +1,7 @@
 import Input from "../RegistrationLoginCom/RegisterForm/Components/Input";
 import { useRef, useState, useContext } from "react";
 
-import styles from "../../styles/SettingsFormStyles/styles.module.css";
+import styles from "../../styles/FormStyles/styles.module.css";
 import ToggleSwitch from "./Components/ToggleSwitch";
 import RadioButton from "./Components/RadioButton";
 import axios from "axios";

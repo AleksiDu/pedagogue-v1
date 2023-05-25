@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ActionButton from "../ActionButton";
-import styles from "../../../../styles/RegistrationProfileStyles/styles.module.css";
+import styles from "../../../../styles/FormStyles/styles.module.css";
 import axios from "../../../../api/axios";
 import { AxiosError } from "axios";
 import Loader from "../../../Loader";

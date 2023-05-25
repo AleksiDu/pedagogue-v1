@@ -1,5 +1,5 @@
 import Input from "../RegisterForm/Components/Input";
-import styles from "../../../styles/RegistrationProfileStyles/styles.module.css";
+import styles from "../../../styles/FormStyles/styles.module.css";
 import { useRef, useState, useEffect } from "react";
 import { AxiosError } from "axios";
 import Loader from "../../Loader";

@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loader from "../../Loader";
 import axios from "../../../api/axios";
-import styles from "../../../styles/RegistrationProfileStyles/styles.module.css";
+import styles from "../../../styles/FormStyles/styles.module.css";
 
 interface VerificationParams {
   email?: string;

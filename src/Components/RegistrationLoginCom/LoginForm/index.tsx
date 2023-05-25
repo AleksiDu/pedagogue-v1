@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import axios from "../../../api/axios";
 import { AxiosError } from "axios";
-import styles from "../../../styles/RegistrationProfileStyles/styles.module.css";
+import styles from "../../../styles/FormStyles/styles.module.css";
 import Input from "../RegisterForm/Components/Input";
 import { Link } from "react-router-dom";
 import Loader from "../../Loader";
