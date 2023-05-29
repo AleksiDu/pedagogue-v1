@@ -48,6 +48,7 @@ const ProfileForm = () => {
 
   const handleStepChange = (e: { activeStep: number }) => {
     console.log("step change");
+
     setActiveStep(e.activeStep - 1);
   };
 
@@ -58,7 +59,11 @@ const ProfileForm = () => {
 
   return (
     <section>
-      <StepWizard instance={assignStepWizard} onStepChange={handleStepChange}>
+      <StepWizard
+        instance={assignStepWizard}
+        onStepChange={handleStepChange}
+        isHashEnabled={true}
+      >
         <StepOne
           name="one"
           nextStep={() => stepWizard?.nextStep?.()}
@@ -83,6 +88,7 @@ const ProfileForm = () => {
           completeCallback={assignUser}
           prevStep={handleBack}
           lastStep={handleComplete}
+          hashKey={"confirm"}
         />
       </StepWizard>
     </section>

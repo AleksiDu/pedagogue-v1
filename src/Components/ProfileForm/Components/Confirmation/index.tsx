@@ -15,6 +15,7 @@ interface ConfirmProps {
   subject: any;
   experience: any;
   image: any;
+  hashKey?: string;
 
   completeCallback: (data: any) => void;
   lastStep: () => void;

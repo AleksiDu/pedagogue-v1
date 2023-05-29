@@ -81,7 +81,9 @@ const Header: FC = () => {
   useOnClickOutside(dropdownRef, handleClickOutside);
 
   const handleAvatarBtn = () => {
-    navigate("/curriculum");
+    navigate("/profile/#confirm");
+
+    console.log("{previousStep: 2 activeStep: 3}");
   };
 
   const handleLogin = () => {
