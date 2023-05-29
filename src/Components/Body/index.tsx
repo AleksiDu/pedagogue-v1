@@ -1,5 +1,5 @@
 import { Route, Routes, useLocation } from "react-router-dom";
-import { useEffect, useContext, useState } from "react";
+import { useEffect, useContext } from "react";
 import Profile from "../../pages/Profile";
 import Home from "../../pages/home";
 import Login from "../../pages/Login";
@@ -12,7 +12,7 @@ import ForgetPassword from "../RegistrationLoginCom/ForgetPassword";
 import PasswordReset from "../RegistrationLoginCom/PasswordReset";
 import { AuthContext } from "../../context/AuthContext";
 import { useScreenWidth } from "../../context/ScreenWidthContext";
-import PrivateRoute from "../../utils/PrivateRoute";
+import PrivateRoutes from "../../utils/PrivateRoutes";
 
 const Body: React.FC = () => {
   const REGISTER_URL = "/registration";
@@ -69,22 +69,17 @@ const Body: React.FC = () => {
             path="/reset_password/:resetCode"
             element={<PasswordReset />}
           ></Route>
-          <Route
-            path="/profile/*"
-            element={
-              <PrivateRoute>
-                <Profile />
-              </PrivateRoute>
-            }
-          ></Route>
-          <Route
-            path="/settings/*"
-            element={
-              <PrivateRoute>
+          <Route path="/profile/*" element={<PrivateRoutes />}>
+            <Route path="/profile/*" element={<Profile />} />
+          </Route>
+          <Route element={<PrivateRoutes />}>
+            <Route
+              path="/settings/*"
+              element={
                 <SettingsPage userName={userName} accessToken={accessToken} />
-              </PrivateRoute>
-            }
-          ></Route>
+              }
+            />
+          </Route>
           <Route path="/Curriculum/*" element={<Curriculum />}></Route>
         </Routes>
       </section>
