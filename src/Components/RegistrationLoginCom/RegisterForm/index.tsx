@@ -141,123 +141,123 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
     }
   };
 
+  const renderForm = () => {
+    return (
+      <section className={styles.registrarSection}>
+        <p
+          ref={errRef}
+          className={styles[errMsg ? "err-msg" : "offscreen"]}
+          aria-live="assertive"
+        >
+          {errMsg}
+        </p>
+        <h1>{props.name} Register</h1>
+        <form onSubmit={handleSubmit} className={styles.registrarForm}>
+          <Input
+            inputType={email}
+            isValidInputType={isValidEmail}
+            isInputTypeFocus={isEmailFocus}
+            name="Email:"
+            id="user-email"
+            type="email"
+            PropRef={userEmailRef}
+            autoComplete="off"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+            value={email}
+            required
+            ariaInvalid={isValidEmail ? "false" : "true"}
+            ariaDescribedby="eid-note"
+            onFocus={() => setIsEmailFocus(true)}
+            onBlur={() => setIsEmailFocus(false)}
+            note=" Not a Valid email"
+          />
+          <Input
+            inputType={user}
+            isValidInputType={isValidName}
+            isInputTypeFocus={isUserFocus}
+            name="Username:"
+            id="username"
+            type="text"
+            autoComplete="off"
+            onChange={(e) => {
+              setUser(e.target.value);
+            }}
+            value={user}
+            required
+            ariaInvalid={isValidName ? "false" : "true"}
+            ariaDescribedby="uid-note"
+            onFocus={() => setIsUserFocus(true)}
+            onBlur={() => setIsUserFocus(false)}
+            note=" 4 to 24 characters."
+            note2=" Must begin with a letter."
+            note3=" Letters, numbers, underscores, hyphens allowed."
+          />
+          <Input
+            inputType={pwd}
+            isValidInputType={isValidPwd}
+            isInputTypeFocus={isPwdFocus}
+            name="Password:"
+            id="password"
+            type="password"
+            onChange={(e) => {
+              setPwd(e.target.value);
+            }}
+            value={pwd}
+            required
+            ariaInvalid={isValidPwd ? "false" : "true"}
+            ariaDescribedby="pwd-note"
+            onFocus={() => setIsPwdFocus(true)}
+            onBlur={() => setIsPwdFocus(false)}
+            note=" 8 to 24 characters."
+            note2=" Must include uppercase and lowercase letters, a number and a
+        special character."
+            note3=" Allowed special characters: ! @ # $ %"
+          />
+
+          <Input
+            inputType={matchPwd}
+            isValidInputType={isValidMatch}
+            isInputTypeFocus={isMatchFocus}
+            name="Confirm Password:"
+            id="confirm_pwd"
+            type="password"
+            onChange={(e) => {
+              setMatchPwd(e.target.value);
+            }}
+            value={matchPwd}
+            required
+            ariaInvalid={isValidMatch ? "false" : "true"}
+            ariaDescribedby="pwd-note"
+            onFocus={() => setIsMatchFocus(true)}
+            onBlur={() => setIsMatchFocus(false)}
+            note=" Must match the first password input field."
+          />
+
+          <button
+            disabled={
+              !(isValidEmail && isValidName && isValidPwd && isValidMatch)
+            }
+          >
+            Sign Up
+          </button>
+        </form>
+
+        <p>
+          Already registered?
+          <br />
+          <span className={styles.line}>
+            <Link to={"/login"}>Sign In</Link>
+          </span>
+        </p>
+      </section>
+    );
+  };
+
   return (
     <div>
-      {loading ? (
-        <Loader />
-      ) : isSuccess ? (
-        <SuccessMessage />
-      ) : (
-        <section className={styles.registrarSection}>
-          <p
-            ref={errRef}
-            className={styles[errMsg ? "err-msg" : "offscreen"]}
-            aria-live="assertive"
-          >
-            {errMsg}
-          </p>
-          <h1>{props.name} Register</h1>
-          <form onSubmit={handleSubmit} className={styles.registrarForm}>
-            <Input
-              inputType={email}
-              isValidInputType={isValidEmail}
-              isInputTypeFocus={isEmailFocus}
-              name="Email:"
-              id="user-email"
-              type="email"
-              PropRef={userEmailRef}
-              autoComplete="off"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              value={email}
-              required
-              ariaInvalid={isValidEmail ? "false" : "true"}
-              ariaDescribedby="eid-note"
-              onFocus={() => setIsEmailFocus(true)}
-              onBlur={() => setIsEmailFocus(false)}
-              note=" Not a Valid email"
-            />
-            <Input
-              inputType={user}
-              isValidInputType={isValidName}
-              isInputTypeFocus={isUserFocus}
-              name="Username:"
-              id="username"
-              type="text"
-              autoComplete="off"
-              onChange={(e) => {
-                setUser(e.target.value);
-              }}
-              value={user}
-              required
-              ariaInvalid={isValidName ? "false" : "true"}
-              ariaDescribedby="uid-note"
-              onFocus={() => setIsUserFocus(true)}
-              onBlur={() => setIsUserFocus(false)}
-              note=" 4 to 24 characters."
-              note2=" Must begin with a letter."
-              note3=" Letters, numbers, underscores, hyphens allowed."
-            />
-            <Input
-              inputType={pwd}
-              isValidInputType={isValidPwd}
-              isInputTypeFocus={isPwdFocus}
-              name="Password:"
-              id="password"
-              type="password"
-              onChange={(e) => {
-                setPwd(e.target.value);
-              }}
-              value={pwd}
-              required
-              ariaInvalid={isValidPwd ? "false" : "true"}
-              ariaDescribedby="pwd-note"
-              onFocus={() => setIsPwdFocus(true)}
-              onBlur={() => setIsPwdFocus(false)}
-              note=" 8 to 24 characters."
-              note2=" Must include uppercase and lowercase letters, a number and a
-        special character."
-              note3=" Allowed special characters: ! @ # $ %"
-            />
-
-            <Input
-              inputType={matchPwd}
-              isValidInputType={isValidMatch}
-              isInputTypeFocus={isMatchFocus}
-              name="Confirm Password:"
-              id="confirm_pwd"
-              type="password"
-              onChange={(e) => {
-                setMatchPwd(e.target.value);
-              }}
-              value={matchPwd}
-              required
-              ariaInvalid={isValidMatch ? "false" : "true"}
-              ariaDescribedby="pwd-note"
-              onFocus={() => setIsMatchFocus(true)}
-              onBlur={() => setIsMatchFocus(false)}
-              note=" Must match the first password input field."
-            />
-
-            <button
-              disabled={
-                !(isValidEmail && isValidName && isValidPwd && isValidMatch)
-              }
-            >
-              Sign Up
-            </button>
-          </form>
-
-          <p>
-            Already registered?
-            <br />
-            <span className={styles.line}>
-              <Link to={"/login"}>Sign In</Link>
-            </span>
-          </p>
-        </section>
-      )}
+      {loading ? <Loader /> : isSuccess ? <SuccessMessage /> : renderForm()}
     </div>
   );
 };
