@@ -22,7 +22,7 @@ interface ErrorResponse {
 
 const LOGIN_URL = "api/authentication/login";
 
-const LoginForm: React.FC = ({}): JSX.Element => {
+const LoginForm: React.FC = () => {
   const { setAuthUser, setIsLoggedIn } = useAuth();
   const userEmailRef = useRef<HTMLInputElement>(null);
   const errRef = useRef<HTMLParagraphElement>(null);
