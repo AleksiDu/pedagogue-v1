@@ -13,6 +13,7 @@ import PasswordReset from "../RegistrationLoginCom/PasswordReset";
 import { AuthContext } from "../../context/AuthContext";
 import { useScreenWidth } from "../../context/ScreenWidthContext";
 import PrivateRoutes from "../../utils/PrivateRoutes";
+import FourOhFour from "../FourOhFour";
 
 const Body: React.FC = () => {
   const REGISTER_URL = "/registration";
@@ -61,6 +62,7 @@ const Body: React.FC = () => {
     <>
       <section className="landing-page">
         <Routes>
+          <Route path="/not" element={<FourOhFour />} />
           <Route path="/" element={<Home />} />
           <Route path="/registration/*" element={<Registration />}></Route>
           <Route path="/login/*" element={<Login />}></Route>

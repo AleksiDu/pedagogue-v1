@@ -181,7 +181,7 @@ const Header: FC = () => {
 
             <ul>
               <li>
-                <Link to={"/profile"}>Profile</Link>
+                <Link to={"/profile/#confirm"}>Profile</Link>
               </li>
               <li>
                 <Link to={"/settings"}>Settings</Link>
