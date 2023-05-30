@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AxiosError } from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Loader from "../../Loader";
 import axios from "../../../api/axios";
 import styles from "../../../styles/FormStyles/styles.module.css";
@@ -12,7 +12,6 @@ interface VerificationParams {
 }
 
 const EmailVerification = () => {
-  const navigate = useNavigate();
   const { email = "", verificationCode = "" } = useParams<VerificationParams>();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -20,6 +19,7 @@ const EmailVerification = () => {
 
   useEffect(() => {
     verifyEmail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const verifyEmail = async () => {

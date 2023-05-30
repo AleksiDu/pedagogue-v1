@@ -3,7 +3,6 @@ import Header from "./Components/Header";
 import Body from "./Components/Body";
 import Footer from "./Components/Footer";
 import { ThemeContext } from "./context/ThemeContext";
-
 import "./App.css";
 import { ScreenWidthProvider } from "./context/ScreenWidthContext";
 
@@ -15,7 +14,7 @@ function App() {
     if (storedDarkMode !== null) {
       setIsDarkMode(storedDarkMode === "true");
     }
-  }, []);
+  }, [setIsDarkMode]);
 
   useEffect(() => {
     const clearLocalStorage = () => {

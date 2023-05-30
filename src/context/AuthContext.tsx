@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const accessToken = localStorage.getItem("accessToken");
     const pwd = localStorage.getItem("password");
     const email = localStorage.getItem("email");
-    const role = localStorage.getItem("role") || "";
+    const role = localStorage.getItem("role") ?? "";
 
     // Check if accessToken exists and set isLoggedIn to true
     if (accessToken) {
@@ -50,10 +50,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     return {
-      email: email || "",
-      pwd: pwd || "",
+      email: email ?? "",
+      pwd: pwd ?? "",
       role,
-      accessToken: accessToken || "",
+      accessToken: accessToken ?? "",
     };
   });
 

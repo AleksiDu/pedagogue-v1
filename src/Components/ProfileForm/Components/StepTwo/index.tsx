@@ -46,7 +46,7 @@ const StepTwo: React.FC<TwoProps> = (props) => {
 
     // Call next step if all validation passes
     props.nextStep();
-    props.userCallback(stepTwoState === undefined ? "" : stepTwoState);
+    props.userCallback(stepTwoState ?? "");
   };
 
   const goBack = () => {
@@ -89,7 +89,7 @@ const StepTwo: React.FC<TwoProps> = (props) => {
                   setExperience(value);
                   setStepTwoState({
                     ...stepTwoState,
-                    experience: value === undefined ? 0 : value,
+                    experience: value ?? 0,
                   });
                 }
               }}
@@ -107,7 +107,7 @@ const StepTwo: React.FC<TwoProps> = (props) => {
                 setSelectedImage(value);
                 setStepTwoState({
                   ...stepTwoState,
-                  image: value === undefined ? undefined : value, //TODO undefined change default image!
+                  image: value ?? undefined, //TODO undefined change default image!
                 });
               }}
               required

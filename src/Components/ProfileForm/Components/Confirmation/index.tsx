@@ -146,6 +146,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
           </p>
           <h1>{props.name}</h1>
           <form className={styles.registrarForm}>
+            {/* TODO change to Avatar image */}
             <img src={preview} alt="profile image" width="50" height="50" />
             {propArray.map((prop) => (
               <p key={prop.name}>

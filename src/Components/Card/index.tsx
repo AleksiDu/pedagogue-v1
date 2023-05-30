@@ -28,16 +28,15 @@ const Card: React.FC<CardProps> = ({
       <p>{paragraph}</p>
       <span>{author}</span>
       <ul>
-        {items &&
-          items.map((item) => (
-            <li
-              key={item.id}
-              className={cardClass}
-              onClick={() => handleItemClick(item.id)}
-            >
-              {item.text}
-            </li>
-          ))}
+        {items?.map((item) => (
+          <li
+            key={item.id}
+            className={cardClass}
+            onClick={() => handleItemClick(item.id)}
+          >
+            {item.text}
+          </li>
+        ))}
       </ul>
     </div>
   );
