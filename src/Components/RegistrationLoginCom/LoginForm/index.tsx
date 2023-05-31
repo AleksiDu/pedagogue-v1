@@ -223,7 +223,7 @@ const LoginForm: React.FC = () => {
             />
             <RegistrationAction
               className={styles.line}
-              to="/forget_password"
+              to="/forgetpassword"
               nextLine={false}
               text="Forget a Password?"
             />

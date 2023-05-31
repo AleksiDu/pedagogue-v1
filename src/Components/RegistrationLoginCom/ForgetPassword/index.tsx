@@ -57,13 +57,11 @@ const ForgetPassword = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post(
-        "/Api/authentication/password-recover",
-        {
-          email,
-        }
-      );
-
+      const response = await axios.post("/Api/authentication/forgot-password", {
+        email,
+      });
+      // Save email
+      localStorage.setItem("resetEmail", email);
       // Handle successful response
       console.log(response.data);
       setSuccess(true);

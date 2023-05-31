@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axios from "../../../api/axios";
 import styles from "../../../styles/FormStyles/styles.module.css";
 import Input from "../RegisterForm/Components/Input";
@@ -13,10 +13,12 @@ interface ErrorResponse {
 }
 
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%]).{8,24}$/;
-const PASSWORD_UPDATE_URL = `api/authentication/register`;
+const PASSWORD_UPDATE_URL = `api/authentication/reset-password`;
 
 const PasswordReset: FC = () => {
   const errRef = useRef<HTMLDivElement>(null);
+
+  const [email, setEmail] = useState<string | null>(null);
 
   const [pwd, setPwd] = useState("");
   const [isValidPwd, setIsValidPwd] = useState(false);
@@ -31,12 +33,14 @@ const PasswordReset: FC = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const verificationCode = searchParams.get("verificationCode");
+
   useEffect(() => {
     setIsValidPwd(PWD_REGEX.test(pwd));
     setIsValidMatch(pwd === matchPwd);
-  }, [pwd, matchPwd]);
-
-  useEffect(() => {
+    setEmail(localStorage.getItem("resetEmail"));
     setErrMsg("");
   }, [pwd, matchPwd]);
 
@@ -52,9 +56,10 @@ const PasswordReset: FC = () => {
 
     try {
       setLoading(true);
-      const response = await axios.patch(
+      console.log(email);
+      const response = await axios.post(
         PASSWORD_UPDATE_URL,
-        JSON.stringify({ password: pwd }),
+        JSON.stringify({ email, password: pwd, token: verificationCode }),
         {
           headers: { "Content-Type": "application/json" },
         }

@@ -66,11 +66,8 @@ const Body: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/registration/*" element={<Registration />}></Route>
           <Route path="/login/*" element={<Login />}></Route>
-          <Route path="/forget_password/*" element={<ForgetPassword />}></Route>
-          <Route
-            path="/reset_password/:resetCode"
-            element={<PasswordReset />}
-          ></Route>
+          <Route path="/forgetpassword/*" element={<ForgetPassword />}></Route>
+          <Route path="/resetpassword" element={<PasswordReset />}></Route>
           <Route path="/profile/*" element={<PrivateRoutes />}>
             <Route path="/profile/*" element={<Profile />} />
           </Route>
