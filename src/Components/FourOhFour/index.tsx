@@ -1,9 +1,9 @@
-import React from "react";
+import "./styles.css";
 import notFoundLogo from "../../assets/404.svg";
 
 const FourOhFour = () => {
   return (
-    <div>
+    <div className="four-oh-four">
       <img alt={"not-found"} src={notFoundLogo} />
     </div>
   );
