@@ -62,7 +62,6 @@ const Body: React.FC = () => {
     <>
       <section className="landing-page">
         <Routes>
-          <Route path="/not" element={<FourOhFour />} />
           <Route path="/" element={<Home />} />
           <Route path="/registration/*" element={<Registration />}></Route>
           <Route path="/login/*" element={<Login />}></Route>
@@ -80,6 +79,8 @@ const Body: React.FC = () => {
             />
           </Route>
           <Route path="/Curriculum/*" element={<Curriculum />}></Route>
+
+          <Route path="*" element={<FourOhFour />} />
         </Routes>
       </section>
       {renderLogoutBtn()}
