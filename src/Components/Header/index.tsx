@@ -6,9 +6,15 @@ import Search from "../Search";
 import { Link, useNavigate } from "react-router-dom";
 
 import "./styles.css";
-import axios from "axios";
+import axios from "../../api/axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useScreenWidth } from "../../context/ScreenWidthContext";
+
+interface ProfileResponse {
+  images: {
+    url: string;
+  }[];
+}
 
 const Header: FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -57,16 +63,19 @@ const Header: FC = () => {
           console.log("Access token not found.");
           return;
         }
-        const response = await axios.get<{
-          images: string;
-        }>(`/api/${updatedUserRole}/profile`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.get<ProfileResponse>(
+          `/api/${updatedUserRole}/profile`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         const { images } = response.data;
+        const { url } = images[0];
+
         const timestamp = new Date().getTime();
-        setImageURL(`${images}?t=${timestamp}`);
+        setImageURL(`${url}?t=${timestamp}`);
         setImageKey((prevKey) => prevKey + 1);
       } catch (error) {
         console.log("Error fetching image:", error);

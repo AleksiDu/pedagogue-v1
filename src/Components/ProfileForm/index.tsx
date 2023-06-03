@@ -57,6 +57,13 @@ const ProfileForm = () => {
     alert("Done");
   };
 
+  const userProfile = async () => {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <section>
       <StepWizard
