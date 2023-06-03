@@ -5,10 +5,11 @@ import { AuthContext } from "../../context/AuthContext";
 import { useEffect, useState, useContext } from "react";
 import Input from "../../Components/RegistrationLoginCom/RegisterForm/Components/Input";
 import axios from "axios";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const Home: React.FC = () => {
   const { isLoggedIn } = useContext(AuthContext);
-  const isDarkMode = localStorage.getItem("isDarkMode") === "true";
+  const { isDarkMode } = useContext(ThemeContext);
   const [link, setLink] = useState("");
   const [email, setEmail] = useState("");
 

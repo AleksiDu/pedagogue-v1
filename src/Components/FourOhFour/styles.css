@@ -7,8 +7,34 @@
   text-align: center;
 }
 
+.four-oh-four-img {
+  position: relative;
+  width: 100vh;
+}
+
+.four-oh-four-text {
+  position: relative;
+  bottom: 35%;
+}
+
+.dark-mode-svg {
+  filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(187deg)
+    brightness(103%) contrast(101%);
+}
+
 .typing-text {
   font-size: 32px;
   font-weight: bold;
   margin-bottom: 20px;
+}
+
+@media screen and (max-width: 912px) {
+  .four-oh-four-img {
+    height: 360px;
+    width: 360px;
+    bottom: 10%;
+  }
+  .four-oh-four-text {
+    bottom: 20%;
+  }
 }

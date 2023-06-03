@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./styles.css";
 import notFoundLogo from "../../assets/404.svg";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const FourOhFour: React.FC = () => {
   const [displayText, setDisplayText] = useState("");
+  const { isDarkMode } = useContext(ThemeContext);
   const text = "404 Page Not Found";
 
   useEffect(() => {
@@ -32,9 +34,17 @@ const FourOhFour: React.FC = () => {
 
   return (
     <div className="four-oh-four-container">
-      <img alt="not found logo" src={notFoundLogo} />
-      <h1 className="typing-text">{displayText}</h1>
-      <p>Oops! The page you are looking for does not exist.</p>
+      <img
+        alt="not found logo"
+        src={notFoundLogo}
+        className={
+          isDarkMode ? "four-oh-four-img dark-mode-svg" : "four-oh-four-img"
+        }
+      />
+      <div className="four-oh-four-text">
+        <h1 className="typing-text">{displayText}</h1>
+        <p>Oops! The page you are looking for does not exist.</p>
+      </div>
     </div>
   );
 };
