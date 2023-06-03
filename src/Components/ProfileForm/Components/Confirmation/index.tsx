@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ActionButton from "../ActionButton";
 import styles from "../../../../styles/FormStyles/styles.module.css";
 import axios from "../../../../api/axios";
 import { AxiosError } from "axios";
 import Loader from "../../../Loader";
+import Avatar from "react-avatar";
+import { Link } from "react-router-dom";
 
 interface ConfirmProps {
   name: string;
@@ -35,15 +37,20 @@ interface Prop {
 
 const StepConfirm: React.FC<ConfirmProps> = (props) => {
   // TODO change Teacher to userRole
+  const role = localStorage.getItem("role");
+
   const EDIT_INFO = `/api/tutor/edit-info`;
+  const errRef = useRef<HTMLDivElement>(null);
+  const [errMsg, setErrMsg] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [preview, setPreview] = useState("");
+  const [imageURL, setImageURL] = useState("");
   const accessToken = localStorage.getItem("accessToken");
 
   useEffect(() => {
     if (props.image) {
       const objectUrl = URL.createObjectURL(props.image);
-      setPreview(objectUrl);
+      setImageURL(objectUrl);
     }
   }, [props.image]);
 
@@ -96,6 +103,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
       console.log("response", response);
       props.completeCallback(props); // Pass props data to parent component
       props.lastStep();
+      setIsSuccess(true);
     } catch (err) {
       if (isAxiosError(err)) {
         const error: ErrorResponse | undefined = err?.response?.data as
@@ -105,12 +113,16 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
           "[ CODE: " + error?.status + " : " + error?.detail + " ]";
         if (!err.response) {
           console.error("[No Server Response]");
+          setErrMsg("No Server Response");
         } else if (err.response.status === 400) {
           console.error(errLog);
+          setErrMsg("Bad Request");
         } else if (err.response.status === 401) {
           console.error(errLog);
+          setErrMsg("Invalid User");
         } else {
           console.error(errLog);
+          setErrMsg("Something Went Wrong ");
         }
       } else {
         // Handle other types of errors here
@@ -139,15 +151,36 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
     <div>
       {loading ? (
         <Loader />
+      ) : isSuccess ? (
+        <section className={styles.registrarSection}>
+          <h1>User profile created successfully</h1>
+          <p>
+            <Link to={"/"}>home</Link>
+          </p>
+        </section>
       ) : (
         <section className={styles.registrarSection}>
-          <p className={styles["err-msg"]} aria-live="assertive">
-            {"errMsg"}
+          <p
+            ref={errRef}
+            className={styles[errMsg ? "err-msg" : "offscreen"]}
+            aria-live="assertive"
+          >
+            {errMsg}
           </p>
           <h1>{props.name}</h1>
           <form className={styles.registrarForm}>
-            {/* TODO change to Avatar image */}
-            <img src={preview} alt="profile image" width="50" height="50" />
+            {/* TODO change to imageKey  */}
+            <Avatar
+              key={"imageKey"}
+              src={imageURL}
+              size="60"
+              style={{
+                borderColor: "black",
+                borderRadius: 4,
+                borderStyle: "solid",
+              }}
+            />
+
             {propArray.map((prop) => (
               <p key={prop.name}>
                 <strong>{prop.name}: </strong>

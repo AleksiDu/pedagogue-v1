@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StepWizard, { StepWizardProps } from "react-step-wizard";
 import StepConfirm from "./Components/Confirmation";
 import StepOne from "./Components/StepOne/index";
 import StepTwo from "./Components/StepTwo";
+import { useAuth } from "../../context/AuthContext";
+import axios from "../../api/axios";
 
 interface UserProps {
   firstName?: string;
@@ -24,6 +26,11 @@ const ProfileForm = () => {
   const [stepWizard, setStepWizard] = useState<ExtendedStepWizardProps | null>(
     null
   );
+
+  const { authUser, isLoggedIn } = useAuth();
+
+  console.log(authUser);
+  console.log(isLoggedIn);
 
   const [activeStep, setActiveStep] = useState(0);
   const [user, setUser] = useState<UserProps>({});
@@ -59,10 +66,53 @@ const ProfileForm = () => {
 
   const userProfile = async () => {
     try {
+      if (authUser !== null) {
+        const { accessToken, role } = authUser;
+        if (!accessToken) {
+          console.log("Access token not found.");
+          return;
+        }
+
+        let updatedUserRole = "";
+
+        switch (Number(role)) {
+          case 1:
+            updatedUserRole = "Tutor";
+            break;
+          case 2:
+            updatedUserRole = "Student";
+            break;
+          case 3:
+            updatedUserRole = "Parent";
+            break;
+          default:
+            updatedUserRole = "default";
+            break;
+        }
+
+        const response = await axios.get<UserProps>(
+          `/api/${updatedUserRole}/profile`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        console.log(response.data);
+      } else {
+        console.log("Auth user not found.");
+        return;
+      }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
+
+  useEffect(() => {
+    userProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn]);
 
   return (
     <section>
