@@ -206,7 +206,6 @@ const StepOne: React.FC<OneProps> = (props) => {
               styles={customStyles}
               options={genderOption}
               onChange={(newValue: unknown) => {
-                console.log(newValue);
                 const selectedOption = newValue as Option;
                 setStepOneState({
                   ...stepOneState,

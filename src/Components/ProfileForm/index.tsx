@@ -9,12 +9,16 @@ import axios from "../../api/axios";
 interface UserProps {
   firstName?: string;
   lastName?: string;
-  birthDate?: string;
-  genderSelect?: { label: string; value: number };
-  citySelect?: { label: string; value: number };
+  birthDate?: string | number;
+  genderSelect?: { label: string; value: number } | number;
+  citySelect?: { label: string; value: number } | number;
   subject?: string;
   experience?: number;
-  image?: File;
+  image?: File | [{ profilePhoto: boolean; url: string }] | any;
+  age?: number;
+  sex?: number;
+  city?: number;
+  images?: [{ profilePhoto: boolean; url: string }];
 }
 
 interface ExtendedStepWizardProps extends StepWizardProps {
@@ -99,7 +103,29 @@ const ProfileForm = () => {
           }
         );
 
-        console.log(response.data);
+        // to do add birthDate
+        const {
+          firstName,
+          lastName,
+          sex: genderSelect,
+          city: citySelect,
+          experience,
+          images: image,
+          subject,
+        } = response.data;
+
+        setUser({
+          firstName,
+          lastName,
+
+          genderSelect,
+          citySelect,
+          experience,
+          image: image ? image[0].url : undefined,
+          subject,
+        });
+
+        console.log("profile form response", response.data);
       } else {
         console.log("Auth user not found.");
         return;

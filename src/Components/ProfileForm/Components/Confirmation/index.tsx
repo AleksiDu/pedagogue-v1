@@ -39,7 +39,24 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
   // TODO change Teacher to userRole
   const role = localStorage.getItem("role");
 
-  const EDIT_INFO = `/api/tutor/edit-info`;
+  let updatedUserRole = "";
+
+  switch (Number(role)) {
+    case 1:
+      updatedUserRole = "Tutor";
+      break;
+    case 2:
+      updatedUserRole = "Student";
+      break;
+    case 3:
+      updatedUserRole = "Parent";
+      break;
+    default:
+      updatedUserRole = "default";
+      break;
+  }
+
+  const EDIT_INFO = `/api/${updatedUserRole}/edit-info`;
   const errRef = useRef<HTMLDivElement>(null);
   const [errMsg, setErrMsg] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
@@ -47,10 +64,19 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
   const [imageURL, setImageURL] = useState("");
   const accessToken = localStorage.getItem("accessToken");
 
+  const birthYear = props.birthDate ? props.birthDate.split("-") : null;
+  const year = birthYear
+    ? new Date().getFullYear() - Number(birthYear[0])
+    : null;
+
   useEffect(() => {
     if (props.image) {
-      const objectUrl = URL.createObjectURL(props.image);
-      setImageURL(objectUrl);
+      if (typeof props.image === "string") {
+        setImageURL(props.image);
+      } else {
+        const objectUrl = URL.createObjectURL(props.image);
+        setImageURL(objectUrl);
+      }
     }
   }, [props.image]);
 
@@ -89,8 +115,8 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
         JSON.stringify({
           firstName: props.firstName,
           lastName: props.lastName,
-          birthDate: props.birthDate,
-          gender: props.gender,
+          age: year,
+          sex: props.gender,
           city: props.city,
           subject: props.subject,
           experience: props.experience,
