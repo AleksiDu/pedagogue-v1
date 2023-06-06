@@ -6,6 +6,7 @@ import {
   useMemo,
   useEffect,
 } from "react";
+import axios from "../api/axios";
 
 type AuthContextType = {
   authUser: AuthState | null;
@@ -37,13 +38,50 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [authUser, setAuthUser] = useState<AuthState>(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    const pwd = localStorage.getItem("password");
-    const email = localStorage.getItem("email");
-    const role = localStorage.getItem("role") ?? "";
+  const accessToken = localStorage.getItem("accessToken");
+  const pwd = localStorage.getItem("password");
+  const email = localStorage.getItem("email");
+  const role = localStorage.getItem("role") ?? "";
 
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkLoggedInStatus = async () => {
+      try {
+        let updatedUserRole = "";
+        switch (Number(role)) {
+          case 1:
+            updatedUserRole = "Tutor";
+            break;
+          case 2:
+            updatedUserRole = "Student";
+            break;
+          case 3:
+            updatedUserRole = "Parent";
+            break;
+          default:
+            updatedUserRole = "default";
+            break;
+        }
+        // Make an authenticated request to check if the user is logged in
+        const response = await axios.get(`api/${updatedUserRole}/profile`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        if (response.status === 200) {
+          setIsLoggedIn(true);
+        }
+      } catch (error) {
+        setIsLoggedIn(false);
+        localStorage.removeItem("accessToken");
+      }
+    };
+
+    checkLoggedInStatus();
+  }, []);
+
+  const [authUser, setAuthUser] = useState<AuthState>(() => {
     // Check if accessToken exists and set isLoggedIn to true
     if (accessToken) {
       setIsLoggedIn(true);
