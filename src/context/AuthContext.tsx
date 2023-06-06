@@ -75,6 +75,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       } catch (error) {
         setIsLoggedIn(false);
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("role");
+        localStorage.removeItem("email");
+        localStorage.removeItem("resetEmail");
       }
     };
 
