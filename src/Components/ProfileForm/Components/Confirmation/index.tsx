@@ -6,7 +6,6 @@ import { AxiosError } from "axios";
 import Loader from "../../../Loader";
 import Avatar from "react-avatar";
 import { Link } from "react-router-dom";
-import ProfileImageGallery from "../ProfileImageGallery";
 
 interface ConfirmProps {
   name: string;
@@ -90,7 +89,6 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
   ];
 
   useEffect(() => {
-    console.log("hi", props.imageKey);
     if (props.image && props.imageKey) {
       if (typeof props.image === "string") {
         setImageURL(props.image);
@@ -101,8 +99,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
         setImageURL(objectUrl);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props.image, props.imageKey]);
 
   // Type guard function
   const isAxiosError = (error: any): error is AxiosError => {
