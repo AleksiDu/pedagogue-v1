@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import StepWizard, { StepWizardProps } from "react-step-wizard";
 import StepConfirm from "./Components/Confirmation";
 import StepOne from "./Components/StepOne/index";
@@ -46,13 +46,18 @@ const ProfileForm = () => {
   const { authUser, isLoggedIn } = useAuth();
 
   const [activeStep, setActiveStep] = useState(0);
-  const [user, setUser] = useState<UserProps>({});
-  const [imageKey, setImageKey] = useState<string>("");
+  const [user, setUser] = useState<UserProps>();
+  const [imageKey, setImageKey] = useState<string>("fox-mox");
   const [imageURL, setImageURL] = useState<string>(
     "https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
   );
-  const [images, setImages] = useState<Image[]>([]);
-
+  const [images, setImages] = useState<Image[]>([
+    {
+      id: imageKey,
+      url: imageURL,
+      profilePhoto: false,
+    },
+  ]);
   const assignStepWizard = (instance: StepWizardProps) => {
     setStepWizard(instance);
   };
@@ -73,6 +78,7 @@ const ProfileForm = () => {
 
   const handleStepChange = (e: { activeStep: number }) => {
     console.log("step change");
+
     setActiveStep(e.activeStep - 1);
   };
 
@@ -116,7 +122,6 @@ const ProfileForm = () => {
           }
         );
 
-        // to do add birthDate
         const {
           firstName,
           lastName,
@@ -143,7 +148,7 @@ const ProfileForm = () => {
         }
 
         const birthDate = birthday ? birthday.split("T")[0] : undefined;
-
+        console.log("imaekey", imageKey);
         setUser({
           firstName,
           lastName,
@@ -154,7 +159,7 @@ const ProfileForm = () => {
           subject,
           birthDate,
           imageKey: imageKey,
-          images: images ?? [],
+          images: images,
         });
 
         console.log("profile form response", response.data);
@@ -172,7 +177,7 @@ const ProfileForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
 
-  console.log("profile", images);
+  console.log("profile", user?.imageKey);
 
   return (
     <section>

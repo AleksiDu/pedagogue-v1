@@ -70,7 +70,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageURL, setImageURL] = useState("");
-  const [imageKey, setImageKey] = useState<string>("");
+  const [imageKey, setImageKey] = useState("");
   const accessToken = localStorage.getItem("accessToken");
 
   const birthYear = props.birthDate ? props.birthDate.split("-") : null;
@@ -90,9 +90,11 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
   ];
 
   useEffect(() => {
+    console.log("hi", props.imageKey);
     if (props.image && props.imageKey) {
       if (typeof props.image === "string") {
         setImageURL(props.image);
+
         setImageKey(props.imageKey);
       } else {
         const objectUrl = URL.createObjectURL(props.image);
@@ -100,7 +102,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.image]);
+  }, []);
 
   // Type guard function
   const isAxiosError = (error: any): error is AxiosError => {
