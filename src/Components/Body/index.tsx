@@ -14,6 +14,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useScreenWidth } from "../../context/ScreenWidthContext";
 import PrivateRoutes from "../../utils/PrivateRoutes";
 import FourOhFour from "../FourOhFour";
+import ProfileImageGallery from "../ProfileForm/Components/ProfileImageGallery";
 
 const Body: React.FC = () => {
   const REGISTER_URL = "/registration";
@@ -79,6 +80,11 @@ const Body: React.FC = () => {
             />
           </Route>
           <Route path="/Curriculum/*" element={<Curriculum />}></Route>
+
+          <Route
+            path="/gallery/*"
+            element={<ProfileImageGallery images={[]} />}
+          ></Route>
 
           <Route path="*" element={<FourOhFour />} />
         </Routes>

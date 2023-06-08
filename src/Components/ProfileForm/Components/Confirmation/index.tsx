@@ -6,6 +6,7 @@ import { AxiosError } from "axios";
 import Loader from "../../../Loader";
 import Avatar from "react-avatar";
 import { Link } from "react-router-dom";
+import ProfileImageGallery from "../ProfileImageGallery";
 
 interface ConfirmProps {
   name: string;
@@ -17,7 +18,8 @@ interface ConfirmProps {
   subject: any;
   experience: any;
   image: any;
-  imageKey: string;
+  images: any;
+  imageKey?: string;
   hashKey?: string;
 
   completeCallback: (data: any) => void;
@@ -88,10 +90,10 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
   ];
 
   useEffect(() => {
-    if (props.image) {
+    if (props.image && props.imageKey) {
       if (typeof props.image === "string") {
         setImageURL(props.image);
-        setImageKey(props?.imageKey);
+        setImageKey(props.imageKey);
       } else {
         const objectUrl = URL.createObjectURL(props.image);
         setImageURL(objectUrl);
@@ -199,7 +201,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
     { name: "Subject", value: props?.subject },
     { name: "Experience", value: props?.experience },
   ];
-
+  console.log("confirm", props.images);
   return (
     <div>
       {loading ? (
@@ -247,6 +249,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
               nextStep={validate}
               lastStep={validate}
             />
+            {/* <ProfileImageGallery images={props.images} /> */}
           </form>
         </section>
       )}

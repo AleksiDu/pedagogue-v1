@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import StepWizard, { StepWizardProps } from "react-step-wizard";
 import StepConfirm from "./Components/Confirmation";
 import StepOne from "./Components/StepOne/index";
@@ -19,12 +19,18 @@ interface UserProps {
     | { label?: string; value?: number }[];
   subject?: string;
   experience?: number;
-  images?: { id: string; profilePhoto: boolean; url: string }[];
+  images?: Image[];
   age?: number;
   sex?: number;
   city?: number;
   image?: File[] | string;
   imageKey?: string;
+}
+
+interface Image {
+  id: string;
+  url: string;
+  profilePhoto: boolean;
 }
 
 interface ExtendedStepWizardProps extends StepWizardProps {
@@ -40,11 +46,12 @@ const ProfileForm = () => {
   const { authUser, isLoggedIn } = useAuth();
 
   const [activeStep, setActiveStep] = useState(0);
-  const [user, setUser] = useState<UserProps>();
+  const [user, setUser] = useState<UserProps>({});
   const [imageKey, setImageKey] = useState<string>("");
   const [imageURL, setImageURL] = useState<string>(
     "https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
   );
+  const [images, setImages] = useState<Image[]>([]);
 
   const assignStepWizard = (instance: StepWizardProps) => {
     setStepWizard(instance);
@@ -66,7 +73,6 @@ const ProfileForm = () => {
 
   const handleStepChange = (e: { activeStep: number }) => {
     console.log("step change");
-
     setActiveStep(e.activeStep - 1);
   };
 
@@ -123,7 +129,9 @@ const ProfileForm = () => {
         } = response.data;
 
         const timestamp = new Date().getTime();
-
+        if (images) {
+          setImages(images);
+        }
         const profileImage = images
           ? images.find((image) => image.profilePhoto)
           : undefined;
@@ -146,6 +154,7 @@ const ProfileForm = () => {
           subject,
           birthDate,
           imageKey: imageKey,
+          images: images ?? [],
         });
 
         console.log("profile form response", response.data);
@@ -162,6 +171,8 @@ const ProfileForm = () => {
     userProfile();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
+
+  console.log("profile", images);
 
   return (
     <section>
@@ -191,6 +202,7 @@ const ProfileForm = () => {
           subject={user?.subject}
           experience={user?.experience}
           image={user?.image}
+          images={images}
           imageKey={user?.imageKey}
           completeCallback={assignUser}
           prevStep={handleBack}
