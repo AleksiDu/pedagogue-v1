@@ -35,6 +35,11 @@ interface Prop {
   value: any;
 }
 
+interface Option {
+  label: string;
+  value: number;
+}
+
 const StepConfirm: React.FC<ConfirmProps> = (props) => {
   // TODO change Teacher to userRole
   const role = localStorage.getItem("role");
@@ -69,6 +74,17 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
     ? new Date().getFullYear() - Number(birthYear[0])
     : null;
 
+  const genderOption: Option[] = [
+    { label: "male", value: 1 },
+    { label: "female", value: 2 },
+  ];
+
+  const cityOption: Option[] = [
+    { label: "Tbilisi", value: 1 },
+    { label: "Kutaisi", value: 2 },
+    { label: "Batumi", value: 3 },
+  ];
+
   useEffect(() => {
     if (props.image) {
       if (typeof props.image === "string") {
@@ -79,8 +95,6 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
       }
     }
   }, [props.image]);
-
-  console.log("uploaded image", props.image);
 
   // Type guard function
   const isAxiosError = (error: any): error is AxiosError => {
@@ -116,8 +130,9 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
           firstName: props.firstName,
           lastName: props.lastName,
           age: year,
-          sex: props.gender,
-          city: props.city,
+          birthday: props.birthDate,
+          sex: props.gender.value,
+          city: props.city.value,
           subject: props.subject,
           experience: props.experience,
         }),
@@ -163,12 +178,20 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
     props.prevStep();
   };
 
+  const genderLabel = genderOption.find(
+    (option) => option.value === props?.gender?.value
+  )?.label;
+
+  const cityLabel = cityOption.find(
+    (option) => option.value === props?.city?.value
+  )?.label;
+
   const propArray: Prop[] = [
     { name: "First Name", value: props?.firstName },
     { name: "Last Name", value: props?.lastName },
     { name: "Birth Date", value: props?.birthDate },
-    { name: "Gender", value: props?.gender?.label },
-    { name: "City", value: props?.city?.label },
+    { name: "Gender", value: genderLabel },
+    { name: "City", value: cityLabel },
     { name: "Subject", value: props?.subject },
     { name: "Experience", value: props?.experience },
   ];

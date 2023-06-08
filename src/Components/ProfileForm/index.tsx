@@ -9,16 +9,21 @@ import axios from "../../api/axios";
 interface UserProps {
   firstName?: string;
   lastName?: string;
-  birthDate?: string | number;
-  genderSelect?: { label: string; value: number } | number;
-  citySelect?: { label: string; value: number } | number;
+  birthday?: string;
+  birthDate?: string;
+  genderSelect?:
+    | { label?: string; value?: number }
+    | { label?: string; value?: number }[];
+  citySelect?:
+    | { label?: string; value?: number }
+    | { label?: string; value?: number }[];
   subject?: string;
   experience?: number;
-  image?: File | [{ profilePhoto: boolean; url: string }] | any;
+  images?: { id: string; profilePhoto: boolean; url: string }[];
   age?: number;
   sex?: number;
   city?: number;
-  images?: [{ profilePhoto: boolean; url: string }];
+  image?: File[] | string;
 }
 
 interface ExtendedStepWizardProps extends StepWizardProps {
@@ -33,11 +38,8 @@ const ProfileForm = () => {
 
   const { authUser, isLoggedIn } = useAuth();
 
-  console.log(authUser);
-  console.log(isLoggedIn);
-
   const [activeStep, setActiveStep] = useState(0);
-  const [user, setUser] = useState<UserProps>({});
+  const [user, setUser] = useState<UserProps>();
 
   const assignStepWizard = (instance: StepWizardProps) => {
     setStepWizard(instance);
@@ -107,22 +109,25 @@ const ProfileForm = () => {
         const {
           firstName,
           lastName,
-          sex: genderSelect,
-          city: citySelect,
+          sex,
+          city,
           experience,
-          images: image,
+          images,
           subject,
+          birthday,
         } = response.data;
+
+        const birthDate = birthday ? birthday.split("T")[0] : undefined;
 
         setUser({
           firstName,
           lastName,
-
-          genderSelect,
-          citySelect,
+          genderSelect: { value: sex },
+          citySelect: { value: city },
           experience,
-          image: image ? image[0].url : undefined,
+          image: images ? images[0].url : undefined,
           subject,
+          birthDate,
         });
 
         console.log("profile form response", response.data);
@@ -160,14 +165,14 @@ const ProfileForm = () => {
         />
         <StepConfirm
           name="confirm"
-          firstName={user.firstName}
-          lastName={user.lastName}
-          birthDate={user.birthDate}
-          gender={user.genderSelect}
-          city={user.citySelect}
-          subject={user.subject}
-          experience={user.experience}
-          image={user.image}
+          firstName={user?.firstName}
+          lastName={user?.lastName}
+          birthDate={user?.birthDate}
+          gender={user?.genderSelect}
+          city={user?.citySelect}
+          subject={user?.subject}
+          experience={user?.experience}
+          image={user?.image}
           completeCallback={assignUser}
           prevStep={handleBack}
           lastStep={handleComplete}
