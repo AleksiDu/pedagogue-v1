@@ -17,7 +17,7 @@ interface ConfirmProps {
   subject: any;
   experience: any;
   image: any;
-  imageKey?: string;
+  imageKey: string;
   hashKey?: string;
 
   completeCallback: (data: any) => void;
@@ -91,11 +91,13 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
     if (props.image) {
       if (typeof props.image === "string") {
         setImageURL(props.image);
+        setImageKey(props?.imageKey);
       } else {
         const objectUrl = URL.createObjectURL(props.image);
         setImageURL(objectUrl);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.image]);
 
   // Type guard function
