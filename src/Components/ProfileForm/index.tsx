@@ -148,7 +148,6 @@ const ProfileForm = () => {
         }
 
         const birthDate = birthday ? birthday.split("T")[0] : undefined;
-        console.log("imaekey", imageKey);
         setUser({
           firstName,
           lastName,

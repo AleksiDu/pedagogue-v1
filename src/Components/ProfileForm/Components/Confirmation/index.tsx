@@ -88,18 +88,25 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
     { label: "Batumi", value: 3 },
   ];
 
+  const imageObj = props.images.find(
+    (image: { profilePhoto: boolean }) => image.profilePhoto === true
+  );
+
+  console.log("props.images: ", imageObj?.url);
   useEffect(() => {
     if (props.image && props.imageKey) {
       if (typeof props.image === "string") {
-        setImageURL(props.image);
+        //TODO imageObj.url change to imageObj?.profilePhot
 
-        setImageKey(props.imageKey);
+        setImageURL(imageObj?.url ? imageObj.url : props.image);
+
+        setImageKey(imageObj?.id ? imageObj.id : props.imageKey);
       } else {
         const objectUrl = URL.createObjectURL(props.image);
         setImageURL(objectUrl);
       }
     }
-  }, [props.image, props.imageKey]);
+  }, [props.image, props.imageKey, imageObj]);
 
   // Type guard function
   const isAxiosError = (error: any): error is AxiosError => {
