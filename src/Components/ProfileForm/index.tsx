@@ -24,6 +24,7 @@ interface UserProps {
   sex?: number;
   city?: number;
   image?: File[] | string;
+  imageKey?: string;
 }
 
 interface ExtendedStepWizardProps extends StepWizardProps {
@@ -40,6 +41,10 @@ const ProfileForm = () => {
 
   const [activeStep, setActiveStep] = useState(0);
   const [user, setUser] = useState<UserProps>();
+  const [imageKey, setImageKey] = useState<string>("");
+  const [imageURL, setImageURL] = useState<string>(
+    "https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
+  );
 
   const assignStepWizard = (instance: StepWizardProps) => {
     setStepWizard(instance);
@@ -117,6 +122,18 @@ const ProfileForm = () => {
           birthday,
         } = response.data;
 
+        const timestamp = new Date().getTime();
+
+        const profileImage = images
+          ? images.find((image) => image.profilePhoto)
+          : undefined;
+
+        if (profileImage) {
+          const { id, url } = profileImage;
+          setImageURL(`${url}?t=${timestamp}`);
+          setImageKey(id);
+        }
+
         const birthDate = birthday ? birthday.split("T")[0] : undefined;
 
         setUser({
@@ -125,9 +142,10 @@ const ProfileForm = () => {
           genderSelect: { value: sex },
           citySelect: { value: city },
           experience,
-          image: images ? images[0].url : undefined,
+          image: imageURL,
           subject,
           birthDate,
+          imageKey: imageKey,
         });
 
         console.log("profile form response", response.data);
@@ -173,6 +191,7 @@ const ProfileForm = () => {
           subject={user?.subject}
           experience={user?.experience}
           image={user?.image}
+          imageKey={user?.imageKey}
           completeCallback={assignUser}
           prevStep={handleBack}
           lastStep={handleComplete}

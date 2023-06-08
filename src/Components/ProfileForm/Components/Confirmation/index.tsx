@@ -17,6 +17,7 @@ interface ConfirmProps {
   subject: any;
   experience: any;
   image: any;
+  imageKey?: string;
   hashKey?: string;
 
   completeCallback: (data: any) => void;
@@ -67,6 +68,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageURL, setImageURL] = useState("");
+  const [imageKey, setImageKey] = useState<string>("");
   const accessToken = localStorage.getItem("accessToken");
 
   const birthYear = props.birthDate ? props.birthDate.split("-") : null;
@@ -220,7 +222,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
           <form className={styles.registrarForm}>
             {/* TODO change to imageKey  */}
             <Avatar
-              key={"imageKey"}
+              key={imageKey}
               src={imageURL}
               size="60"
               style={{

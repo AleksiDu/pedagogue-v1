@@ -12,13 +12,15 @@ import { useScreenWidth } from "../../context/ScreenWidthContext";
 
 interface ProfileResponse {
   images: {
+    id: string;
+    profilePhoto: boolean;
     url: string;
   }[];
 }
 
 const Header: FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [imageKey, setImageKey] = useState<number>(0);
+  const [imageKey, setImageKey] = useState<string>("");
   const [isActive, setIsActive] = useState(false);
   const [imageURL, setImageURL] = useState<string>(
     "https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
@@ -72,11 +74,15 @@ const Header: FC = () => {
           }
         );
         const { images } = response.data;
-        const { url } = images[0];
-
         const timestamp = new Date().getTime();
-        setImageURL(`${url}?t=${timestamp}`);
-        setImageKey((prevKey) => prevKey + 1);
+
+        const profileImage = images.find((image) => image.profilePhoto);
+
+        if (profileImage) {
+          const { id, url } = profileImage;
+          setImageURL(`${url}?t=${timestamp}`);
+          setImageKey(id);
+        }
       } catch (error) {
         console.log("Error fetching image:", error);
       }
