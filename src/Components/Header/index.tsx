@@ -1,22 +1,15 @@
 import { useRef, useState, FC, useEffect, useContext } from "react";
-import Avatar from "react-avatar";
-import { useOnClickOutside } from "usehooks-ts";
-import logo from "../../assets/icons/logo.svg";
-import Search from "../Search";
 import { Link, useNavigate } from "react-router-dom";
+import { useOnClickOutside } from "usehooks-ts";
+import Avatar from "react-avatar";
+import Search from "../Search";
 
+import fetchProfileImage from "../../utils/fetchProfileImage ";
+import logo from "../../assets/icons/logo.svg";
 import "./styles.css";
-import axios from "../../api/axios";
+
 import { AuthContext } from "../../context/AuthContext";
 import { useScreenWidth } from "../../context/ScreenWidthContext";
-
-interface ProfileResponse {
-  images: {
-    id: string;
-    profilePhoto: boolean;
-    url: string;
-  }[];
-}
 
 const Header: FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -42,46 +35,22 @@ const Header: FC = () => {
     const fetchImage = async () => {
       try {
         const role = localStorage.getItem("role");
-
-        // Set the userRole state based on the role value
-        let updatedUserRole = "";
-        switch (Number(role)) {
-          case 1:
-            updatedUserRole = "Tutor";
-            break;
-          case 2:
-            updatedUserRole = "Student";
-            break;
-          case 3:
-            updatedUserRole = "Parent";
-            break;
-          default:
-            updatedUserRole = "default";
-            break;
-        }
-
         const accessToken = localStorage.getItem("accessToken");
+
         if (!accessToken) {
           console.log("Access token not found.");
           return;
         }
-        const response = await axios.get<ProfileResponse>(
-          `/api/${updatedUserRole}/profile`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        const { images } = response.data;
-        const timestamp = new Date().getTime();
 
-        const profileImage = images.find((image) => image.profilePhoto);
+        const result = await fetchProfileImage(Number(role), accessToken);
 
-        if (profileImage) {
-          const { id, url } = profileImage;
-          setImageURL(`${url}?t=${timestamp}`);
-          setImageKey(id);
+        if (result) {
+          const { imageURL, imageKey } = result;
+          setImageURL(imageURL);
+          setImageKey(imageKey);
+        } else {
+          // Handle the case when fetchProfileImage returns undefined
+          console.log("Image not found.");
         }
       } catch (error) {
         console.log("Error fetching image:", error);

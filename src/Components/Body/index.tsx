@@ -68,8 +68,6 @@ const Body: React.FC = () => {
     }
   };
 
-  console.log("is Dark mode?", isDarkMode);
-
   return (
     <>
       <section className={`landing-page  ${isDarkMode ? "dark-mode" : ""}`}>
