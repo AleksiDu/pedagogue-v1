@@ -101,29 +101,26 @@ const Header: FC = () => {
           />
         </div>
       );
-    } else {
-      return (
-        <div className="avatar-container">
-          <Avatar
-            src={require("../../assets/icons/login_logo.png")}
-            size="30"
-            style={{
-              borderColor: "black",
-              borderRadius: 4,
-              borderStyle: "solid",
-            }}
-            onClick={handleLogin}
-          />
-        </div>
-      );
     }
+
+    return (
+      <div className="avatar-container">
+        <Avatar
+          src={require("../../assets/icons/login_logo.png")}
+          size="30"
+          style={{
+            borderColor: "black",
+            borderRadius: 4,
+            borderStyle: "solid",
+          }}
+          onClick={handleLogin}
+        />
+      </div>
+    );
   };
 
   const renderMenuContainer = () => {
     if (screenWidth >= 480) {
-      return null; // Return null to not render the avatar container
-    }
-    if (isLoggedIn) {
       return (
         <li>
           <Link to={"/#"} onClick={handleLogout}>
@@ -131,13 +128,13 @@ const Header: FC = () => {
           </Link>
         </li>
       );
-    } else {
-      return (
-        <li>
-          <Link to={"/Login"}>Login</Link>
-        </li>
-      );
     }
+
+    return (
+      <li>
+        <Link to={"/Login"}>Login</Link>
+      </li>
+    );
   };
 
   return (
