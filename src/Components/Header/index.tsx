@@ -10,6 +10,17 @@ import "./styles.css";
 
 import { AuthContext } from "../../context/AuthContext";
 import { useScreenWidth } from "../../context/ScreenWidthContext";
+import Logo from "./Logo";
+import SearchBar from "./SearchBar";
+import Menu from "../Menu";
+import MenuItems from "../Menu/MenuItems";
+import AvatarContainer from "../Menu/AvatarContainer";
+
+interface MenuItem {
+  label: string;
+  link: string;
+  onClick?: () => void;
+}
 
 const Header: FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -22,6 +33,12 @@ const Header: FC = () => {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const screenWidth = useScreenWidth();
+
+  const menuItems: MenuItem[] = [
+    { label: "Profile", link: "/profile/#confirm" },
+    { label: "Settings", link: "/settings" },
+    { label: "Curriculum", link: "/curriculum" },
+  ];
 
   const handleClick = () => {
     setIsActive(!isActive);
@@ -80,6 +97,19 @@ const Header: FC = () => {
     setIsLoggedIn(false);
   };
 
+  const avatarProps = {
+    classAvatar: "avatar-container",
+    key: imageKey,
+    src: imageURL,
+    size: "30",
+    style: {
+      borderColor: "black",
+      borderRadius: 4,
+      borderStyle: "solid",
+    },
+    onClick: handleAvatarBtn,
+  };
+
   const renderAvatarContainer = () => {
     if (screenWidth < 480) {
       return null; // Return null to not render the avatar container
@@ -121,6 +151,9 @@ const Header: FC = () => {
 
   const renderMenuContainer = () => {
     if (screenWidth >= 480) {
+      return null; // Return null to not render the avatar container
+    }
+    if (isLoggedIn) {
       return (
         <li>
           <Link to={"/#"} onClick={handleLogout}>
@@ -128,24 +161,28 @@ const Header: FC = () => {
           </Link>
         </li>
       );
+    } else {
+      return (
+        <li>
+          <Link to={"/Login"}>Login</Link>
+        </li>
+      );
     }
-
-    return (
-      <li>
-        <Link to={"/Login"}>Login</Link>
-      </li>
-    );
   };
 
   return (
     <header className="app-header">
-      <Link to={"/#"} className="app-logo-name">
-        <img src={logo} className="app-logo" alt="logo" />
-        <span className="app-name">PEDAGOGUE</span>
-      </Link>
-      <div className="header-search-bar">
-        <Search />
-      </div>
+      <Logo
+        logo={logo}
+        appName="PEDAGOGUE"
+        to={"/#"}
+        linkClass="app-logo-name"
+        logoClass="app-logo"
+        nameClass="app-name"
+        alt="logo"
+      />
+      <SearchBar searchClass="header-search-bar" />
+
       <div className="left-header">
         <div className="menu-container" onClick={handleClick} ref={dropdownRef}>
           <button className="menu-trigger">MENU</button>
@@ -153,13 +190,10 @@ const Header: FC = () => {
             ref={dropdownRef}
             className={`menu ${isActive ? "active" : "inactive"}`}
           >
-            <div
-              className="btn-search-bar"
+            <SearchBar
+              searchClass="btn-search-bar"
               onClick={(e) => e.stopPropagation()} //  <--- Prevent any propagation of the same event
-            >
-              <Search />
-            </div>
-
+            />
             <ul>
               <li>
                 <Link to={"/profile/#confirm"}>Profile</Link>
@@ -170,12 +204,23 @@ const Header: FC = () => {
               <li>
                 <Link to={"/curriculum"}>Curriculum</Link>
               </li>
+
               {renderMenuContainer()}
             </ul>
           </nav>
         </div>
         {renderAvatarContainer()}
       </div>
+      <Menu
+        handleClick={handleClick}
+        handleClickOutside={handleClickOutside}
+        handleLogout={handleLogout}
+        dropdownRef={dropdownRef}
+        isActive={isActive}
+        menuItems={menuItems}
+        avatarProps={avatarProps}
+        isLoggedIn={isLoggedIn}
+      />
     </header>
   );
 };
