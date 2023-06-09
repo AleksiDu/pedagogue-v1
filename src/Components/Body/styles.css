@@ -5,6 +5,8 @@
   justify-content: center;
   height: 100vh;
   width: 100vw;
+  background-color: var(--background-color);
+  color: var(--font-color);
 }
 
 .landing-page.night-mode {
@@ -72,6 +74,11 @@
 
 .logout-button:hover .logout-text {
   color: #fff;
+}
+
+.dark-mode {
+  --background-color: rgba(0, 0, 0, 0.7);
+  --font-color: white;
 }
 
 @media screen and (max-width: 480px) {

@@ -15,10 +15,12 @@ import { useScreenWidth } from "../../context/ScreenWidthContext";
 import PrivateRoutes from "../../utils/PrivateRoutes";
 import FourOhFour from "../FourOhFour";
 import ProfileImageGallery from "../ProfileForm/Components/ProfileImageGallery";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const Body: React.FC = () => {
   const REGISTER_URL = "/registration";
   const location = useLocation();
+  const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const screenWidth = useScreenWidth();
 
@@ -43,6 +45,13 @@ const Body: React.FC = () => {
     }
   }, [location]);
 
+  useEffect(() => {
+    const storedDarkMode = localStorage.getItem("isDarkMode");
+    if (storedDarkMode !== null) {
+      setIsDarkMode(storedDarkMode === "true");
+    }
+  }, [setIsDarkMode]);
+
   const renderLogoutBtn = () => {
     if (screenWidth < 480) {
       return null;
@@ -59,9 +68,11 @@ const Body: React.FC = () => {
     }
   };
 
+  console.log("is Dark mode?", isDarkMode);
+
   return (
     <>
-      <section className="landing-page">
+      <section className={`landing-page  ${isDarkMode ? "dark-mode" : ""}`}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/registration/*" element={<Registration />}></Route>
