@@ -14,19 +14,26 @@ interface MenuItemsProps {
   handleLogout: () => void;
 }
 
+const renderLoginLogout = (
+  screenWidth: number,
+  isLoggedIn: boolean,
+  handleLogout: () => void
+) => {
+  if (screenWidth < 480) {
+    return (
+      <li>
+        <Link to={isLoggedIn ? "/#" : "/Login"} onClick={handleLogout}>
+          {isLoggedIn ? "Logout" : "Login"}
+        </Link>
+      </li>
+    );
+  }
+  return null;
+};
+
 const MenuItems: FC<MenuItemsProps> = ({ menuItems, handleLogout }) => {
   const screenWidth = useScreenWidth();
-  const isLoggedIn = useAuth();
-
-  if (screenWidth >= 480) {
-    return null; // Return null to not render the avatar container
-  } else {
-    if (isLoggedIn) {
-      menuItems.push({ label: "Logout", link: "/#", onClick: handleLogout });
-    } else {
-      menuItems.push({ label: "Login", link: "/Login" });
-    }
-  }
+  const { isLoggedIn } = useAuth();
 
   return (
     <>
@@ -35,6 +42,7 @@ const MenuItems: FC<MenuItemsProps> = ({ menuItems, handleLogout }) => {
           <Link to={menuItem.link}>{menuItem.label}</Link>
         </li>
       ))}
+      {renderLoginLogout(screenWidth, isLoggedIn, handleLogout)}
     </>
   );
 };

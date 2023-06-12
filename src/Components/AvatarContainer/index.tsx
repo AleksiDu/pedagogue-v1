@@ -8,7 +8,7 @@ interface AvatarContainerProps extends AvatarTypes {
 }
 
 interface AvatarTypes {
-  key: string;
+  id: string;
   src: string;
   classAvatar: string;
   size: string;
@@ -18,7 +18,7 @@ interface AvatarTypes {
 
 const AvatarContainer: FC<AvatarContainerProps> = ({
   isLoggedIn,
-  key,
+  id,
   src,
   classAvatar,
   size,
@@ -27,13 +27,15 @@ const AvatarContainer: FC<AvatarContainerProps> = ({
 }) => {
   const screenWidth = useScreenWidth();
 
-  if (screenWidth < 480 || !isLoggedIn) {
+  if (screenWidth < 480) {
     return null;
   }
 
+  console.log({ isLoggedIn, id, src, classAvatar, size, style });
+
   return (
     <div className={classAvatar}>
-      <Avatar key={key} src={src} size={size} style={style} onClick={onClick} />
+      <Avatar key={id} src={src} size={size} style={style} onClick={onClick} />
     </div>
   );
 };

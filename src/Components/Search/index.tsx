@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { InstantSearch, SearchBox } from "react-instantsearch-dom";
 import algoliasearch from "algoliasearch/lite";
 import "./styles.css";
@@ -7,11 +8,18 @@ const searchClient = algoliasearch(
   "673f8744159f97dc36689c0a394bf018"
 );
 
-const Search = () => {
+type SearchBarProps = {
+  searchClass: string;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
+};
+
+const Search: FC<SearchBarProps> = ({ searchClass, onClick }) => {
   return (
-    <InstantSearch indexName={"pedagogue"} searchClient={searchClient}>
-      <SearchBox />
-    </InstantSearch>
+    <div className={searchClass} onClick={onClick}>
+      <InstantSearch indexName={"pedagogue"} searchClient={searchClient}>
+        <SearchBox />
+      </InstantSearch>
+    </div>
   );
 };
 

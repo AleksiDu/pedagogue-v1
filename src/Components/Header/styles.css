@@ -134,7 +134,7 @@
   width: 100%;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 750px) {
   .header-search-bar {
     display: none;
   }

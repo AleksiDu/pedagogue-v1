@@ -11,10 +11,9 @@ import "./styles.css";
 import { AuthContext } from "../../context/AuthContext";
 import { useScreenWidth } from "../../context/ScreenWidthContext";
 import Logo from "./Logo";
-import SearchBar from "./SearchBar";
 import Menu from "../Menu";
 import MenuItems from "../Menu/MenuItems";
-import AvatarContainer from "../Menu/AvatarContainer";
+import AvatarContainer from "../AvatarContainer";
 
 interface MenuItem {
   label: string;
@@ -24,7 +23,7 @@ interface MenuItem {
 
 const Header: FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [imageKey, setImageKey] = useState<string>("");
+  const [imageKey, setImageKey] = useState<string>("Fox1061");
   const [isActive, setIsActive] = useState(false);
   const [imageURL, setImageURL] = useState<string>(
     "https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
@@ -99,7 +98,7 @@ const Header: FC = () => {
 
   const avatarProps = {
     classAvatar: "avatar-container",
-    key: imageKey,
+    id: imageKey,
     src: imageURL,
     size: "30",
     style: {
@@ -181,10 +180,28 @@ const Header: FC = () => {
         nameClass="app-name"
         alt="logo"
       />
-      <SearchBar searchClass="header-search-bar" />
-
+      <Search searchClass="header-search-bar" />
       <div className="left-header">
-        <div className="menu-container" onClick={handleClick} ref={dropdownRef}>
+        <Menu
+          handleClick={handleClick}
+          handleClickOutside={handleClickOutside}
+          handleLogout={handleLogout}
+          dropdownRef={dropdownRef}
+          isActive={isActive}
+          menuItems={menuItems}
+          avatarProps={avatarProps}
+          isLoggedIn={isLoggedIn}
+        />
+        <AvatarContainer
+          onClick={avatarProps.onClick}
+          isLoggedIn={isLoggedIn}
+          classAvatar={avatarProps.classAvatar}
+          size={avatarProps.size}
+          style={avatarProps.style}
+          id={avatarProps.id}
+          src={avatarProps.src}
+        />
+        {/* <div className="menu-container" onClick={handleClick} ref={dropdownRef}>
           <button className="menu-trigger">MENU</button>
           <nav
             ref={dropdownRef}
@@ -208,19 +225,9 @@ const Header: FC = () => {
               {renderMenuContainer()}
             </ul>
           </nav>
-        </div>
-        {renderAvatarContainer()}
+        </div> */}
+        {/* {renderAvatarContainer()} */}
       </div>
-      <Menu
-        handleClick={handleClick}
-        handleClickOutside={handleClickOutside}
-        handleLogout={handleLogout}
-        dropdownRef={dropdownRef}
-        isActive={isActive}
-        menuItems={menuItems}
-        avatarProps={avatarProps}
-        isLoggedIn={isLoggedIn}
-      />
     </header>
   );
 };

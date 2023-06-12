@@ -1,9 +1,9 @@
 import React, { useRef, useState, useContext } from "react";
-import SearchBar from "../Header/SearchBar";
 import MenuItems from "./MenuItems";
 import { AuthContext } from "../../context/AuthContext";
 import { useOnClickOutside } from "usehooks-ts";
-import AvatarContainer from "./AvatarContainer";
+import AvatarContainer from "../AvatarContainer";
+import Search from "../Search";
 
 interface MenuItem {
   label: string;
@@ -23,7 +23,7 @@ interface MenuProps {
 }
 
 interface AvatarTypes {
-  key: string;
+  id: string;
   src: string;
   classAvatar: string;
   size: string;
@@ -53,21 +53,12 @@ const Menu: React.FC<MenuProps> = ({
         className={`menu ${isActive ? "active" : "inactive"}`}
         onClick={handleClickOutside}
       >
-        <SearchBar
+        <Search
           searchClass="btn-search-bar"
           onClick={(e) => e.stopPropagation()}
         />
         <ul>
           <MenuItems menuItems={menuItems} handleLogout={handleLogout} />
-          <AvatarContainer
-            onClick={avatarProps.onClick}
-            isLoggedIn={isLoggedIn}
-            classAvatar={avatarProps.classAvatar}
-            size={avatarProps.size}
-            style={avatarProps.style}
-            key={avatarProps.key}
-            src={avatarProps.src}
-          />
         </ul>
       </nav>
     </div>
