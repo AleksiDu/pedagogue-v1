@@ -71,7 +71,7 @@ const Header: FC = () => {
     };
 
     if (isLoggedIn) {
-      fetchImage();
+      fetchImage().catch(console.error);
     }
   }, [isLoggedIn]);
 
