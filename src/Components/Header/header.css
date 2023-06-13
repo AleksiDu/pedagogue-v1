@@ -18,8 +18,8 @@
 }
 
 .app-logo-name:hover {
-  filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));
-  text-shadow: 0 0 3px rgb(0 0 0 / 0.4), 0 0 5px rgb(0 0 0 / 0.2);
+  filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.2));
+  text-shadow: 3px 5px 2px rgb(0 0 0 / 0.2);
 }
 
 .left-header {
@@ -32,7 +32,6 @@
 
 .avatar-container:hover {
   cursor: pointer;
-
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
 }
 
