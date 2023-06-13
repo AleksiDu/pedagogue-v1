@@ -1,9 +1,8 @@
-import React, { useRef, useState, useContext } from "react";
-import MenuItems from "./MenuItems";
-import { AuthContext } from "../../context/AuthContext";
+import { FC, useRef } from "react";
 import { useOnClickOutside } from "usehooks-ts";
-import AvatarContainer from "../AvatarContainer";
-import Search from "../Search";
+
+import Search from "../../Search";
+import MenuItems from "./MenuItem";
 
 interface MenuItem {
   label: string;
@@ -16,34 +15,18 @@ interface MenuProps {
   handleClick?: () => void;
   handleClickOutside: () => void;
   handleLogout: () => void;
-  dropdownRef: React.RefObject<HTMLDivElement>;
   isActive?: boolean;
-  avatarProps: AvatarTypes;
-  isLoggedIn: boolean;
 }
 
-interface AvatarTypes {
-  id: string;
-  src: string;
-  classAvatar: string;
-  size: string;
-  style?: any;
-  onClick?: () => void;
-}
-
-const Menu: React.FC<MenuProps> = ({
+const Menu: FC<MenuProps> = ({
   menuItems,
   handleClick,
   handleClickOutside,
   handleLogout,
-  dropdownRef,
-  isActive,
-  avatarProps,
-  isLoggedIn,
+  isActive = false,
 }) => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(dropdownRef, handleClickOutside);
-
-  console.log(menuItems);
 
   return (
     <div className="menu-container" onClick={handleClick} ref={dropdownRef}>
@@ -54,7 +37,7 @@ const Menu: React.FC<MenuProps> = ({
         onClick={handleClickOutside}
       >
         <Search
-          searchClass="btn-search-bar"
+          searchClassName="btn-search-bar"
           onClick={(e) => e.stopPropagation()}
         />
         <ul>

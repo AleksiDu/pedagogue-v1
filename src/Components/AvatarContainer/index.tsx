@@ -1,18 +1,18 @@
+import { CSSProperties, FC } from "react";
 import Avatar from "react-avatar";
 import { useScreenWidth } from "../../context/ScreenWidthContext";
-import { FC } from "react";
 
 interface AvatarContainerProps extends AvatarTypes {
   handleAvatarBtn?: () => void;
-  isLoggedIn: boolean;
+  isLoggedIn?: boolean;
 }
 
 interface AvatarTypes {
   id: string;
   src: string;
-  classAvatar: string;
+  className: string;
   size: string;
-  style?: any;
+  style?: CSSProperties;
   onClick?: () => void;
 }
 
@@ -20,7 +20,7 @@ const AvatarContainer: FC<AvatarContainerProps> = ({
   isLoggedIn,
   id,
   src,
-  classAvatar,
+  className,
   size,
   style,
   onClick,
@@ -31,11 +31,15 @@ const AvatarContainer: FC<AvatarContainerProps> = ({
     return null;
   }
 
-  console.log({ isLoggedIn, id, src, classAvatar, size, style });
-
   return (
-    <div className={classAvatar}>
-      <Avatar key={id} src={src} size={size} style={style} onClick={onClick} />
+    <div className={className}>
+      <Avatar
+        key={id}
+        src={isLoggedIn ? src : require("../../assets/icons/login_logo.png")}
+        size={size}
+        style={style}
+        onClick={onClick}
+      />
     </div>
   );
 };

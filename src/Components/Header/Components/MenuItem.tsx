@@ -1,16 +1,17 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { useScreenWidth } from "../../context/ScreenWidthContext";
-import { useAuth } from "../../context/AuthContext";
 
-interface MenuItem {
+import { useScreenWidth } from "../../../context/ScreenWidthContext";
+import { useAuth } from "../../../context/AuthContext";
+
+interface MenuLinkItem {
   label: string;
   link: string;
   onClick?: () => void;
 }
 
 interface MenuItemsProps {
-  menuItems: MenuItem[];
+  menuItems: MenuLinkItem[];
   handleLogout: () => void;
 }
 

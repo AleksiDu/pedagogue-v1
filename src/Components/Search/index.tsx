@@ -9,13 +9,13 @@ const searchClient = algoliasearch(
 );
 
 type SearchBarProps = {
-  searchClass: string;
+  searchClassName: string;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
-const Search: FC<SearchBarProps> = ({ searchClass, onClick }) => {
+const Search: FC<SearchBarProps> = ({ searchClassName, onClick }) => {
   return (
-    <div className={searchClass} onClick={onClick}>
+    <div className={searchClassName} onClick={onClick}>
       <InstantSearch indexName={"pedagogue"} searchClient={searchClient}>
         <SearchBox />
       </InstantSearch>
