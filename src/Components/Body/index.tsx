@@ -1,27 +1,32 @@
+import { useContext, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { useEffect, useContext } from "react";
-import Profile from "../../pages/Profile";
-import Home from "../../pages/home";
+
+import Curriculum from "../../pages/Curriculum";
+import FourOhFour from "../FourOhFour";
+import ForgetPassword from "../RegistrationLoginCom/ForgetPassword";
+import Home from "../../pages/Home";
 import Login from "../../pages/Login";
+import PasswordReset from "../RegistrationLoginCom/PasswordReset";
+import PrivateRoutes from "../../utils/PrivateRoutes";
+import Profile from "../../pages/Profile";
+import ProfileImageGallery from "../ProfileForm/Components/ProfileImageGallery";
 import Registration from "../../pages/Registration";
 import SettingsPage from "../../pages/SettingsPage";
 
-import "./styles.css";
-import Curriculum from "../../pages/Curriculum";
-import ForgetPassword from "../RegistrationLoginCom/ForgetPassword";
-import PasswordReset from "../RegistrationLoginCom/PasswordReset";
 import { AuthContext } from "../../context/AuthContext";
-import { useScreenWidth } from "../../context/ScreenWidthContext";
-import PrivateRoutes from "../../utils/PrivateRoutes";
-import FourOhFour from "../FourOhFour";
-import ProfileImageGallery from "../ProfileForm/Components/ProfileImageGallery";
 import { ThemeContext } from "../../context/ThemeContext";
+import { useScreenWidth } from "../../context/ScreenWidthContext";
 
-const Body: React.FC = () => {
+import "./styles.css";
+
+const Body = () => {
   const REGISTER_URL = "/registration";
+
   const location = useLocation();
+
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+
   const screenWidth = useScreenWidth();
 
   // TODO update from localStorage!!!
