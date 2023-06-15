@@ -30,7 +30,7 @@ const Header: FC = () => {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const menuItems: MenuItem[] = [
+  const MENU_ITEMS: MenuItem[] = [
     { label: "Profile", link: "/profile/#confirm" },
     { label: "Settings", link: "/settings" },
     { label: "Curriculum", link: "/curriculum" },
@@ -120,7 +120,7 @@ const Header: FC = () => {
           handleClickOutside={handleClickOutside}
           handleLogout={handleLogout}
           isActive={isActive}
-          menuItems={menuItems}
+          menuItems={MENU_ITEMS}
         />
         <AvatarContainer isLoggedIn={isLoggedIn} {...avatarProps} />
       </div>
