@@ -13,11 +13,10 @@ import ProfileImageGallery from "../ProfileForm/Components/ProfileImageGallery";
 import Registration from "../../pages/Registration";
 import SettingsPage from "../../pages/SettingsPage";
 
-import { AuthContext } from "../../context/AuthContext";
 import { ThemeContext } from "../../context/ThemeContext";
-import { useScreenWidth } from "../../context/ScreenWidthContext";
 
-import "./styles.css";
+import "./body.css";
+import LogoutButton from "./LogoutBtn";
 
 const Body = () => {
   const REGISTER_URL = "/registration";
@@ -25,19 +24,10 @@ const Body = () => {
   const location = useLocation();
 
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
-  const screenWidth = useScreenWidth();
+  const userName = localStorage.getItem("username") ?? "";
+  const accessToken = localStorage.getItem("accessToken") ?? "";
 
-  // TODO update from localStorage!!!
-  const userName = localStorage.getItem("username") || "";
-  const accessToken = localStorage.getItem("accessToken") || "";
-
-  const handleLogout = () => {
-    const keyArr = ["accessToken", "email", "role", "password"];
-    keyArr.forEach((key) => localStorage.removeItem(key));
-    setIsLoggedIn(false);
-  };
   useEffect(() => {
     switch (location.pathname) {
       case REGISTER_URL + "/Tutor":
@@ -56,22 +46,6 @@ const Body = () => {
       setIsDarkMode(storedDarkMode === "true");
     }
   }, [setIsDarkMode]);
-
-  const renderLogoutBtn = () => {
-    if (screenWidth < 480) {
-      return null;
-    }
-    if (isLoggedIn) {
-      return (
-        <button className="logout-button" onClick={handleLogout}>
-          <span className="book"></span>
-          <span className="logout-text">Logout</span>
-        </button>
-      );
-    } else {
-      return;
-    }
-  };
 
   return (
     <>
@@ -103,7 +77,7 @@ const Body = () => {
           <Route path="*" element={<FourOhFour />} />
         </Routes>
       </section>
-      {renderLogoutBtn()}
+      <LogoutButton />
     </>
   );
 };
