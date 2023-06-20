@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import Loader from "../../Loader";
 import RegistrationAction from "../RegistrationAction";
 import { useAuth } from "../../../context/AuthContext";
+import SuccessMessage from "../SuccessMessage";
 
 interface LoginResponseData {
   token: string;
@@ -183,13 +184,12 @@ const LoginForm: React.FC = () => {
       {loading ? (
         <Loader />
       ) : success ? (
-        <section className={styles.registrarSection}>
-          <h1>You are logged in!</h1>
-          <br />
-          <p>
-            <Link to={"/#"}>Go to Home</Link>
-          </p>
-        </section>
+        <SuccessMessage
+          to={"/#"}
+          className={styles.registrarSection}
+          comment="You are logged in!"
+          link="Go to Home"
+        />
       ) : (
         <section className={styles.registrarSection}>
           <p

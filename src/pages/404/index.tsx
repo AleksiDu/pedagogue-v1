@@ -1,5 +1,11 @@
+import FourOhFour from "../../Components/FourOhFour";
+
 const FourOhFourPage = () => {
-  return <div></div>;
+  return (
+    <>
+      <FourOhFour />
+    </>
+  );
 };
 
 export default FourOhFourPage;

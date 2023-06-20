@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+
 import NavBtn from "../../Components/RegistrationLoginCom/NavBtn";
 import RegisterForm from "../../Components/RegistrationLoginCom/RegisterForm";
 

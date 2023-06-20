@@ -5,6 +5,7 @@ import { AxiosError } from "axios";
 import Loader from "../../Loader";
 import axios from "../../../api/axios";
 import { Link } from "react-router-dom";
+import SuccessMessage from "../SuccessMessage";
 
 const ForgetPassword = () => {
   const userEmailRef = useRef<HTMLInputElement>(null);
@@ -87,13 +88,12 @@ const ForgetPassword = () => {
       {loading ? (
         <Loader />
       ) : success ? (
-        <section className={styles.registrarSection}>
-          <h1>Email was Successfully sent</h1>
-          <br />
-          <p>
-            <Link to={"/login"}>Login</Link>
-          </p>
-        </section>
+        <SuccessMessage
+          to={"/login"}
+          className={styles.registrarSection}
+          comment="Email was Successfully sent"
+          link="Login"
+        />
       ) : (
         <section className={styles.registrarSection}>
           <p

@@ -1,5 +1,6 @@
 import { CSSProperties, FC } from "react";
 import Avatar from "react-avatar";
+
 import { useScreenWidth } from "../../context/ScreenWidthContext";
 
 interface AvatarContainerProps extends AvatarTypes {

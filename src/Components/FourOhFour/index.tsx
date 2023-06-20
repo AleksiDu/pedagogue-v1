@@ -1,7 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import "./styles.css";
+
 import notFoundLogo from "../../assets/404.svg";
+
 import { ThemeContext } from "../../context/ThemeContext";
+
+import "./styles.css";
 
 const FourOhFour: React.FC = () => {
   const [displayText, setDisplayText] = useState("");

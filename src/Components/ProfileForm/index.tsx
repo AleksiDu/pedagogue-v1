@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import StepWizard, { StepWizardProps } from "react-step-wizard";
-import StepConfirm from "./Components/Confirmation";
+import { StepWizard, StepWizardProps } from "react-step-wizard";
+
 import StepOne from "./Components/StepOne/index";
 import StepTwo from "./Components/StepTwo";
-import { useAuth } from "../../context/AuthContext";
+import StepConfirm from "./Components/Confirmation";
+
 import axios from "../../api/axios";
+
+import { useAuth } from "../../context/AuthContext";
 
 interface UserProps {
   firstName?: string;

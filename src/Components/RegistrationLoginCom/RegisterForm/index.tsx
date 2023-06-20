@@ -1,9 +1,13 @@
 import { useState, useRef, useEffect, FC } from "react";
 import { Link } from "react-router-dom";
-import axios from "../../../api/axios";
-import styles from "../../../styles/FormStyles/styles.module.css";
+
 import Input from "./Components/Input";
 import Loader from "../../Loader";
+import SuccessMessage from "../SuccessMessage";
+
+import axios from "../../../api/axios";
+
+import styles from "../../../styles/FormStyles/styles.module.css";
 
 interface ErrorResponse {
   status?: number;
@@ -16,17 +20,6 @@ const USER_REGEX = /^[A-Za-z0-9_-]{4,24}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const REGISTER_URL = `api/authentication/register`;
-
-const SuccessMessage: FC = () => {
-  return (
-    <section className={styles.registrarSection}>
-      <h1>Check Email for Verification</h1>
-      <p>
-        <Link to={"/login"}>Sign In</Link>
-      </p>
-    </section>
-  );
-};
 
 const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
   const userEmailRef = useRef<HTMLInputElement>(null);
@@ -257,7 +250,18 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
 
   return (
     <div>
-      {loading ? <Loader /> : isSuccess ? <SuccessMessage /> : renderForm()}
+      {loading ? (
+        <Loader />
+      ) : isSuccess ? (
+        <SuccessMessage
+          to={"/login"}
+          className={styles.registrarSection}
+          comment="Check Email for Verification"
+          link="Sign In"
+        />
+      ) : (
+        renderForm()
+      )}
     </div>
   );
 };

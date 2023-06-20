@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import Loader from "../../Loader";
 import axios from "../../../api/axios";
 import styles from "../../../styles/FormStyles/styles.module.css";
+import SuccessMessage from "../SuccessMessage";
 
 interface VerificationParams {
   email?: string;
@@ -50,13 +51,11 @@ const EmailVerification = () => {
       {loading ? (
         <Loader />
       ) : success ? (
-        <>
-          <h1>Email was Successfully Verified</h1>
-          <br />
-          <p>
-            <Link to="/login">Login</Link>
-          </p>
-        </>
+        <SuccessMessage
+          to={"/login"}
+          comment="Email was Successfully Verified"
+          link="Login"
+        />
       ) : (
         <>
           <p>An error occurred while verifying your email: {error}</p>

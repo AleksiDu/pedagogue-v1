@@ -1,11 +1,15 @@
-import styles from "./styles.module.css";
+import { useEffect, useState, useContext } from "react";
+
+import axios from "../../api/axios";
+
+import Input from "../../Components/RegistrationLoginCom/RegisterForm/Components/Input";
 import Hero from "../../Components/Hero";
 import Card from "../../Components/Card";
+
 import { AuthContext } from "../../context/AuthContext";
-import { useEffect, useState, useContext } from "react";
-import Input from "../../Components/RegistrationLoginCom/RegisterForm/Components/Input";
-import axios from "axios";
 import { ThemeContext } from "../../context/ThemeContext";
+
+import styles from "./styles.module.css";
 
 const Home: React.FC = () => {
   const { isLoggedIn } = useContext(AuthContext);
@@ -14,11 +18,7 @@ const Home: React.FC = () => {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    if (isLoggedIn) {
-      setLink("/curriculum");
-    } else {
-      setLink("/registration");
-    }
+    setLink(isLoggedIn ? "/curriculum" : "/registration");
   }, [isLoggedIn]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,8 +27,7 @@ const Home: React.FC = () => {
     try {
       const response = await axios.post("/api/subscribe", { email });
       console.log(response.data);
-      // Reset email field after successful submission
-      setEmail("");
+      setEmail(""); // Reset email field after successful submission
     } catch (error) {
       console.log("An error occurred:", error);
       // Handle error

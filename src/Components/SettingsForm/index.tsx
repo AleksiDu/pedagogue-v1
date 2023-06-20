@@ -1,11 +1,14 @@
-import Input from "../RegistrationLoginCom/RegisterForm/Components/Input";
 import { useRef, useState, useContext } from "react";
 
-import styles from "../../styles/FormStyles/styles.module.css";
+import Input from "../RegistrationLoginCom/RegisterForm/Components/Input";
 import ToggleSwitch from "./Components/ToggleSwitch";
 import RadioButton from "./Components/RadioButton";
-import axios from "axios";
+
+import axios from "../../api/axios";
+
 import { ThemeContext } from "../../context/ThemeContext";
+
+import styles from "../../styles/FormStyles/styles.module.css";
 
 interface SettingsFormProps {
   userName: string;
@@ -18,7 +21,9 @@ const SettingsForm: React.FC<SettingsFormProps> = ({
 }) => {
   const [username, setUsername] = useState(userName);
   const [errMsg, setErrMsg] = useState("");
+
   const errRef = useRef<HTMLParagraphElement>(null);
+
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
 
   const handleNightModeToggle = () => {

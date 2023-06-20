@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect, FC } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "../../../api/axios";
 import styles from "../../../styles/FormStyles/styles.module.css";
 import Input from "../RegisterForm/Components/Input";
 import Loader from "../../Loader";
+import SuccessMessage from "../SuccessMessage";
 
 interface ErrorResponse {
   status?: number;
@@ -93,12 +94,12 @@ const PasswordReset: FC = () => {
       {loading ? (
         <Loader />
       ) : isSuccess ? (
-        <section className={styles.registrarSection}>
-          <h1>Success!</h1>
-          <p>
-            <Link to={"/login"}>Sign In</Link>
-          </p>
-        </section>
+        <SuccessMessage
+          to={"/login"}
+          className={styles.registrarSection}
+          comment="Success!"
+          link="Sign In"
+        />
       ) : (
         <section className={styles.registrarSection}>
           <p

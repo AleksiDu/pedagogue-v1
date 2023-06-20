@@ -2,21 +2,20 @@ import { useContext, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 
 import Curriculum from "../../pages/Curriculum";
-import FourOhFour from "../FourOhFour";
 import ForgetPassword from "../RegistrationLoginCom/ForgetPassword";
 import Home from "../../pages/Home";
 import Login from "../../pages/Login";
 import PasswordReset from "../RegistrationLoginCom/PasswordReset";
 import PrivateRoutes from "../../utils/PrivateRoutes";
 import Profile from "../../pages/Profile";
-import ProfileImageGallery from "../ProfileForm/Components/ProfileImageGallery";
 import Registration from "../../pages/Registration";
 import SettingsPage from "../../pages/SettingsPage";
+import LogoutButton from "./LogoutBtn";
+import FourOhFourPage from "../../pages/404";
 
 import { ThemeContext } from "../../context/ThemeContext";
 
 import "./body.css";
-import LogoutButton from "./LogoutBtn";
 
 const Body = () => {
   const REGISTER_URL = "/registration";
@@ -69,12 +68,7 @@ const Body = () => {
           </Route>
           <Route path="/Curriculum/*" element={<Curriculum />}></Route>
 
-          <Route
-            path="/gallery/*"
-            element={<ProfileImageGallery images={[]} />}
-          ></Route>
-
-          <Route path="*" element={<FourOhFour />} />
+          <Route path="*" element={<FourOhFourPage />} />
         </Routes>
       </section>
       <LogoutButton />
