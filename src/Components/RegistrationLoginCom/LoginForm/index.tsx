@@ -3,11 +3,10 @@ import axios from "../../../api/axios";
 import { AxiosError } from "axios";
 import styles from "../../../styles/FormStyles/styles.module.css";
 import Input from "../RegisterForm/Components/Input";
-import { Link } from "react-router-dom";
+
 import Loader from "../../Loader";
-import RegistrationAction from "../RegistrationAction";
 import { useAuth } from "../../../context/AuthContext";
-import SuccessMessage from "../SuccessMessage";
+import MessageWithAction from "../MessageWithAction";
 
 interface LoginResponseData {
   token: string;
@@ -31,7 +30,7 @@ const LoginForm: React.FC = () => {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -82,7 +81,7 @@ const LoginForm: React.FC = () => {
 
       setEmail("");
       setPwd("");
-      setSuccess(true);
+      setIsSuccess(true);
 
       // Set the userRole state based on the role value
       let updatedUserRole = "";
@@ -183,12 +182,13 @@ const LoginForm: React.FC = () => {
     <>
       {loading ? (
         <Loader />
-      ) : success ? (
-        <SuccessMessage
+      ) : isSuccess ? (
+        <MessageWithAction
           to={"/#"}
           className={styles.registrarSection}
           comment="You are logged in!"
-          link="Go to Home"
+          nextLine={true}
+          text="Go to Home"
         />
       ) : (
         <section className={styles.registrarSection}>
@@ -221,7 +221,7 @@ const LoginForm: React.FC = () => {
               value={pwd}
               required
             />
-            <RegistrationAction
+            <MessageWithAction
               className={styles.line}
               to="/forgetpassword"
               nextLine={false}
@@ -229,7 +229,7 @@ const LoginForm: React.FC = () => {
             />
             <button>Sign In</button>
           </form>
-          <RegistrationAction
+          <MessageWithAction
             className={styles.line}
             paragraph="Need an Account?"
             to="/registration"

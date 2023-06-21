@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { StepWizard, StepWizardProps } from "react-step-wizard";
+import StepWizard, { StepWizardProps } from "react-step-wizard";
 
 import StepOne from "./Components/StepOne/index";
 import StepTwo from "./Components/StepTwo";

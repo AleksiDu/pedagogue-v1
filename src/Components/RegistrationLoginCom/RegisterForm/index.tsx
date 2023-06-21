@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import Input from "./Components/Input";
 import Loader from "../../Loader";
-import SuccessMessage from "../SuccessMessage";
+import MessageWithAction from "../MessageWithAction";
 
 import axios from "../../../api/axios";
 
@@ -253,11 +253,12 @@ const RegisterForm: FC<{ name: string }> = (props: { name: string }) => {
       {loading ? (
         <Loader />
       ) : isSuccess ? (
-        <SuccessMessage
+        <MessageWithAction
           to={"/login"}
+          nextLine={true}
           className={styles.registrarSection}
           comment="Check Email for Verification"
-          link="Sign In"
+          text="Sign In"
         />
       ) : (
         renderForm()

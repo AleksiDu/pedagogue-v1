@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import Loader from "../../Loader";
 import axios from "../../../api/axios";
 import styles from "../../../styles/FormStyles/styles.module.css";
-import SuccessMessage from "../SuccessMessage";
+import SuccessMessage from "../MessageWithAction";
 
 interface VerificationParams {
   email?: string;
@@ -15,7 +15,7 @@ interface VerificationParams {
 const EmailVerification = () => {
   const { email = "", verificationCode = "" } = useParams<VerificationParams>();
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const EmailVerification = () => {
         email
       )}&verificationCode=${encodeURIComponent(verificationCode)}`;
       await axios.get(verificationUrl);
-      setSuccess(true);
+      setIsSuccess(true);
     } catch (err) {
       const error = err as AxiosError<unknown>;
       if (error.response) {
@@ -50,11 +50,12 @@ const EmailVerification = () => {
     <section className={styles.registrarSection}>
       {loading ? (
         <Loader />
-      ) : success ? (
+      ) : isSuccess ? (
         <SuccessMessage
           to={"/login"}
           comment="Email was Successfully Verified"
-          link="Login"
+          nextLine={true}
+          text="Login"
         />
       ) : (
         <>

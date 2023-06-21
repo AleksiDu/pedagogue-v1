@@ -6,6 +6,7 @@ import { AxiosError } from "axios";
 import Loader from "../../../Loader";
 import Avatar from "react-avatar";
 import { Link } from "react-router-dom";
+import SuccessMessage from "../../../RegistrationLoginCom/MessageWithAction";
 
 interface ConfirmProps {
   name: string;
@@ -213,12 +214,13 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
       {loading ? (
         <Loader />
       ) : isSuccess ? (
-        <section className={styles.registrarSection}>
-          <h1>User profile created successfully</h1>
-          <p>
-            <Link to={"/"}>home</Link>
-          </p>
-        </section>
+        <SuccessMessage
+          to={"/"}
+          className={styles.registrarSection}
+          comment="User profile created successfully"
+          nextLine={true}
+          text="home"
+        />
       ) : (
         <section className={styles.registrarSection}>
           <p

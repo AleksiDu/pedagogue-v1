@@ -4,7 +4,7 @@ import axios from "../../../api/axios";
 import styles from "../../../styles/FormStyles/styles.module.css";
 import Input from "../RegisterForm/Components/Input";
 import Loader from "../../Loader";
-import SuccessMessage from "../SuccessMessage";
+import MessageWithAction from "../MessageWithAction";
 
 interface ErrorResponse {
   status?: number;
@@ -94,11 +94,11 @@ const PasswordReset: FC = () => {
       {loading ? (
         <Loader />
       ) : isSuccess ? (
-        <SuccessMessage
+        <MessageWithAction
           to={"/login"}
           className={styles.registrarSection}
           comment="Success!"
-          link="Sign In"
+          text="Sign In"
         />
       ) : (
         <section className={styles.registrarSection}>
