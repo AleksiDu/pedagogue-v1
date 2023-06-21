@@ -1,12 +1,14 @@
-import { useEffect, useRef, useState } from "react";
-import ActionButton from "../ActionButton";
-import styles from "../../../../styles/FormStyles/styles.module.css";
-import axios from "../../../../api/axios";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AxiosError } from "axios";
-import Loader from "../../../Loader";
 import Avatar from "react-avatar";
-import { Link } from "react-router-dom";
-import SuccessMessage from "../../../RegistrationLoginCom/MessageWithAction";
+
+import ActionButton from "../ActionButton";
+import Loader from "../../../Loader";
+import MessageWithAction from "../../../RegistrationLoginCom/MessageWithAction";
+
+import axios from "../../../../api/axios";
+
+import styles from "../../../../styles/FormStyles/styles.module.css";
 
 interface ConfirmProps {
   name: string;
@@ -44,7 +46,6 @@ interface Option {
 }
 
 const StepConfirm: React.FC<ConfirmProps> = (props) => {
-  // TODO change Teacher to userRole
   const role = localStorage.getItem("role");
 
   let updatedUserRole = "";
@@ -93,7 +94,6 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
     (image: { profilePhoto: boolean }) => image.profilePhoto === true
   );
 
-  console.log("props.images: ", imageObj?.url);
   useEffect(() => {
     if (props.image && props.imageKey) {
       if (typeof props.image === "string") {
@@ -129,7 +129,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
       axios
         .post("/api/Photo/upload", formData, {
           headers: { "Content-Type": "multipart/from-data" },
-        }) //TODO change post address!!!
+        })
         .then((response) => {
           console.log(response);
         })
@@ -208,13 +208,13 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
     { name: "Subject", value: props?.subject },
     { name: "Experience", value: props?.experience },
   ];
-  console.log("confirm", props.images);
+
   return (
     <div>
       {loading ? (
         <Loader />
       ) : isSuccess ? (
-        <SuccessMessage
+        <MessageWithAction
           to={"/"}
           className={styles.registrarSection}
           comment="User profile created successfully"

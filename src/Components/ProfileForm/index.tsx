@@ -179,8 +179,6 @@ const ProfileForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
 
-  console.log("profile", user?.imageKey);
-
   return (
     <section>
       <StepWizard
