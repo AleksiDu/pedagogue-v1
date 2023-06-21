@@ -1,6 +1,8 @@
 import React from "react";
-import styles from "./styles.module.css";
+
 import Card from "../Card";
+
+import styles from "./styles.module.css";
 
 const Footer: React.FC = () => {
   const contact = [

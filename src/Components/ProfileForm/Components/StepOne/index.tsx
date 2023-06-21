@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import Select, { ActionMeta } from "react-select";
+
 import Input from "../../../RegistrationLoginCom/RegisterForm/Components/Input";
-import Select, { StylesConfig } from "react-select";
-import styles from "../../../../styles/FormStyles/styles.module.css";
 import ActionButton from "../ActionButton";
+
+import styles from "../../../../styles/FormStyles/styles.module.css";
+import { customStyles } from "./customStyles";
 
 /**
  * Todo
@@ -44,6 +47,8 @@ const StepOne: React.FC<OneProps> = (props) => {
 
   const [birthDate, setBirthDate] = useState<string>("");
 
+  const [errMsg, setErrMsg] = useState("");
+
   const [stepOneState, setStepOneState] = useState<StepOneState>({
     firstName: "",
     lastName: "",
@@ -63,54 +68,6 @@ const StepOne: React.FC<OneProps> = (props) => {
     { label: "Batumi", value: 3 },
   ];
 
-  const [errMsg, setErrMsg] = useState("");
-
-  const customStyles: StylesConfig = {
-    container: (provided) => ({
-      ...provided,
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-evenly",
-      flexGrow: 1,
-      paddingBottom: "1rem",
-    }),
-    control: (provided) => ({
-      ...provided,
-      fontSize: "22px",
-      borderRadius: "0.5rem",
-      borderWidth: "2px",
-      borderColor:
-        "-internal-light-dark(rgb(118, 118, 118),rgb(133, 133, 133))",
-    }),
-    input: (provided) => ({
-      ...provided,
-      margin: 0,
-      padding: 0,
-      color: "#000",
-    }),
-    menu: (provided) => ({
-      ...provided,
-      backgroundColor: "black",
-      marginTop: "-18px",
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isFocused
-        ? "rgba(118, 118, 118, 0.4)"
-        : state.isSelected
-        ? "rgb(118, 118, 118)"
-        : "white",
-      ":hover": {
-        color: "white",
-        backgroundColor: "rgba(118, 118, 118, 0.4)",
-      },
-    }),
-    singleValue: (provided) => ({
-      ...provided,
-      color: "#000",
-    }),
-  };
-
   useEffect(() => {
     setIsValidFirstName(NAME_REGEX.test(firstName));
     setIsValidLastName(NAME_REGEX.test(lastName));
@@ -120,6 +77,50 @@ const StepOne: React.FC<OneProps> = (props) => {
   useEffect(() => {
     setErrMsg("");
   }, [firstName, lastName]);
+
+  const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFirstName(value);
+    setStepOneState((prevState) => ({ ...prevState, firstName: value }));
+  };
+
+  const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setLastName(value);
+    setStepOneState((prevState) => ({ ...prevState, lastName: value }));
+  };
+
+  const handleBirthDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setBirthDate(value);
+    setStepOneState((prevState) => ({ ...prevState, birthDate: value }));
+  };
+
+  const handleGenderSelectChange = (
+    newValue: unknown,
+    actionMeta: ActionMeta<unknown>
+  ) => {
+    if (actionMeta.action === "select-option") {
+      const selectedOption = newValue as Option;
+      setStepOneState((prevState) => ({
+        ...prevState,
+        genderSelect: selectedOption,
+      }));
+    }
+  };
+
+  const handleCitySelectChange = (
+    newValue: unknown,
+    actionMeta: ActionMeta<unknown>
+  ) => {
+    if (actionMeta.action === "select-option") {
+      const selectedOption = newValue as Option;
+      setStepOneState((prevState) => ({
+        ...prevState,
+        citySelect: selectedOption,
+      }));
+    }
+  };
 
   const validate = () => {
     if (!isValidFirstName) {
@@ -157,10 +158,7 @@ const StepOne: React.FC<OneProps> = (props) => {
               id="first-name"
               type="text"
               autoComplete="off"
-              onChange={(e) => {
-                setFirstName(e.target.value);
-                setStepOneState({ ...stepOneState, firstName: e.target.value });
-              }}
+              onChange={handleFirstNameChange}
               value={firstName}
               required
               ariaInvalid={isValidFirstName ? "false" : "true"}
@@ -177,10 +175,7 @@ const StepOne: React.FC<OneProps> = (props) => {
               id="last-name"
               type="text"
               autoComplete="off"
-              onChange={(e) => {
-                setLastName(e.target.value);
-                setStepOneState({ ...stepOneState, lastName: e.target.value });
-              }}
+              onChange={handleLastNameChange}
               value={lastName}
               required
               ariaInvalid={isValidLastName ? "false" : "true"}
@@ -193,10 +188,7 @@ const StepOne: React.FC<OneProps> = (props) => {
               name="Birth Date:"
               id="birth-date"
               type="date"
-              onChange={(e) => {
-                setBirthDate(e.target.value);
-                setStepOneState({ ...stepOneState, birthDate: e.target.value });
-              }}
+              onChange={handleBirthDateChange}
               required
               value={birthDate}
             />
@@ -205,37 +197,15 @@ const StepOne: React.FC<OneProps> = (props) => {
             <Select
               styles={customStyles}
               options={genderOption}
-              onChange={(newValue: unknown) => {
-                const selectedOption = newValue as Option;
-                setStepOneState({
-                  ...stepOneState,
-                  genderSelect: selectedOption,
-                });
-              }}
+              onChange={handleGenderSelectChange}
             />
             <label htmlFor="city">City:</label>
             <Select
               styles={customStyles}
               options={cityOption}
-              onChange={(newValue: unknown) => {
-                const selectedOption = newValue as Option;
-                setStepOneState({
-                  ...stepOneState,
-                  citySelect: selectedOption,
-                });
-              }}
+              onChange={handleCitySelectChange}
             />
-            <ActionButton
-              nextStep={validate}
-              currentStep={1}
-              totalSteps={3}
-              previousStep={function (): void {
-                throw new Error("Function not implemented.");
-              }}
-              lastStep={function (): void {
-                throw new Error("Function not implemented.");
-              }}
-            />
+            <ActionButton nextStep={validate} currentStep={1} totalSteps={3} />
           </form>
         </section>
       }

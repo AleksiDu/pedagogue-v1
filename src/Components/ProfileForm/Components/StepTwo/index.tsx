@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+
 import Input from "../../../RegistrationLoginCom/RegisterForm/Components/Input";
 import ActionButton from "../ActionButton";
+
 import styles from "../../../../styles/FormStyles/styles.module.css";
 
 type TwoProps = {
@@ -107,7 +109,7 @@ const StepTwo: React.FC<TwoProps> = (props) => {
                 setSelectedImage(value);
                 setStepTwoState({
                   ...stepTwoState,
-                  image: value ?? undefined, //TODO undefined change default image!
+                  image: value ?? undefined,
                 });
               }}
               required
@@ -117,9 +119,6 @@ const StepTwo: React.FC<TwoProps> = (props) => {
               currentStep={2}
               totalSteps={3}
               previousStep={goBack}
-              lastStep={function (): void {
-                throw new Error("Function not implemented.");
-              }}
             />
           </form>
         </section>
