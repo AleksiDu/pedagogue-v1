@@ -35,6 +35,34 @@ const StepTwo: React.FC<TwoProps> = (props) => {
     setErrMsg("");
   }, [experience, subject, selectedImage]);
 
+  const handleSubjectChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSubject(value);
+    setStepTwoState({ ...stepTwoState, subject: value });
+  };
+
+  const handleExperienceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.valueAsNumber;
+    if (!isNaN(value)) {
+      setExperience(value);
+      setStepTwoState({
+        ...stepTwoState,
+        experience: value ?? 0,
+      });
+    }
+  };
+
+  const handleImageUploaderChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = e.target?.files?.[0];
+    setSelectedImage(value);
+    setStepTwoState({
+      ...stepTwoState,
+      image: value ?? undefined,
+    });
+  };
+
   const validate = () => {
     if (!experience) {
       setErrMsg("Please enter a year");
@@ -57,72 +85,51 @@ const StepTwo: React.FC<TwoProps> = (props) => {
 
   return (
     <div>
-      {
-        <section className={styles.registrarSection}>
-          <p
-            ref={errRef}
-            className={styles[errMsg ? "err-msg" : "offscreen"]}
-            aria-live="assertive"
-          >
-            {errMsg}
-          </p>
-          <h1>{props.name}</h1>
-          <form className={styles.registrarForm}>
-            <Input
-              name={"Subject:"}
-              id="subject"
-              type="text"
-              autoComplete="off"
-              onChange={(e) => {
-                setSubject(e.target.value);
-                setStepTwoState({ ...stepTwoState, subject: e.target.value });
-              }}
-              value={subject}
-              required
-            />
-            <Input
-              name={"Experience:"}
-              id="experience"
-              type="number"
-              autoComplete="off"
-              onChange={(e) => {
-                const value = e.target.valueAsNumber;
-                if (!isNaN(value)) {
-                  setExperience(value);
-                  setStepTwoState({
-                    ...stepTwoState,
-                    experience: value ?? 0,
-                  });
-                }
-              }}
-              value={experience === undefined ? "" : experience.toFixed(0)}
-              required
-            />
-            <Input
-              name={"Upload an image:"}
-              id="upload"
-              type="file"
-              autoComplete="off"
-              accept="image/*"
-              onChange={(e) => {
-                const value = e.target?.files?.[0];
-                setSelectedImage(value);
-                setStepTwoState({
-                  ...stepTwoState,
-                  image: value ?? undefined,
-                });
-              }}
-              required
-            />
-            <ActionButton
-              nextStep={validate}
-              currentStep={2}
-              totalSteps={3}
-              previousStep={goBack}
-            />
-          </form>
-        </section>
-      }
+      <section className={styles.registrarSection}>
+        <p
+          ref={errRef}
+          className={styles[errMsg ? "err-msg" : "offscreen"]}
+          aria-live="assertive"
+        >
+          {errMsg}
+        </p>
+        <h1>{props.name}</h1>
+        <form className={styles.registrarForm}>
+          <Input
+            name={"Subject:"}
+            id="subject"
+            type="text"
+            autoComplete="off"
+            onChange={handleSubjectChange}
+            value={subject}
+            required
+          />
+          <Input
+            name={"Experience:"}
+            id="experience"
+            type="number"
+            autoComplete="off"
+            onChange={handleExperienceChange}
+            value={experience?.toFixed(0) ?? ""}
+            required
+          />
+          <Input
+            name={"Upload an image:"}
+            id="upload"
+            type="file"
+            autoComplete="off"
+            accept="image/*"
+            onChange={handleImageUploaderChange}
+            required
+          />
+          <ActionButton
+            nextStep={validate}
+            currentStep={2}
+            totalSteps={3}
+            previousStep={goBack}
+          />
+        </form>
+      </section>
     </div>
   );
 };
