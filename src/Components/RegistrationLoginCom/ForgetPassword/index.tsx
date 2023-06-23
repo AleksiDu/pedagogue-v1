@@ -1,11 +1,13 @@
-import Input from "../RegisterForm/Components/Input";
-import styles from "../../../styles/FormStyles/styles.module.css";
 import { useRef, useState, useEffect } from "react";
 import { AxiosError } from "axios";
+
+import Input from "../RegisterForm/Components/Input";
 import Loader from "../../Loader";
-import axios from "../../../api/axios";
-import { Link } from "react-router-dom";
 import SuccessMessage from "../MessageWithAction";
+
+import styles from "../../../styles/FormStyles/styles.module.css";
+
+import axios from "../../../api/axios";
 
 const ForgetPassword = () => {
   const userEmailRef = useRef<HTMLInputElement>(null);

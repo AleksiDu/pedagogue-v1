@@ -1,10 +1,13 @@
 import { useState, useRef, useEffect, FC } from "react";
 import { useLocation } from "react-router-dom";
-import axios from "../../../api/axios";
-import styles from "../../../styles/FormStyles/styles.module.css";
+
 import Input from "../RegisterForm/Components/Input";
 import Loader from "../../Loader";
 import MessageWithAction from "../MessageWithAction";
+
+import axios from "../../../api/axios";
+
+import styles from "../../../styles/FormStyles/styles.module.css";
 
 interface ErrorResponse {
   status?: number;

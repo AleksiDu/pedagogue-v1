@@ -82,6 +82,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
 
     checkLoggedInStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [authUser, setAuthUser] = useState<AuthState>(() => {

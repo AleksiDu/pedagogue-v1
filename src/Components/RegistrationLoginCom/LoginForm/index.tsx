@@ -1,12 +1,15 @@
 import { useRef, useState, useEffect } from "react";
-import axios from "../../../api/axios";
 import { AxiosError } from "axios";
-import styles from "../../../styles/FormStyles/styles.module.css";
-import Input from "../RegisterForm/Components/Input";
 
+import Input from "../RegisterForm/Components/Input";
 import Loader from "../../Loader";
-import { useAuth } from "../../../context/AuthContext";
 import MessageWithAction from "../MessageWithAction";
+
+import axios from "../../../api/axios";
+
+import { useAuth } from "../../../context/AuthContext";
+
+import styles from "../../../styles/FormStyles/styles.module.css";
 
 interface LoginResponseData {
   token: string;

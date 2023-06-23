@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
 import Loader from "../../Loader";
-import axios from "../../../api/axios";
-import styles from "../../../styles/FormStyles/styles.module.css";
 import SuccessMessage from "../MessageWithAction";
+
+import axios from "../../../api/axios";
+
+import styles from "../../../styles/FormStyles/styles.module.css";
 
 interface VerificationParams {
   email?: string;
