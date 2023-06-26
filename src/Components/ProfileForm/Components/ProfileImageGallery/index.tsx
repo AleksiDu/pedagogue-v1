@@ -50,7 +50,7 @@ const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = (props) => {
   };
 
   return (
-    <div>
+    <>
       <div className="image-gallery">
         {images.map((image) => (
           <div key={image.id} className="image-wrapper">
@@ -72,6 +72,7 @@ const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = (props) => {
       {selectedImage && (
         <div className="image-modal">
           <img src={selectedImage.url} alt="Selected Image" />
+
           <button className="close-button" onClick={closeImage}>
             X
           </button>
@@ -87,7 +88,7 @@ const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = (props) => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
