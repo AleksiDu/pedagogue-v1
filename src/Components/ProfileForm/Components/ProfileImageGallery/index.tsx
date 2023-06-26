@@ -71,11 +71,13 @@ const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = (props) => {
 
       {selectedImage && (
         <div className="image-modal">
-          <img src={selectedImage.url} alt="Selected Image" />
+          <div className="image-modal-wrapper">
+            <img src={selectedImage.url} alt="Selected Image" />
 
-          <button className="close-button" onClick={closeImage}>
-            X
-          </button>
+            <button className="close-button" onClick={closeImage}>
+              X
+            </button>
+          </div>
         </div>
       )}
 

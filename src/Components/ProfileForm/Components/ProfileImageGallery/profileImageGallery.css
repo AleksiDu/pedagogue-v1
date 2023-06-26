@@ -65,17 +65,20 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.image-modal-wrapper {
+  position: relative;
+}
+
 .image-modal img {
   max-width: 80%;
   max-height: 80%;
   object-fit: contain;
-  position: relative;
 }
 
 .close-button {
   position: absolute;
-  margin-left: 350px;
-  margin-bottom: 550px;
+  top: 10px;
+  right: 10px;
   padding: 5px;
   background-color: #fff;
   border: none;
