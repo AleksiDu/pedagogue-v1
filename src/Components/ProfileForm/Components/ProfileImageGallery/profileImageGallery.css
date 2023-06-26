@@ -1,0 +1,84 @@
+/* profileImageGallery.css */
+
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.image-wrapper {
+  position: relative;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.profile-photo {
+  border: 2px solid #ff6b6b;
+}
+
+.image-wrapper img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.image-options {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.confirmation-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.confirmation-modal p {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.confirmation-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.confirmation-buttons button {
+  margin: 0 5px;
+}
+
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.image-modal img {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px;
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+}

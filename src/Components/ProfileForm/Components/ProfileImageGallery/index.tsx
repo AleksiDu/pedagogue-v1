@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import "./profileImageGallery.css";
+
 interface Image {
   id: string;
   url: string;

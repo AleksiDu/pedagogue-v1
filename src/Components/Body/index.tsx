@@ -16,6 +16,7 @@ import FourOhFourPage from "../../pages/404";
 import { ThemeContext } from "../../context/ThemeContext";
 
 import "./body.css";
+import ProfileImageGallery from "../ProfileForm/Components/ProfileImageGallery";
 
 const Body = () => {
   const REGISTER_URL = "/registration";
@@ -51,6 +52,30 @@ const Body = () => {
       <section className={`landing-page  ${isDarkMode ? "dark-mode" : ""}`}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route
+            path="/profileimage"
+            element={
+              <ProfileImageGallery
+                images={[
+                  {
+                    id: "As1",
+                    url: "https://images.unsplash.com/photo-1687342780195-b72f82450dce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+                    profilePhoto: true,
+                  },
+                  {
+                    id: "As2",
+                    url: "https://images.unsplash.com/photo-1687342780195-b72f82450dce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+                    profilePhoto: false,
+                  },
+                  {
+                    id: "As3",
+                    url: "https://images.unsplash.com/photo-1687342780195-b72f82450dce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+                    profilePhoto: false,
+                  },
+                ]}
+              />
+            }
+          />
           <Route path="/registration/*" element={<Registration />}></Route>
           <Route path="/login/*" element={<Login />}></Route>
           <Route path="/forgetpassword/*" element={<ForgetPassword />}></Route>
