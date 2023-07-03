@@ -12,34 +12,34 @@ interface ProfileImageGalleryProps {
   images: Image[];
 }
 
-const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = (props) => {
-  const [images, setImages] = useState<Image[]>(props.images);
+const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = ({
+  images: galleryImages,
+}) => {
+  const [images, setImages] = useState<Image[]>(galleryImages);
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [deleteImage, setDeleteImage] = useState<Image | null>(null);
 
-  console.log(props);
-
-  const openImage = (image: Image) => {
+  const handleImageOpen = (image: Image) => {
     setSelectedImage(image);
   };
 
-  const closeImage = () => {
+  const handleCloseImage = () => {
     setSelectedImage(null);
   };
 
-  const deleteImageConfirmation = (image: Image) => {
+  const handleDeleteImageConfirmation = (image: Image) => {
     setDeleteImage(image);
     setShowConfirmDelete(true);
   };
 
-  const confirmDelete = () => {
+  const handleDeleteConfirmation = () => {
     // TODO delete operation  make an API request
     // TODO Once the delete operation is successful, update the images array
 
     // API call for deleting the image by ID
     const updatedImages = images.filter(
-      (image) => image.id !== deleteImage!.id
+      (image) => image.id !== deleteImage?.id
     );
 
     // Update the images state with the updated array
@@ -56,12 +56,12 @@ const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = (props) => {
           <div key={image.id} className="image-wrapper">
             <img
               src={image.url}
-              alt="User Profile Image"
+              alt={`User Profile ${image.id}`}
               className={image.profilePhoto ? "profile-photo" : ""}
-              onClick={() => openImage(image)}
+              onClick={() => handleImageOpen(image)}
             />
             <div className="image-options">
-              <button onClick={() => deleteImageConfirmation(image)}>
+              <button onClick={() => handleDeleteImageConfirmation(image)}>
                 Delete
               </button>
             </div>
@@ -72,9 +72,9 @@ const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = (props) => {
       {selectedImage && (
         <div className="image-modal">
           <div className="image-modal-wrapper">
-            <img src={selectedImage.url} alt="Selected Image" />
+            <img src={selectedImage.url} alt="Selected" />
 
-            <button className="close-button" onClick={closeImage}>
+            <button className="close-button" onClick={handleCloseImage}>
               X
             </button>
           </div>
@@ -85,7 +85,7 @@ const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = (props) => {
         <div className="confirmation-modal">
           <p>Are you sure you want to delete this image?</p>
           <div className="confirmation-buttons">
-            <button onClick={confirmDelete}>Yes</button>
+            <button onClick={handleDeleteConfirmation}>Yes</button>
             <button onClick={() => setShowConfirmDelete(false)}>No</button>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 import Avatar from "react-avatar";
 
 import ActionButton from "../ActionButton";
@@ -72,6 +73,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
   const [loading, setLoading] = useState(false);
   const [imageURL, setImageURL] = useState("");
   const [imageKey, setImageKey] = useState("");
+  const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
 
   const birthYear = props.birthDate ? props.birthDate.split("-") : null;
@@ -93,6 +95,8 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
   const imageObj = props.images.find(
     (image: { profilePhoto: boolean }) => image.profilePhoto === true
   );
+
+  const handleRelocation = () => navigate("./profileimage");
 
   useEffect(() => {
     if (props.image && props.imageKey) {
@@ -242,6 +246,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
                 borderRadius: 4,
                 borderStyle: "solid",
               }}
+              onClick={handleRelocation}
             />
 
             {propArray.map((prop) => (
