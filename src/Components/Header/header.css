@@ -38,6 +38,11 @@
 .sb-avatar__image {
   border-radius: 0.25rem;
 }
+.sb-avatar__image:hover {
+  border-radius: 0.25rem;
+  cursor: pointer;
+  box-shadow: 3px 5px 2px rgb(0 0 0 / 0.2);
+}
 
 .menu-container {
   position: relative;

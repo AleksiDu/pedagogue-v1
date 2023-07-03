@@ -22,10 +22,10 @@ interface MenuItem {
 
 const Header: FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [imageKey, setImageKey] = useState<string>("Fox1061");
+  const [imageKey, setImageKey] = useState<string>("--v1");
   const [isActive, setIsActive] = useState(false);
   const [imageURL, setImageURL] = useState<string>(
-    "https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
+    "https://img.icons8.com/ios/50/user--v1.png"
   );
 
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
@@ -57,12 +57,18 @@ const Header: FC = () => {
           return;
         }
 
-        const result = await fetchProfileImage(Number(role), accessToken);
+        const images = await fetchProfileImage(Number(role), accessToken);
 
-        if (result) {
-          const { imageURL, imageKey } = result;
-          setImageURL(imageURL);
-          setImageKey(imageKey);
+        if (images) {
+          const timestamp = new Date().getTime();
+          const profileImage = images.find((image) => image.profilePhoto);
+
+          if (profileImage) {
+            const { id, url } = profileImage;
+            const imageURL = `${url}?t=${timestamp}`;
+            setImageURL(imageURL);
+            setImageKey(id);
+          }
         } else {
           // Handle the case when fetchProfileImage returns undefined
           console.log("Image not found.");

@@ -13,7 +13,7 @@ interface ProfileResponse {
 const fetchProfileImage = async (
   userRole: number,
   accessToken: string
-): Promise<{ imageURL: string; imageKey: string } | undefined> => {
+): Promise<ProfileImage[] | undefined> => {
   try {
     let updatedUserRole = "";
     switch (userRole) {
@@ -41,14 +41,9 @@ const fetchProfileImage = async (
     );
 
     const { images } = response.data;
-    const timestamp = new Date().getTime();
 
-    const profileImage = images.find((image) => image.profilePhoto);
-
-    if (profileImage) {
-      const { id, url } = profileImage;
-      const imageURL = `${url}?t=${timestamp}`;
-      return { imageURL, imageKey: id };
+    if (images) {
+      return images;
     }
   } catch (error) {
     console.log("Error fetching image:", error);

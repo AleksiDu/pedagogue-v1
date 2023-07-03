@@ -52,7 +52,7 @@ const ProfileForm = () => {
   const [user, setUser] = useState<UserProps>();
   const [imageKey, setImageKey] = useState<string>("fox-mox");
   const [imageURL, setImageURL] = useState<string>(
-    "https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
+    "https://img.icons8.com/ios/50/user--v1.png"
   );
   const [images, setImages] = useState<Image[]>([
     {

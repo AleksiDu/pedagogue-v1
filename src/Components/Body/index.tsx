@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 
 import Curriculum from "../../pages/Curriculum";
@@ -12,11 +12,11 @@ import Registration from "../../pages/Registration";
 import SettingsPage from "../../pages/SettingsPage";
 import LogoutButton from "./LogoutBtn";
 import FourOhFourPage from "../../pages/404";
+import ProfileImageGallery from "../ProfileForm/Components/ProfileImageGallery";
 
 import { ThemeContext } from "../../context/ThemeContext";
 
 import "./body.css";
-import ProfileImageGallery from "../ProfileForm/Components/ProfileImageGallery";
 
 const Body = () => {
   const REGISTER_URL = "/registration";
@@ -54,27 +54,7 @@ const Body = () => {
           <Route path="/" element={<Home />} />
           <Route
             path="/profileimage"
-            element={
-              <ProfileImageGallery
-                images={[
-                  {
-                    id: "As1",
-                    url: "https://images.unsplash.com/photo-1687342780195-b72f82450dce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
-                    profilePhoto: false,
-                  },
-                  {
-                    id: "As2",
-                    url: "https://images.unsplash.com/photo-1687342780195-b72f82450dce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
-                    profilePhoto: false,
-                  },
-                  {
-                    id: "As3",
-                    url: "https://images.unsplash.com/photo-1666919643134-d97687c1826c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80",
-                    profilePhoto: false,
-                  },
-                ]}
-              />
-            }
+            element={<ProfileImageGallery images={[]} />}
           />
           <Route path="/registration/*" element={<Registration />}></Route>
           <Route path="/login/*" element={<Login />}></Route>
