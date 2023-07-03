@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./profileImageGallery.css";
+import Loader from "../../../Loader";
 
 interface Image {
   id: string;
@@ -15,10 +16,16 @@ interface ProfileImageGalleryProps {
 const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = ({
   images: galleryImages,
 }) => {
-  const [images, setImages] = useState<Image[]>(galleryImages);
+  const [loading, setLoading] = useState(true);
+  const [images, setImages] = useState<Image[]>([]);
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [deleteImage, setDeleteImage] = useState<Image | null>(null);
+
+  useEffect(() => {
+    setImages(galleryImages);
+    setLoading(false);
+  }, [galleryImages]);
 
   const handleImageOpen = (image: Image) => {
     setSelectedImage(image);
@@ -51,23 +58,27 @@ const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = ({
 
   return (
     <>
-      <div className="image-gallery">
-        {images.map((image) => (
-          <div key={image.id} className="image-wrapper">
-            <img
-              src={image.url}
-              alt={`User Profile ${image.id}`}
-              className={image.profilePhoto ? "profile-photo" : ""}
-              onClick={() => handleImageOpen(image)}
-            />
-            <div className="image-options">
-              <button onClick={() => handleDeleteImageConfirmation(image)}>
-                Delete
-              </button>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="image-gallery">
+          {images.map((image) => (
+            <div key={image.id} className="image-wrapper">
+              <img
+                src={image.url}
+                alt={`User Profile ${image.id}`}
+                className={image.profilePhoto ? "profile-photo" : ""}
+                onClick={() => handleImageOpen(image)}
+              />
+              <div className="image-options">
+                <button onClick={() => handleDeleteImageConfirmation(image)}>
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {selectedImage && (
         <div className="image-modal">

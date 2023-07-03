@@ -17,8 +17,12 @@ import ProfileImageGallery from "../ProfileForm/Components/ProfileImageGallery";
 import { ThemeContext } from "../../context/ThemeContext";
 
 import "./body.css";
+import fetchProfileImage from "../../utils/fetchProfileImage ";
 
 const Body = () => {
+  const [galleryImages, setGalleryImages] = useState([
+    { id: "", profilePhoto: false, url: "" },
+  ]);
   const REGISTER_URL = "/registration";
 
   const location = useLocation();
@@ -27,6 +31,7 @@ const Body = () => {
 
   const userName = localStorage.getItem("username") ?? "";
   const accessToken = localStorage.getItem("accessToken") ?? "";
+  const role = localStorage.getItem("role");
 
   useEffect(() => {
     switch (location.pathname) {
@@ -47,6 +52,29 @@ const Body = () => {
     }
   }, [setIsDarkMode]);
 
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        if (!accessToken) {
+          console.log("Access token not found.");
+          return;
+        }
+
+        const images = await fetchProfileImage(Number(role), accessToken);
+
+        if (images) {
+          setGalleryImages(images);
+        } else {
+          // Handle the case when fetchProfileImage returns undefined
+          console.log("Image not found.");
+        }
+      } catch (error) {
+        console.log("Error fetching image:", error);
+      }
+    };
+    fetchImage().catch(console.error);
+  }, []);
+
   return (
     <>
       <section className={`landing-page  ${isDarkMode ? "dark-mode" : ""}`}>
@@ -54,7 +82,7 @@ const Body = () => {
           <Route path="/" element={<Home />} />
           <Route
             path="/profileimage"
-            element={<ProfileImageGallery images={[]} />}
+            element={<ProfileImageGallery images={galleryImages} />}
           />
           <Route path="/registration/*" element={<Registration />}></Route>
           <Route path="/login/*" element={<Login />}></Route>

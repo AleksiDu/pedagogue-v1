@@ -50,7 +50,7 @@ const ProfileForm = () => {
 
   const [activeStep, setActiveStep] = useState(0);
   const [user, setUser] = useState<UserProps>();
-  const [imageKey, setImageKey] = useState<string>("fox-mox");
+  const [imageKey, setImageKey] = useState<string>("--v1");
   const [imageURL, setImageURL] = useState<string>(
     "https://img.icons8.com/ios/50/user--v1.png"
   );

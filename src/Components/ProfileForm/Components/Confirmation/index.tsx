@@ -96,7 +96,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
     (image: { profilePhoto: boolean }) => image.profilePhoto === true
   );
 
-  const handleRelocation = () => navigate("./profileimage");
+  const handleRelocation = () => navigate("/profileimage");
 
   useEffect(() => {
     if (props.image && props.imageKey) {
