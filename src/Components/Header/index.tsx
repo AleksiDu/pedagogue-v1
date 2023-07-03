@@ -12,6 +12,7 @@ import AvatarContainer from "../AvatarContainer";
 import { AuthContext } from "../../context/AuthContext";
 
 import "./header.css";
+import { useScreenWidth } from "../../context/ScreenWidthContext";
 
 interface MenuItem {
   label: string;
@@ -29,6 +30,7 @@ const Header: FC = () => {
 
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+  const screenWidth = useScreenWidth();
 
   const MENU_ITEMS: MenuItem[] = [
     { label: "Profile", link: "/profile/#confirm" },
@@ -122,7 +124,9 @@ const Header: FC = () => {
           isActive={isActive}
           menuItems={MENU_ITEMS}
         />
-        <AvatarContainer isLoggedIn={isLoggedIn} {...avatarProps} />
+        {screenWidth < 480 ? null : (
+          <AvatarContainer isLoggedIn={isLoggedIn} {...avatarProps} />
+        )}
       </div>
     </header>
   );

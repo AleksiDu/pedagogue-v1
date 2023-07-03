@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
-import Avatar from "react-avatar";
 
 import ActionButton from "../ActionButton";
 import Loader from "../../../Loader";
 import MessageWithAction from "../../../RegistrationLoginCom/MessageWithAction";
+import AvatarContainer from "../../../AvatarContainer";
 
 import axios from "../../../../api/axios";
 
@@ -237,8 +237,9 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
           <h1>{props.name}</h1>
           <form className={styles.registrarForm}>
             {/* TODO change to imageKey  */}
-            <Avatar
-              key={imageKey}
+            <AvatarContainer
+              className="avatar-containr"
+              id={imageKey}
               src={imageURL}
               size="60"
               style={{
