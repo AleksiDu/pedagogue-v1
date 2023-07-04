@@ -1,7 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faIdCardClip,
+  faRectangleXmark,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 
 import "./profileImageGallery.css";
+
 import Loader from "../../../Loader";
+
+import axios from "../../../../api/axios";
 
 interface Image {
   id: string;
@@ -13,7 +22,7 @@ interface ProfileImageGalleryProps {
   images: Image[];
 }
 
-const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = ({
+const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
   images: galleryImages,
 }) => {
   const [loading, setLoading] = useState(true);
@@ -22,9 +31,18 @@ const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = ({
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [deleteImage, setDeleteImage] = useState<Image | null>(null);
 
+  const accessToken = localStorage.getItem("accessToken");
+  const userRole = localStorage.getItem("role");
+
   useEffect(() => {
-    setImages(galleryImages);
-    setLoading(false);
+    const fetchData = async () => {
+      setImages(galleryImages);
+    };
+    fetchData()
+      .then(() => {
+        setLoading(false);
+      })
+      .catch(console.error);
   }, [galleryImages]);
 
   const handleImageOpen = (image: Image) => {
@@ -35,25 +53,69 @@ const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = ({
     setSelectedImage(null);
   };
 
+  const handleToSetProfileImage = async (image: Image) => {
+    const updatedUserRole = getUserRole();
+    const updatedImage = { ...image, profilePhoto: true };
+
+    axios
+      .put(`/api/${updatedUserRole}/${image.id}`, updatedImage, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        console.log("Profile photo updated successfully");
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error("Error updating profile photo:", error);
+      });
+  };
+
   const handleDeleteImageConfirmation = (image: Image) => {
     setDeleteImage(image);
     setShowConfirmDelete(true);
   };
 
   const handleDeleteConfirmation = () => {
-    // TODO delete operation  make an API request
-    // TODO Once the delete operation is successful, update the images array
+    if (deleteImage) {
+      console.log(deleteImage);
+      axios
+        .delete(`/api/Photo/delete`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          data: {
+            photos: [deleteImage.id],
+          },
+        })
+        .then((response) => {
+          console.log("Profile photo deleted successfully", response);
 
-    // API call for deleting the image by ID
-    const updatedImages = images.filter(
-      (image) => image.id !== deleteImage?.id
-    );
+          const updatedImages = images.filter(
+            (image) => image.id !== deleteImage?.id
+          );
+          setImages(updatedImages);
+          setShowConfirmDelete(false);
+        })
+        .catch((error) => {
+          console.error("Error deleting profile photo:", error);
+          setShowConfirmDelete(false);
+        });
+    }
+  };
 
-    // Update the images state with the updated array
-    setImages(updatedImages);
-
-    // Close the confirmation dialog
-    setShowConfirmDelete(false);
+  const getUserRole = () => {
+    switch (Number(userRole)) {
+      case 1:
+        return "Tutor";
+      case 2:
+        return "Student";
+      case 3:
+        return "Parent";
+      default:
+        return "default";
+    }
   };
 
   return (
@@ -72,7 +134,13 @@ const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = ({
               />
               <div className="image-options">
                 <button onClick={() => handleDeleteImageConfirmation(image)}>
-                  Delete
+                  <FontAwesomeIcon icon={faTrashCan} />
+                </button>
+                <button
+                  className="set-button"
+                  onClick={() => handleToSetProfileImage(image)}
+                >
+                  <FontAwesomeIcon icon={faIdCardClip} />
                 </button>
               </div>
             </div>
@@ -86,7 +154,7 @@ const ProfileImageGallery: React.FC<ProfileImageGalleryProps> = ({
             <img src={selectedImage.url} alt="Selected" />
 
             <button className="close-button" onClick={handleCloseImage}>
-              X
+              <FontAwesomeIcon icon={faRectangleXmark} />
             </button>
           </div>
         </div>
