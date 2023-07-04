@@ -19,10 +19,14 @@ import { ThemeContext } from "../../context/ThemeContext";
 import "./body.css";
 import fetchProfileImage from "../../utils/fetchProfileImage ";
 
+interface Image {
+  id: string;
+  profilePhoto: boolean;
+  url: string;
+}
+
 const Body = () => {
-  const [galleryImages, setGalleryImages] = useState([
-    { id: "", profilePhoto: false, url: "" },
-  ]);
+  const [galleryImages, setGalleryImages] = useState<Image[] | undefined>();
   const REGISTER_URL = "/registration";
 
   const location = useLocation();

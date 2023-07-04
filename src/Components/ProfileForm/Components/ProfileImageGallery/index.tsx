@@ -19,7 +19,7 @@ interface Image {
 }
 
 interface ProfileImageGalleryProps {
-  images: Image[];
+  images?: Image[];
 }
 
 const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
@@ -35,14 +35,10 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
   const userRole = localStorage.getItem("role");
 
   useEffect(() => {
-    const fetchData = async () => {
+    if (galleryImages) {
       setImages(galleryImages);
-    };
-    fetchData()
-      .then(() => {
-        setLoading(false);
-      })
-      .catch(console.error);
+      setLoading(false);
+    }
   }, [galleryImages]);
 
   const handleImageOpen = (image: Image) => {

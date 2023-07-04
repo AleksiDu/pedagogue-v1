@@ -42,6 +42,8 @@ const fetchProfileImage = async (
 
     const { images } = response.data;
 
+    console.log("images", images);
+
     if (images) {
       return images;
     }
