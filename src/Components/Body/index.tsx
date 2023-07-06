@@ -77,32 +77,31 @@ const Body = () => {
       }
     };
     fetchImage().catch(console.error);
-  }, []);
+  }, [accessToken, role]);
 
   return (
     <>
       <section className={`landing-page  ${isDarkMode ? "dark-mode" : ""}`}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
-            path="/profileimage"
-            element={<ProfileImageGallery images={galleryImages} />}
-          />
           <Route path="/registration/*" element={<Registration />}></Route>
           <Route path="/login/*" element={<Login />}></Route>
           <Route path="/forgetpassword/*" element={<ForgetPassword />}></Route>
           <Route path="/resetpassword" element={<PasswordReset />}></Route>
-          <Route path="/profile/*" element={<PrivateRoutes />}>
-            <Route path="/profile/*" element={<Profile />} />
-          </Route>
           <Route element={<PrivateRoutes />}>
+            <Route path="/profile/*" element={<Profile />} />
             <Route
               path="/settings/*"
               element={
                 <SettingsPage userName={userName} accessToken={accessToken} />
               }
             />
+            <Route
+              path="/profileimage"
+              element={<ProfileImageGallery images={galleryImages} />}
+            />
           </Route>
+
           <Route path="/Curriculum/*" element={<Curriculum />}></Route>
 
           <Route path="*" element={<FourOhFourPage />} />
