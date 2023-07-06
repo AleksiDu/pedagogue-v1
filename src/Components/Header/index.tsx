@@ -83,7 +83,7 @@ const Header: FC = () => {
     if (isLoggedIn) {
       fetchImage().catch(console.error);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, imageURL]);
 
   useOnClickOutside(dropdownRef, handleClickOutside);
 

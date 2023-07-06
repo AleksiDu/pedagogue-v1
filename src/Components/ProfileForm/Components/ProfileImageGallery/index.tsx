@@ -66,6 +66,14 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
       );
       console.log("Profile photo updated successfully");
       console.log(response);
+
+      // Update the profilePhoto flag for the selected image
+      const updatedImages = images.map((img) => ({
+        ...img,
+        profilePhoto: img.id === image.id,
+      }));
+
+      setImages(updatedImages); // Trigger re-render by updating the state
     } catch (error) {
       console.error("Error updating profile photo:", error);
     }
