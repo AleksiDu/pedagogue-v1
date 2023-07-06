@@ -49,55 +49,54 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
     setSelectedImage(null);
   };
 
-  const handleToSetProfileImage = async (image: Image) => {
-    const updatedUserRole = getUserRole();
-    const updatedImage = { ...image, profilePhoto: true };
-
-    axios
-      .put(`/api/${updatedUserRole}/${image.id}`, updatedImage, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        console.log("Profile photo updated successfully");
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error("Error updating profile photo:", error);
-      });
-  };
-
   const handleDeleteImageConfirmation = (image: Image) => {
     setDeleteImage(image);
     setShowConfirmDelete(true);
   };
 
-  const handleDeleteConfirmation = () => {
+  const handleToSetProfileImage = async (image: Image) => {
+    const updatedUserRole = getUserRole();
+    const updatedImage = { ...image, profilePhoto: true };
+
+    try {
+      const response = await axios.put(
+        `/api/${updatedUserRole}/${image.id}`,
+        updatedImage,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log("Profile photo updated successfully");
+      console.log(response);
+    } catch (error) {
+      console.error("Error updating profile photo:", error);
+    }
+  };
+
+  const handleDeleteConfirmation = async () => {
     if (deleteImage) {
-      console.log(deleteImage);
-      axios
-        .delete(`/api/Photo/delete`, {
+      try {
+        const response = await axios.delete(`/api/Photo/delete`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
           data: {
             photos: [deleteImage.id],
           },
-        })
-        .then((response) => {
-          console.log("Profile photo deleted successfully", response);
-
-          const updatedImages = images.filter(
-            (image) => image.id !== deleteImage?.id
-          );
-          setImages(updatedImages);
-          setShowConfirmDelete(false);
-        })
-        .catch((error) => {
-          console.error("Error deleting profile photo:", error);
-          setShowConfirmDelete(false);
         });
+        console.log("Profile photo deleted successfully", response);
+
+        const updatedImages = images.filter(
+          (image) => image.id !== deleteImage?.id
+        );
+        setImages(updatedImages);
+        setShowConfirmDelete(false);
+      } catch (error) {
+        console.error("Error deleting profile photo:", error);
+        setShowConfirmDelete(false);
+      }
     }
   };
 
@@ -121,11 +120,13 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
       ) : (
         <div className="image-gallery">
           {images.map((image) => (
-            <div key={image.id} className="image-wrapper">
+            <div
+              key={image.id}
+              className={`image-wrapper ${image.profilePhoto} ? "profile-photo" : ""`}
+            >
               <img
                 src={image.url}
                 alt={`User Profile ${image.id}`}
-                className={image.profilePhoto ? "profile-photo" : ""}
                 onClick={() => handleImageOpen(image)}
               />
               <div className="image-options">
