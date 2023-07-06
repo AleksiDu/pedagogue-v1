@@ -35,6 +35,7 @@ const Header: FC = () => {
   const MENU_ITEMS: MenuItem[] = [
     { label: "Profile", link: "/profile/#confirm" },
     { label: "Settings", link: "/settings" },
+    { label: "Gallery", link: "/profileimage" },
     { label: "Curriculum", link: "/curriculum" },
   ];
 
