@@ -29,8 +29,9 @@ const Header: FC = () => {
   );
 
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-  const navigate = useNavigate();
   const screenWidth = useScreenWidth();
+
+  const navigate = useNavigate();
 
   const MENU_ITEMS: MenuItem[] = [
     { label: "Profile", link: "/profile/#confirm" },

@@ -32,7 +32,6 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
   const [deleteImage, setDeleteImage] = useState<Image | null>(null);
 
   const accessToken = localStorage.getItem("accessToken");
-  const userRole = localStorage.getItem("role");
 
   useEffect(() => {
     if (galleryImages) {
@@ -55,13 +54,10 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
   };
 
   const handleToSetProfileImage = async (image: Image) => {
-    const updatedUserRole = getUserRole();
-    const updatedImage = { ...image, profilePhoto: true };
-
     try {
       const response = await axios.put(
-        `/api/${updatedUserRole}/${image.id}`,
-        updatedImage,
+        `/api/Photo/update-profile`,
+        { photoId: image.id },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -100,19 +96,6 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
     }
   };
 
-  const getUserRole = () => {
-    switch (Number(userRole)) {
-      case 1:
-        return "Tutor";
-      case 2:
-        return "Student";
-      case 3:
-        return "Parent";
-      default:
-        return "default";
-    }
-  };
-
   return (
     <>
       {loading ? (
@@ -120,13 +103,11 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
       ) : (
         <div className="image-gallery">
           {images.map((image) => (
-            <div
-              key={image.id}
-              className={`image-wrapper ${image.profilePhoto} ? "profile-photo" : ""`}
-            >
+            <div key={image.id} className={`image-wrapper`}>
               <img
                 src={image.url}
                 alt={`User Profile ${image.id}`}
+                className={`${image.profilePhoto ? "profile-photo" : ""}`}
                 onClick={() => handleImageOpen(image)}
               />
               <div className="image-options">
