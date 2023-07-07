@@ -33,6 +33,8 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
 
   const accessToken = localStorage.getItem("accessToken");
 
+  console.log(galleryImages);
+
   useEffect(() => {
     if (galleryImages) {
       setImages(galleryImages);

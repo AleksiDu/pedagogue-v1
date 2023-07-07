@@ -27,6 +27,8 @@ interface Image {
 
 const Body = () => {
   const [galleryImages, setGalleryImages] = useState<Image[] | undefined>();
+  const [fetchedImages, setFetchedImages] = useState<Image[] | undefined>();
+
   const REGISTER_URL = "/registration";
 
   const location = useLocation();
@@ -67,7 +69,7 @@ const Body = () => {
         const images = await fetchProfileImage(Number(role), accessToken);
 
         if (images) {
-          setGalleryImages(images);
+          setFetchedImages(images);
         } else {
           // Handle the case when fetchProfileImage returns undefined
           console.log("Image not found.");
@@ -78,6 +80,12 @@ const Body = () => {
     };
     fetchImage().catch(console.error);
   }, [accessToken, role]);
+
+  useEffect(() => {
+    if (fetchedImages) {
+      setGalleryImages(fetchedImages);
+    }
+  }, [fetchedImages]);
 
   return (
     <>
