@@ -13,6 +13,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 import "./header.css";
 import { useScreenWidth } from "../../context/ScreenWidthContext";
+import { ImageIdContext } from "../../context/ImageIdContext";
 
 interface MenuItem {
   label: string;
@@ -29,6 +30,7 @@ const Header: FC = () => {
   );
 
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { imageId } = useContext(ImageIdContext);
   const screenWidth = useScreenWidth();
 
   const navigate = useNavigate();
@@ -83,7 +85,7 @@ const Header: FC = () => {
     if (isLoggedIn) {
       fetchImage().catch(console.error);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, imageId]);
 
   useOnClickOutside(dropdownRef, handleClickOutside);
 

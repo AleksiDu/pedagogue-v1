@@ -18,6 +18,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 
 import "./body.css";
 import fetchProfileImage from "../../utils/fetchProfileImage ";
+import { ImageIdContext } from "../../context/ImageIdContext";
 
 interface Image {
   id: string;
@@ -29,13 +30,12 @@ const Body = () => {
   const [galleryImages, setGalleryImages] = useState<Image[] | undefined>();
   const [fetchedImages, setFetchedImages] = useState<Image[] | undefined>();
 
-  const [imageId, setImageId] = useState<string>();
-
   const REGISTER_URL = "/registration";
 
   const location = useLocation();
 
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
+  const { imageId, setImageId } = useContext(ImageIdContext);
 
   const userName = localStorage.getItem("username") ?? "";
   const accessToken = localStorage.getItem("accessToken") ?? "";

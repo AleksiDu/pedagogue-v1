@@ -78,6 +78,7 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
 
       setImageId(image.id);
       setImages(updatedImages); // Trigger re-render by updating the state
+      localStorage.setItem("ImageID", image.id);
     } catch (error) {
       console.error("Error updating profile photo:", error);
     }
