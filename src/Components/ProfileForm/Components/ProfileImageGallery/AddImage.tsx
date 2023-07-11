@@ -1,10 +1,12 @@
 import { FC, useState, ChangeEvent } from "react";
 import addImage from "../../../../assets/camera-add-svgrepo-com.svg";
 import axios from "../../../../api/axios";
+import { access } from "fs";
 
 const AddImage: FC = () => {
   const [imageSrc, setImageSrc] = useState<string>("");
 
+  const accessToken = localStorage.getItem("accessToken");
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     const reader = new FileReader();
@@ -21,7 +23,10 @@ const AddImage: FC = () => {
 
       axios
         .post("/api/Photo/upload", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${accessToken}`,
+          },
         })
         .then((response) => {
           console.log(response);
