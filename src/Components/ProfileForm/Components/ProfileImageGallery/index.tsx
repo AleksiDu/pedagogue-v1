@@ -21,10 +21,12 @@ interface Image {
 
 interface ProfileImageGalleryProps {
   images?: Image[];
+  setImageId: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
   images: galleryImages,
+  setImageId,
 }) => {
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState<Image[]>([]);
@@ -33,8 +35,6 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
   const [deleteImage, setDeleteImage] = useState<Image | null>(null);
 
   const accessToken = localStorage.getItem("accessToken");
-
-  console.log(galleryImages);
 
   useEffect(() => {
     if (galleryImages) {
@@ -76,6 +76,7 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
         profilePhoto: img.id === image.id,
       }));
 
+      setImageId(image.id);
       setImages(updatedImages); // Trigger re-render by updating the state
     } catch (error) {
       console.error("Error updating profile photo:", error);
@@ -100,6 +101,7 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
         );
         setImages(updatedImages);
         setShowConfirmDelete(false);
+        setImageId(deleteImage.id);
       } catch (error) {
         console.error("Error deleting profile photo:", error);
         setShowConfirmDelete(false);
@@ -134,7 +136,7 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
               </div>
             </div>
           ))}
-          <AddImage />
+          <AddImage setImageId={setImageId} />
         </div>
       )}
 

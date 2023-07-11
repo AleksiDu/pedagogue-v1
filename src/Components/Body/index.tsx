@@ -29,6 +29,8 @@ const Body = () => {
   const [galleryImages, setGalleryImages] = useState<Image[] | undefined>();
   const [fetchedImages, setFetchedImages] = useState<Image[] | undefined>();
 
+  const [imageId, setImageId] = useState<string>();
+
   const REGISTER_URL = "/registration";
 
   const location = useLocation();
@@ -79,13 +81,13 @@ const Body = () => {
       }
     };
     fetchImage().catch(console.error);
-  }, [accessToken, role]);
+  }, [accessToken, role, imageId]);
 
   useEffect(() => {
     if (fetchedImages) {
       setGalleryImages(fetchedImages);
     }
-  }, [fetchedImages]);
+  }, [fetchedImages, imageId]);
 
   return (
     <>
@@ -106,7 +108,12 @@ const Body = () => {
             />
             <Route
               path="/profileimage"
-              element={<ProfileImageGallery images={galleryImages} />}
+              element={
+                <ProfileImageGallery
+                  images={galleryImages}
+                  setImageId={setImageId}
+                />
+              }
             />
           </Route>
 

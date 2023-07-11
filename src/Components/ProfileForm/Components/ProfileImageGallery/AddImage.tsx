@@ -1,9 +1,11 @@
 import { FC, useState, ChangeEvent } from "react";
 import addImage from "../../../../assets/camera-add-svgrepo-com.svg";
 import axios from "../../../../api/axios";
-import { access } from "fs";
 
-const AddImage: FC = () => {
+type ImageId = {
+  setImageId: React.Dispatch<React.SetStateAction<string | undefined>>;
+};
+const AddImage: FC<ImageId> = ({ setImageId }) => {
   const [imageSrc, setImageSrc] = useState<string>("");
 
   const accessToken = localStorage.getItem("accessToken");
@@ -30,6 +32,8 @@ const AddImage: FC = () => {
         })
         .then((response) => {
           console.log(response);
+          setImageId(response.data);
+          setImageSrc(addImage);
         })
         .catch((error) => {
           console.log(error);
