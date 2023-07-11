@@ -11,6 +11,7 @@ import "./profileImageGallery.css";
 import Loader from "../../../Loader";
 
 import axios from "../../../../api/axios";
+import AddImage from "./AddImage";
 
 interface Image {
   id: string;
@@ -133,6 +134,7 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
               </div>
             </div>
           ))}
+          <AddImage />
         </div>
       )}
 

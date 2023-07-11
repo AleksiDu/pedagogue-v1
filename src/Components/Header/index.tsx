@@ -83,14 +83,12 @@ const Header: FC = () => {
     if (isLoggedIn) {
       fetchImage().catch(console.error);
     }
-  }, [isLoggedIn, imageURL]);
+  }, [isLoggedIn]);
 
   useOnClickOutside(dropdownRef, handleClickOutside);
 
   const handleAvatarBtn = () => {
     navigate("/profile/#confirm");
-
-    console.log("{previousStep: 2 activeStep: 3}");
   };
 
   const handleLogout = () => {
