@@ -125,15 +125,24 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
                 onClick={() => handleImageOpen(image)}
               />
               <div className="image-options">
-                <button onClick={() => handleDeleteImageConfirmation(image)}>
-                  <FontAwesomeIcon icon={faTrashCan} />
-                </button>
-                <button
-                  className="set-button"
+                <span
+                  className="hover-text"
+                  data-hover="delete"
+                  onClick={() => handleDeleteImageConfirmation(image)}
+                >
+                  <button>
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </button>
+                </span>
+                <span
+                  className="hover-text"
+                  data-hover="Set to Profile"
                   onClick={() => handleToSetProfileImage(image)}
                 >
-                  <FontAwesomeIcon icon={faIdCardClip} />
-                </button>
+                  <button className="set-button">
+                    <FontAwesomeIcon icon={faIdCardClip} />
+                  </button>
+                </span>
               </div>
             </div>
           ))}
