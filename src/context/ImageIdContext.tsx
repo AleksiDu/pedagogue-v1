@@ -5,6 +5,7 @@ import {
   Dispatch,
   SetStateAction,
   ReactNode,
+  useMemo,
 } from "react";
 
 interface ImageIdContextType {
@@ -23,9 +24,13 @@ export const ImageIdContext = createContext<ImageIdContextType>({
 
 export const ImageIdProvider: FC<ImageIdProviderProp> = ({ children }) => {
   const [imageId, setImageId] = useState<string | undefined>(undefined);
+  const contextValue = useMemo(
+    () => ({ imageId, setImageId }),
+    [imageId, setImageId]
+  );
 
   return (
-    <ImageIdContext.Provider value={{ imageId, setImageId }}>
+    <ImageIdContext.Provider value={contextValue}>
       {children}
     </ImageIdContext.Provider>
   );
