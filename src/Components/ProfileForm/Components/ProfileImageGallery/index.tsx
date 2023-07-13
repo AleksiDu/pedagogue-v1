@@ -127,7 +127,7 @@ const ProfileImageGallery: FC<ProfileImageGalleryProps> = ({
               <div className="image-options">
                 <span
                   className="hover-text"
-                  data-hover="delete"
+                  data-hover="Delete"
                   onClick={() => handleDeleteImageConfirmation(image)}
                 >
                   <button>
