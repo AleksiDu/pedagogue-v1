@@ -1,6 +1,7 @@
 .image-gallery {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   margin-bottom: 20px;
 }
 
@@ -11,6 +12,7 @@
 }
 
 .profile-photo {
+  box-sizing: border-box;
   border: 2px solid #ff6b6b;
 }
 
@@ -102,6 +104,9 @@
   object-fit: cover;
 }
 
-.add-photo:hover {
+.add-photo:hover,
+.image-wrapper img:hover {
+  box-sizing: border-box;
+  border: solid;
   border-color: #333;
 }
