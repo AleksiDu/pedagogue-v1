@@ -6,6 +6,7 @@ import "./App.css";
 import { ScreenWidthProvider } from "./context/ScreenWidthContext";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { ImageIdProvider } from "./context/ImageIdContext";
 
 function App() {
   return (
@@ -13,11 +14,13 @@ function App() {
       <ThemeProvider>
         <BrowserRouter>
           <ScreenWidthProvider>
-            <div className="App app-container">
-              <Header />
-              <Body />
-              <Footer />
-            </div>
+            <ImageIdProvider>
+              <div className="App app-container">
+                <Header />
+                <Body />
+                <Footer />
+              </div>
+            </ImageIdProvider>
           </ScreenWidthProvider>
         </BrowserRouter>
       </ThemeProvider>

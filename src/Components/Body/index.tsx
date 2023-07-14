@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 
 import Curriculum from "../../pages/Curriculum";
@@ -12,21 +12,34 @@ import Registration from "../../pages/Registration";
 import SettingsPage from "../../pages/SettingsPage";
 import LogoutButton from "./LogoutBtn";
 import FourOhFourPage from "../../pages/404";
+import ProfileImageGallery from "../ProfileForm/Components/ProfileImageGallery";
 
 import { ThemeContext } from "../../context/ThemeContext";
 
 import "./body.css";
-import ProfileImageGallery from "../ProfileForm/Components/ProfileImageGallery";
+import fetchProfileImage from "../../utils/fetchProfileImage ";
+import { ImageIdContext } from "../../context/ImageIdContext";
+
+interface Image {
+  id: string;
+  profilePhoto: boolean;
+  url: string;
+}
 
 const Body = () => {
+  const [galleryImages, setGalleryImages] = useState<Image[] | undefined>();
+  const [fetchedImages, setFetchedImages] = useState<Image[] | undefined>();
+
   const REGISTER_URL = "/registration";
 
   const location = useLocation();
 
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
+  const { imageId, setImageId } = useContext(ImageIdContext);
 
   const userName = localStorage.getItem("username") ?? "";
   const accessToken = localStorage.getItem("accessToken") ?? "";
+  const role = localStorage.getItem("role");
 
   useEffect(() => {
     switch (location.pathname) {
@@ -47,50 +60,63 @@ const Body = () => {
     }
   }, [setIsDarkMode]);
 
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        if (!accessToken) {
+          console.log("Access token not found.");
+          return;
+        }
+
+        const images = await fetchProfileImage(Number(role), accessToken);
+
+        if (images) {
+          setFetchedImages(images);
+        } else {
+          // Handle the case when fetchProfileImage returns undefined
+          console.log("Image not found.");
+        }
+      } catch (error) {
+        console.log("Error fetching image:", error);
+      }
+    };
+    fetchImage().catch(console.error);
+  }, [accessToken, role, imageId]);
+
+  useEffect(() => {
+    if (fetchedImages) {
+      setGalleryImages(fetchedImages);
+    }
+  }, [fetchedImages, imageId]);
+
   return (
     <>
       <section className={`landing-page  ${isDarkMode ? "dark-mode" : ""}`}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
-            path="/profileimage"
-            element={
-              <ProfileImageGallery
-                images={[
-                  {
-                    id: "As1",
-                    url: "https://images.unsplash.com/photo-1687342780195-b72f82450dce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
-                    profilePhoto: true,
-                  },
-                  {
-                    id: "As2",
-                    url: "https://images.unsplash.com/photo-1687342780195-b72f82450dce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
-                    profilePhoto: false,
-                  },
-                  {
-                    id: "As3",
-                    url: "https://images.unsplash.com/photo-1666919643134-d97687c1826c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80",
-                    profilePhoto: false,
-                  },
-                ]}
-              />
-            }
-          />
           <Route path="/registration/*" element={<Registration />}></Route>
           <Route path="/login/*" element={<Login />}></Route>
           <Route path="/forgetpassword/*" element={<ForgetPassword />}></Route>
           <Route path="/resetpassword" element={<PasswordReset />}></Route>
-          <Route path="/profile/*" element={<PrivateRoutes />}>
-            <Route path="/profile/*" element={<Profile />} />
-          </Route>
           <Route element={<PrivateRoutes />}>
+            <Route path="/profile/*" element={<Profile />} />
             <Route
               path="/settings/*"
               element={
                 <SettingsPage userName={userName} accessToken={accessToken} />
               }
             />
+            <Route
+              path="/profileimage"
+              element={
+                <ProfileImageGallery
+                  images={galleryImages}
+                  setImageId={setImageId}
+                />
+              }
+            />
           </Route>
+
           <Route path="/Curriculum/*" element={<Curriculum />}></Route>
 
           <Route path="*" element={<FourOhFourPage />} />

@@ -12,6 +12,8 @@ import AvatarContainer from "../AvatarContainer";
 import { AuthContext } from "../../context/AuthContext";
 
 import "./header.css";
+import { useScreenWidth } from "../../context/ScreenWidthContext";
+import { ImageIdContext } from "../../context/ImageIdContext";
 
 interface MenuItem {
   label: string;
@@ -21,18 +23,22 @@ interface MenuItem {
 
 const Header: FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [imageKey, setImageKey] = useState<string>("Fox1061");
+  const [imageKey, setImageKey] = useState<string>("--v1");
   const [isActive, setIsActive] = useState(false);
   const [imageURL, setImageURL] = useState<string>(
-    "https://iheartcraftythings.com/wp-content/uploads/2021/03/Fox_3-758x1061.jpg"
+    "https://img.icons8.com/ios/50/user--v1.png"
   );
 
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { imageId } = useContext(ImageIdContext);
+  const screenWidth = useScreenWidth();
+
   const navigate = useNavigate();
 
   const MENU_ITEMS: MenuItem[] = [
     { label: "Profile", link: "/profile/#confirm" },
     { label: "Settings", link: "/settings" },
+    { label: "Gallery", link: "/profileimage" },
     { label: "Curriculum", link: "/curriculum" },
   ];
 
@@ -55,12 +61,18 @@ const Header: FC = () => {
           return;
         }
 
-        const result = await fetchProfileImage(Number(role), accessToken);
+        const images = await fetchProfileImage(Number(role), accessToken);
 
-        if (result) {
-          const { imageURL, imageKey } = result;
-          setImageURL(imageURL);
-          setImageKey(imageKey);
+        if (images) {
+          const timestamp = new Date().getTime();
+          const profileImage = images.find((image) => image.profilePhoto);
+
+          if (profileImage) {
+            const { id, url } = profileImage;
+            const imageURL = `${url}?t=${timestamp}`;
+            setImageURL(imageURL);
+            setImageKey(id);
+          }
         } else {
           // Handle the case when fetchProfileImage returns undefined
           console.log("Image not found.");
@@ -73,14 +85,12 @@ const Header: FC = () => {
     if (isLoggedIn) {
       fetchImage().catch(console.error);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, imageId]);
 
   useOnClickOutside(dropdownRef, handleClickOutside);
 
   const handleAvatarBtn = () => {
     navigate("/profile/#confirm");
-
-    console.log("{previousStep: 2 activeStep: 3}");
   };
 
   const handleLogout = () => {
@@ -122,7 +132,9 @@ const Header: FC = () => {
           isActive={isActive}
           menuItems={MENU_ITEMS}
         />
-        <AvatarContainer isLoggedIn={isLoggedIn} {...avatarProps} />
+        {screenWidth < 480 ? null : (
+          <AvatarContainer isLoggedIn={isLoggedIn} {...avatarProps} />
+        )}
       </div>
     </header>
   );

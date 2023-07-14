@@ -1,8 +1,6 @@
 import { CSSProperties, FC } from "react";
 import Avatar from "react-avatar";
 
-import { useScreenWidth } from "../../context/ScreenWidthContext";
-
 interface AvatarContainerProps extends AvatarTypes {
   handleAvatarBtn?: () => void;
   isLoggedIn?: boolean;
@@ -26,12 +24,6 @@ const AvatarContainer: FC<AvatarContainerProps> = ({
   style,
   onClick,
 }) => {
-  const screenWidth = useScreenWidth();
-
-  if (screenWidth < 480) {
-    return null;
-  }
-
   return (
     <div className={className}>
       <Avatar
