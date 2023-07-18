@@ -1,34 +1,39 @@
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Input from "../RegistrationLoginCom/RegisterForm/Components/Input";
 
 import axios from "../../api/axios";
 
-const SearchBar = () => {
+interface Tutor {
+  id: number;
+  name: string;
+}
+
+interface SearchBarProps {
+  setResult: React.Dispatch<React.SetStateAction<Tutor[]>>;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ setResult }) => {
   const [query, setQuery] = useState("");
 
-  // TODO for results
-  // const [items, setItems] = useState([""]);
-  // const inputRef = useRef();
-
-  // const filteredItems = useMemo(
-  //   () =>
-  //     items.filter((item) => {
-  //       return item.toLowerCase().includes(query.toLowerCase());
-  //     }),
-  //   [items, query]
-  // );
-
-  const fetchData = async (value: any) => {
+  const fetchData = async (value: string) => {
     try {
-      const payload = {
-        subject: value,
-      };
-      const response = axios.post(`api/Tutor/get-teachers`, payload);
-      console.log(response);
+      // !! FOR TEST
+      const response = await axios.get<Tutor[]>(
+        `https://jsonplaceholder.typicode.com/users`
+      );
+      // Filter the search results based on the user's input query
+      const filteredResults = response.data.filter((result) => {
+        const tutorName = result.name.toLowerCase();
+
+        return tutorName.includes(query.toLowerCase());
+      });
+
+      setResult(filteredResults);
+      console.log(filteredResults);
     } catch (error) {
       console.error(error);
     }

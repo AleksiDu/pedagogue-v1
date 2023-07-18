@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 import "./styles.css";
 import SearchBar from "./SearchBar";
@@ -8,10 +8,17 @@ type SearchBarProps = {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
+interface Tutor {
+  id: number;
+  name: string;
+}
+
 const Search: FC<SearchBarProps> = ({ searchClassName, onClick }) => {
+  const [result, setResult] = useState<Tutor[]>([]);
+
   return (
     <div className={`${searchClassName}`} onClick={onClick}>
-      <SearchBar />
+      <SearchBar setResult={setResult} />
       <div></div>
     </div>
   );
