@@ -13,10 +13,10 @@ interface Tutor {
 }
 
 interface SearchBarProps {
-  setResult: React.Dispatch<React.SetStateAction<Tutor[]>>;
+  setResults: React.Dispatch<React.SetStateAction<Tutor[]>>;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ setResult }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ setResults }) => {
   const [query, setQuery] = useState("");
 
   const fetchData = async (value: string) => {
@@ -29,10 +29,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ setResult }) => {
       const filteredResults = response.data.filter((result) => {
         const tutorName = result.name.toLowerCase();
 
-        return tutorName.includes(query.toLowerCase());
+        return tutorName.includes(value.toLowerCase()) && value !== "";
       });
 
-      setResult(filteredResults);
+      setResults(filteredResults);
       console.log(filteredResults);
     } catch (error) {
       console.error(error);

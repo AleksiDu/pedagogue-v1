@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 
 import "./styles.css";
 import SearchBar from "./SearchBar";
+import SearchResultList from "./SearchResultList";
 
 type SearchBarProps = {
   searchClassName: string;
@@ -14,12 +15,12 @@ interface Tutor {
 }
 
 const Search: FC<SearchBarProps> = ({ searchClassName, onClick }) => {
-  const [result, setResult] = useState<Tutor[]>([]);
+  const [results, setResults] = useState<Tutor[]>([]);
 
   return (
     <div className={`${searchClassName}`} onClick={onClick}>
-      <SearchBar setResult={setResult} />
-      <div></div>
+      <SearchBar setResults={setResults} />
+      <SearchResultList results={results} />
     </div>
   );
 };

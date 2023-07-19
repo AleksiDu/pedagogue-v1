@@ -136,6 +136,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   max-width: 420px;
   width: 100%;
 }
@@ -156,9 +157,7 @@
 
     width: 100%;
   }
-  .ais-SearchBox {
-    max-width: none;
-  }
+
   .menu-container {
     position: inherit;
   }
