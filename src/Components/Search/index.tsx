@@ -11,7 +11,9 @@ type SearchBarProps = {
 
 interface Tutor {
   id: number;
-  name: string;
+  firstName: string;
+  lastName: string;
+  subject: string;
 }
 
 const Search: FC<SearchBarProps> = ({ searchClassName, onClick }) => {

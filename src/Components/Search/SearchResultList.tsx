@@ -1,14 +1,26 @@
 import { FC } from "react";
 
+interface Tutor {
+  id: number;
+  firstName: string;
+  lastName: string;
+  subject: string;
+}
+
 interface SearchResultProps {
-  results: any;
+  results: Tutor[];
 }
 
 const SearchResultList: FC<SearchResultProps> = ({ results }) => {
   return (
     <ul className="result-list">
-      {results.map((result: { name: any }, id: any) => {
-        return <li key={id}>{result.name}</li>;
+      {results.map(({ id, firstName, lastName, subject }) => {
+        return (
+          <li key={id}>
+            {firstName} {lastName}
+            {subject && ` - ${subject}`}
+          </li>
+        );
       })}
     </ul>
   );

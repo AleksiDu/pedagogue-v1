@@ -9,7 +9,9 @@ import axios from "../../api/axios";
 
 interface Tutor {
   id: number;
-  name: string;
+  firstName: string;
+  lastName: string;
+  subject: string;
 }
 
 interface SearchBarProps {
@@ -23,21 +25,32 @@ const SearchBar: React.FC<SearchBarProps> = ({ setResults }) => {
     try {
       const response = await axios.post<Tutor[]>(
         `/api/Tutor/get-teachers`,
-        JSON.stringify({
-          firstName: query,
-          lastName: query,
-          subject: query,
-        })
+        {},
+        {
+          headers: { "Content-Type": "application/json" },
+        }
       );
+
       // Filter the search results based on the user's input query
       const filteredResults = response.data.filter((result) => {
-        const tutorName = result.name.toLowerCase();
+        const { firstName, lastName, subject } = result;
+        const searchResult = {
+          firstName: firstName.toLowerCase(),
+          lastName: lastName.toLowerCase(),
+          subject: subject.toLowerCase(),
+        };
 
-        return tutorName.includes(value.toLowerCase()) && value !== "";
+        return (
+          (searchResult.firstName.includes(value.toLowerCase()) &&
+            value !== "") ||
+          (searchResult.lastName.includes(value.toLowerCase()) &&
+            value !== "") ||
+          (searchResult.subject.includes(value.toLowerCase()) && value !== "")
+        );
       });
+      console.log(filteredResults);
 
       setResults(filteredResults);
-      console.log(filteredResults);
     } catch (error) {
       console.error(error);
     }
