@@ -21,9 +21,13 @@ const SearchBar: React.FC<SearchBarProps> = ({ setResults }) => {
 
   const fetchData = async (value: string) => {
     try {
-      // !! FOR TEST
-      const response = await axios.get<Tutor[]>(
-        `https://jsonplaceholder.typicode.com/users`
+      const response = await axios.post<Tutor[]>(
+        `/api/Tutor/get-teachers`,
+        JSON.stringify({
+          firstName: query,
+          lastName: query,
+          subject: query,
+        })
       );
       // Filter the search results based on the user's input query
       const filteredResults = response.data.filter((result) => {
