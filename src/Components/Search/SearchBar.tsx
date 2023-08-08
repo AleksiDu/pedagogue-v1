@@ -48,6 +48,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ setResults }) => {
           (searchResult.subject.includes(value.toLowerCase()) && value !== "")
         );
       });
+
       console.log(filteredResults);
 
       setResults(filteredResults);
@@ -58,6 +59,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ setResults }) => {
 
   useEffect(() => {
     fetchData(query);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   return (

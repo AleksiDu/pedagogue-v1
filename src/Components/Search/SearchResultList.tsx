@@ -14,7 +14,7 @@ interface SearchResultProps {
 const SearchResultList: FC<SearchResultProps> = ({ results }) => {
   return (
     <ul className="result-list">
-      {results.map(({ id, firstName, lastName, subject }) => {
+      {results.map(({ firstName, lastName, subject }, id) => {
         return (
           <li key={id}>
             {firstName} {lastName}
