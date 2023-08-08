@@ -1,10 +1,10 @@
 import { FC } from "react";
 
 interface Tutor {
-  id: number;
   firstName: string;
   lastName: string;
   subject: string;
+  email: string;
 }
 
 interface SearchResultProps {
@@ -14,9 +14,9 @@ interface SearchResultProps {
 const SearchResultList: FC<SearchResultProps> = ({ results }) => {
   return (
     <ul className="result-list">
-      {results.map(({ firstName, lastName, subject }, id) => {
+      {results.map(({ email, firstName, lastName, subject }) => {
         return (
-          <li key={id}>
+          <li key={email}>
             {firstName} {lastName}
             {subject && ` - ${subject}`}
           </li>

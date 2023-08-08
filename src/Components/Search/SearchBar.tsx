@@ -7,11 +7,12 @@ import Input from "../RegistrationLoginCom/RegisterForm/Components/Input";
 
 import axios from "../../api/axios";
 
+
 interface Tutor {
-  id: number;
   firstName: string;
   lastName: string;
   subject: string;
+  email: string;
 }
 
 interface SearchBarProps {
