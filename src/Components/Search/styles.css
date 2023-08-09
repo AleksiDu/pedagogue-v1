@@ -35,6 +35,12 @@
   overflow-y: scroll;
 }
 
+.result-list a,
+.result-list a:visited {
+  color: #000;
+  text-decoration: none;
+}
+
 @media screen and (max-width: 750px) {
   .result-list {
     display: none;

@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Link } from "react-router-dom";
 
 interface Tutor {
   firstName: string;
@@ -17,8 +18,10 @@ const SearchResultList: FC<SearchResultProps> = ({ results }) => {
       {results.map(({ email, firstName, lastName, subject }) => {
         return (
           <li key={email}>
-            {firstName} {lastName}
-            {subject && ` - ${subject}`}
+            <Link to={email}>
+              {firstName} {lastName}
+              {subject && ` - ${subject}`}
+            </Link>
           </li>
         );
       })}

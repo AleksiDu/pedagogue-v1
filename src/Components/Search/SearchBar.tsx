@@ -7,7 +7,6 @@ import Input from "../RegistrationLoginCom/RegisterForm/Components/Input";
 
 import axios from "../../api/axios";
 
-
 interface Tutor {
   firstName: string;
   lastName: string;
@@ -33,24 +32,23 @@ const SearchBar: React.FC<SearchBarProps> = ({ setResults }) => {
       );
 
       // Filter the search results based on the user's input query
+      const re = new RegExp(value.replace(/\s/g, "\\s*"), "gi");
+
       const filteredResults = response.data.filter((result) => {
         const { firstName, lastName, subject } = result;
-        const searchResult = {
-          firstName: firstName.toLowerCase(),
-          lastName: lastName.toLowerCase(),
-          subject: subject.toLowerCase(),
-        };
+        const variants = [
+          `${firstName} ${lastName} ${subject}`,
+          `${lastName} ${firstName} ${subject}`,
+          `${subject} ${firstName} ${lastName}`,
+          `${subject} ${lastName} ${firstName}`,
+        ];
 
-        return (
-          (searchResult.firstName.includes(value.toLowerCase()) &&
-            value !== "") ||
-          (searchResult.lastName.includes(value.toLowerCase()) &&
-            value !== "") ||
-          (searchResult.subject.includes(value.toLowerCase()) && value !== "")
+        const matches = variants.some((variant) =>
+          RegExp(re).exec(variant.toLowerCase())
         );
-      });
 
-      console.log(filteredResults);
+        return matches && value !== "";
+      });
 
       setResults(filteredResults);
     } catch (error) {
