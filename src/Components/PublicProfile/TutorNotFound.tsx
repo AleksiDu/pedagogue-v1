@@ -1,11 +1,13 @@
 import TutorNotFoundLogo from "../../assets/Book4.svg";
 
+import "./tutorNotFoundStyles.css";
+
 const TutorNotFound = () => {
   return (
-    <div>
+    <div className="tutor-not-found">
       <img src={TutorNotFoundLogo} alt="book" />
-      <h2>Tutor Not Found</h2>
-      <p>The requested tutor could not be found.</p>
+      <h2 className="tutor-not-found">Tutor Not Found</h2>
+      <p className="tutor-not-found">The requested tutor could not be found.</p>
     </div>
   );
 };
