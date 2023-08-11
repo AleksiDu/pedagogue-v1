@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import axios from "../../api/axios";
 
-import FourOhFour from "../FourOhFour";
+import TutorNotFound from "./TutorNotFound";
 
 interface Tutor {
   city: number;
@@ -71,7 +71,7 @@ const PublicProfile = () => {
           ))}
         </>
       ) : (
-        <FourOhFour />
+        <TutorNotFound />
       )}
     </div>
   );
