@@ -16,9 +16,13 @@ interface Tutor {
 
 interface SearchBarProps {
   setResults: React.Dispatch<React.SetStateAction<Tutor[]>>;
+  setSearchFocused: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ setResults }) => {
+const SearchBar: React.FC<SearchBarProps> = ({
+  setResults,
+  setSearchFocused,
+}) => {
   const [query, setQuery] = useState("");
 
   const fetchData = async (value: string) => {
@@ -69,6 +73,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ setResults }) => {
         type="text"
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search for Tutor"
+        onFocus={() => setSearchFocused(true)}
+        onBlur={() => setTimeout(() => setSearchFocused(false), 100)}
       />
     </div>
   );

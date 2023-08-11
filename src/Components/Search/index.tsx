@@ -18,11 +18,12 @@ interface Tutor {
 
 const Search: FC<SearchBarProps> = ({ searchClassName, onClick }) => {
   const [results, setResults] = useState<Tutor[]>([]);
+  const [isSearchFocused, setSearchFocused] = useState(false);
 
   return (
     <div className={`${searchClassName}`} onClick={onClick}>
-      <SearchBar setResults={setResults} />
-      <SearchResultList results={results} />
+      <SearchBar setResults={setResults} setSearchFocused={setSearchFocused} />
+      {isSearchFocused && <SearchResultList results={results} />}
     </div>
   );
 };
