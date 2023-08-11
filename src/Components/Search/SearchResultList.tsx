@@ -17,12 +17,10 @@ const SearchResultList: FC<SearchResultProps> = ({ results }) => {
     <ul className="result-list">
       {results.map(({ email, firstName, lastName, subject }) => {
         return (
-          <li key={email}>
-            <Link to={email}>
-              {firstName} {lastName}
-              {subject && ` - ${subject}`}
-            </Link>
-          </li>
+          <Link key={email} to={`tutor/${email}`}>
+            {firstName} {lastName}
+            {subject && ` - ${subject}`}
+          </Link>
         );
       })}
     </ul>

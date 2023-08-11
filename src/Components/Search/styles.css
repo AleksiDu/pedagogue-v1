@@ -41,7 +41,7 @@
   text-decoration: none;
 }
 
-.result-list li:hover {
+.result-list a:hover {
   color: #fff;
   background-color: rgba(0, 0, 0, 0.4);
   box-shadow: 3px 5px 2px rgb(0 0 0 / 0.2);

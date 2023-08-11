@@ -74,7 +74,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search for Tutor"
         onFocus={() => setSearchFocused(true)}
-        onBlur={() => setTimeout(() => setSearchFocused(false), 100)}
+        onBlur={() => setTimeout(() => setSearchFocused(false), 300)}
       />
     </div>
   );
