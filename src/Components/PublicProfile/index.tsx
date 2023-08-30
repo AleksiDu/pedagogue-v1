@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import axios from "../../api/axios";
 
 import TutorNotFound from "./TutorNotFound";
+import AvatarContainer from "../AvatarContainer";
 
 interface Tutor {
   city: number;
@@ -52,6 +53,19 @@ const PublicProfile = () => {
     <div>
       {tutorData ? (
         <>
+          {tutorData.images
+            .filter((image) => image.profilePhoto)
+            .map((image) => (
+              <AvatarContainer
+                key={image.id}
+                id={image.id}
+                src={image.url}
+                alt={`Tutor ${tutorData.firstName} ${tutorData.lastName}`}
+                className={""}
+                size={"40"}
+                isLoggedIn={true}
+              />
+            ))}
           <h2>Tutor Profile</h2>
           <p>First Name: {tutorData.firstName}</p>
           <p>Last Name: {tutorData.lastName}</p>
@@ -62,13 +76,6 @@ const PublicProfile = () => {
           <p>Sex: {tutorData.sex}</p>
           <p>Subject: {tutorData.subject}</p>
           {/* Render images */}
-          {tutorData.images.map((image) => (
-            <img
-              key={image.id}
-              src={image.url}
-              alt={`Tutor ${tutorData.firstName} ${tutorData.lastName}`}
-            />
-          ))}
         </>
       ) : (
         <TutorNotFound />

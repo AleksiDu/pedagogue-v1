@@ -13,6 +13,7 @@ interface AvatarTypes {
   size: string;
   style?: CSSProperties;
   onClick?: () => void;
+  alt?: string;
 }
 
 const AvatarContainer: FC<AvatarContainerProps> = ({
@@ -22,6 +23,7 @@ const AvatarContainer: FC<AvatarContainerProps> = ({
   className,
   size,
   style,
+  alt,
   onClick,
 }) => {
   return (
@@ -32,6 +34,7 @@ const AvatarContainer: FC<AvatarContainerProps> = ({
         size={size}
         style={style}
         onClick={onClick}
+        alt={alt}
       />
     </div>
   );
