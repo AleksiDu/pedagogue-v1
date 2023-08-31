@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import axios from "../../api/axios";
 
 import TutorNotFound from "./TutorNotFound";
 import AvatarContainer from "../AvatarContainer";
+import Card from "../Card";
+
+import styles from "./styles.module.css";
+import { ThemeContext } from "../../context/ThemeContext";
 
 interface Tutor {
   city: number;
@@ -28,6 +32,7 @@ const PublicProfile = () => {
   const { tutorId } = useParams();
   const [tutorData, setTutorData] = useState<Tutor | null>(null);
 
+  const { isDarkMode } = useContext(ThemeContext);
   useEffect(() => {
     console.log(tutorId);
     axios
@@ -50,7 +55,7 @@ const PublicProfile = () => {
   }, [tutorId]);
 
   return (
-    <div>
+    <section>
       {tutorData ? (
         <>
           {tutorData.images
@@ -62,14 +67,20 @@ const PublicProfile = () => {
                 src={image.url}
                 alt={`Tutor ${tutorData.firstName} ${tutorData.lastName}`}
                 className={""}
-                size={"40"}
+                size={"100"}
                 isLoggedIn={true}
               />
             ))}
-          <h2>Tutor Profile</h2>
-          <p>First Name: {tutorData.firstName}</p>
-          <p>Last Name: {tutorData.lastName}</p>
-          <p>Email: {tutorData.email}</p>
+
+          <Card
+            className={
+              styles.testimonial + ` ${isDarkMode ? styles.darkMode : ""}`
+            }
+            header={`${tutorData.firstName} ${tutorData.lastName}`}
+            paragraph=" So gate at no only none open. Betrayed at properly it of graceful on. Dinner abroad am depart ye turned hearts as me wished. Therefore allowance too perfectly gentleman supposing man his now. "
+            author={`${tutorData.email}`}
+          />
+
           <p>City: {tutorData.city}</p>
           <p>Experience: {tutorData.experience}</p>
           <p>Rating: {tutorData.rating}</p>
@@ -80,7 +91,7 @@ const PublicProfile = () => {
       ) : (
         <TutorNotFound />
       )}
-    </div>
+    </section>
   );
 };
 
