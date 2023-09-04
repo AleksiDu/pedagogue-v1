@@ -94,6 +94,8 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
     { label: "Batumi", value: 3 },
   ];
 
+  console.log(props);
+
   const imageObj = props.images.find(
     (image: { profilePhoto: boolean }) => image.profilePhoto === true
   );
@@ -195,11 +197,11 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
   };
 
   const genderLabel = genderOption.find(
-    (option) => option.value === props?.gender?.value
+    (option) => option.value === props?.gender?.value || props?.gender
   )?.label;
 
   const cityLabel = cityOption.find(
-    (option) => option.value === props?.city?.value
+    (option) => option.value === props?.city?.value || props?.city
   )?.label;
 
   const propArray: Prop[] = [
@@ -246,7 +248,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
                 borderRadius: 4,
                 borderStyle: "solid",
               }}
-              onClick={handleRelocation}
+              onClick={props.className ? () => {} : handleRelocation}
             />
 
             {propArray.map((prop) => (
