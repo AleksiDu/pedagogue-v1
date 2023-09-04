@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import Avatar from "react-avatar";
 
 import ActionButton from "../ActionButton";
@@ -25,6 +25,7 @@ interface ConfirmProps {
   rating?: any;
   imageKey?: string;
   hashKey?: string;
+  className?: string;
 
   completeCallback: (data: any) => void;
   lastStep: () => void;
@@ -254,13 +255,19 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
                 {prop.value}
               </p>
             ))}
-            <ActionButton
-              currentStep={3}
-              totalSteps={3}
-              previousStep={goBack}
-              nextStep={validate}
-              lastStep={validate}
-            />
+            {props.className ? (
+              <button type="button" onClick={() => navigate("/contact")}>
+                Contact
+              </button>
+            ) : (
+              <ActionButton
+                currentStep={3}
+                totalSteps={3}
+                previousStep={goBack}
+                nextStep={validate}
+                lastStep={validate}
+              />
+            )}
           </form>
         </section>
       )}

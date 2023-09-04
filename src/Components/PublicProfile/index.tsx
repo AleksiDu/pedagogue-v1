@@ -5,8 +5,7 @@ import axios from "../../api/axios";
 
 import TutorNotFound from "./TutorNotFound";
 import StepConfirm from "../ProfileForm/Components/Confirmation";
-
-import "./publicProfile.css";
+import NavBtn from "../RegistrationLoginCom/NavBtn";
 
 interface Tutor {
   city: number;
@@ -68,6 +67,7 @@ const PublicProfile = () => {
             imageKey="--v1"
             images={tutorData.images}
             rating={tutorData.rating}
+            className="display-contact"
             completeCallback={function (data: any): void {
               throw new Error("Function not implemented.");
             }}
