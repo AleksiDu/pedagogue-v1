@@ -4,7 +4,9 @@ import { useParams } from "react-router-dom";
 import axios from "../../api/axios";
 
 import TutorNotFound from "./TutorNotFound";
-import AvatarContainer from "../AvatarContainer";
+import StepConfirm from "../ProfileForm/Components/Confirmation";
+
+import "./publicProfile.css";
 
 interface Tutor {
   city: number;
@@ -53,29 +55,29 @@ const PublicProfile = () => {
     <div>
       {tutorData ? (
         <>
-          {tutorData.images
-            .filter((image) => image.profilePhoto)
-            .map((image) => (
-              <AvatarContainer
-                key={image.id}
-                id={image.id}
-                src={image.url}
-                alt={`Tutor ${tutorData.firstName} ${tutorData.lastName}`}
-                className={""}
-                size={"100"}
-                isLoggedIn={true}
-              />
-            ))}
-          <h2>Tutor Profile</h2>
-          <p>First Name: {tutorData.firstName}</p>
-          <p>Last Name: {tutorData.lastName}</p>
-          <p>Email: {tutorData.email}</p>
-          <p>City: {tutorData.city}</p>
-          <p>Experience: {tutorData.experience}</p>
-          <p>Rating: {tutorData.rating}</p>
-          <p>Sex: {tutorData.sex}</p>
-          <p>Subject: {tutorData.subject}</p>
-          {/* Render images */}
+          <StepConfirm
+            name={"Tutor Profile"}
+            firstName={tutorData.firstName}
+            lastName={tutorData.lastName}
+            birthDate={tutorData.lastName}
+            gender={tutorData.sex}
+            city={tutorData.city}
+            subject={tutorData.subject}
+            experience={tutorData.experience}
+            image={"https://img.icons8.com/ios/50/user--v1.png"}
+            imageKey="--v1"
+            images={tutorData.images}
+            rating={tutorData.rating}
+            completeCallback={function (data: any): void {
+              throw new Error("Function not implemented.");
+            }}
+            lastStep={function (): void {
+              throw new Error("Function not implemented.");
+            }}
+            prevStep={function (): void {
+              throw new Error("Function not implemented.");
+            }}
+          />
         </>
       ) : (
         <TutorNotFound />

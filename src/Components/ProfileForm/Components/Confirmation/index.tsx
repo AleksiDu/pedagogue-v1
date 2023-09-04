@@ -20,8 +20,9 @@ interface ConfirmProps {
   city: any;
   subject: any;
   experience: any;
-  image: any;
+  image?: any;
   images: any;
+  rating?: any;
   imageKey?: string;
   hashKey?: string;
 
@@ -101,10 +102,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
   useEffect(() => {
     if (props.image && props.imageKey) {
       if (typeof props.image === "string") {
-        //TODO imageObj.url change to imageObj?.profilePhot
-
         setImageURL(imageObj?.url ? imageObj.url : props.image);
-
         setImageKey(imageObj?.id ? imageObj.id : props.imageKey);
       } else {
         const objectUrl = URL.createObjectURL(props.image);
@@ -211,6 +209,7 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
     { name: "City", value: cityLabel },
     { name: "Subject", value: props?.subject },
     { name: "Experience", value: props?.experience },
+    { name: "Rating", value: props?.rating },
   ];
 
   return (
@@ -262,7 +261,6 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
               nextStep={validate}
               lastStep={validate}
             />
-            {/* <ProfileImageGallery images={props.images} /> */}
           </form>
         </section>
       )}
