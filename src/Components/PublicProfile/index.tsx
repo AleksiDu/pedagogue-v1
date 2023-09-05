@@ -5,7 +5,6 @@ import axios from "../../api/axios";
 
 import TutorNotFound from "./TutorNotFound";
 import StepConfirm from "../ProfileForm/Components/Confirmation";
-import NavBtn from "../RegistrationLoginCom/NavBtn";
 
 interface Tutor {
   city: number;

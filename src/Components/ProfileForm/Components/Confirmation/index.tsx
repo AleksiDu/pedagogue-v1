@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AxiosError } from "axios";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Avatar from "react-avatar";
 
 import ActionButton from "../ActionButton";
@@ -50,6 +50,7 @@ interface Option {
 
 const StepConfirm: React.FC<ConfirmProps> = (props) => {
   const role = localStorage.getItem("role");
+  const { tutorId } = useParams();
 
   let updatedUserRole = "";
 
@@ -258,7 +259,10 @@ const StepConfirm: React.FC<ConfirmProps> = (props) => {
               </p>
             ))}
             {props.className ? (
-              <button type="button" onClick={() => navigate("/contact")}>
+              <button
+                type="button"
+                onClick={() => navigate(`/contact/${tutorId}`)}
+              >
                 Contact
               </button>
             ) : (

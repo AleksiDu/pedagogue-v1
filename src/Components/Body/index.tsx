@@ -20,6 +20,7 @@ import "./body.css";
 import fetchProfileImage from "../../utils/fetchProfileImage ";
 import { ImageIdContext } from "../../context/ImageIdContext";
 import PublicProfile from "../PublicProfile";
+import Contact from "../Contact";
 
 interface Image {
   id: string;
@@ -100,6 +101,7 @@ const Body = () => {
           <Route path="/forgetpassword/*" element={<ForgetPassword />}></Route>
           <Route path="/resetpassword" element={<PasswordReset />}></Route>
           <Route path="/tutor/:tutorId" element={<PublicProfile />}></Route>
+          <Route path="/contact/:tutorId" element={<Contact />}></Route>
           <Route element={<PrivateRoutes />}>
             <Route path="/profile/*" element={<Profile />} />
             <Route
