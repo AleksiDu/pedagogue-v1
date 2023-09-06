@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Loader from "../Loader";
 import MessageWithAction from "../RegistrationLoginCom/MessageWithAction";
@@ -7,95 +7,63 @@ import Input from "../RegistrationLoginCom/RegisterForm/Components/Input";
 import styles from "./styles.module.css";
 
 interface ContactData {
-  firstName: string;
-  lastName: string;
   mobile: string;
   email: string;
   message: string;
 }
 
 const Contact = () => {
-  const { tutorId } = useParams<{ tutorId: string }>(); // Define the type for tutorId
+  const { tutorId } = useParams<{ tutorId: string }>();
   const REGISTER_URL = `api/authentication/register`;
-  console.log(tutorId);
+  const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  const MOBILE_REGEX =
+    /^(?:\+995)?\s?(5\d{1,2})\s?(\d{2})\s?(\d{2})\s?(\d{2})$/;
 
-  const [contactData, setContactData] = useState<ContactData | undefined>();
-  const [errMsg, setErrMsg] = useState<string>(""); // Initialize errMsg with an empty string
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  const userEmailRef = useRef<HTMLInputElement>(null);
+  const userMobileRef = useRef<HTMLInputElement>(null);
+  const errRef = useRef<HTMLDivElement>(null);
 
-  const isValidEmail = (email: string) => {
-    return /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email);
-  };
+  const [email, setEmail] = useState("");
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isEmailFocus, setIsEmailFocus] = useState(false);
 
-  const isValidMobile = (mobile: string) => {
-    return /^(?!\+995)\+?\d{9}\s?\d{9}\s?\d{9}\s?\d{9}\s?\d{9}$|^\d{9}$/.test(
-      mobile
-    );
-  };
+  const [mobile, setMobile] = useState("");
+  const [isValidMobile, setIsValidMobile] = useState(false);
+  const [isMobileFocus, setIsMobileFocus] = useState(false);
 
-  const validateField = (field: string, value: string) => {
-    if (value.length <= 0) {
-      return `${field} is required field.`; // Use string template for the message
-    } else {
-      if (field === "email") {
-        if (!isValidEmail(value)) return "Invalid Email.";
-      } else if (field === "mobile") {
-        if (!isValidMobile(value)) return "Invalid Mobile Number.";
-      } else {
-        return "";
-      }
+  const [errMsg, setErrMsg] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
+  // Ensures that the email input field is automatically focused when the component is initially rendered
+  useEffect(() => {
+    if (userEmailRef.current) {
+      userEmailRef.current.focus();
     }
-    return ""; // Return an empty string if no error is found
+  }, []);
+
+  useEffect(() => {
+    setIsValidEmail(EMAIL_REGEX.test(email));
+    setIsValidMobile(MOBILE_REGEX.test(mobile));
+    setErrMsg("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [email, mobile]);
+
+  const handleSubmit = () => {
+    // Handle form submission logic here
+    setLoading(true);
+    console.log("Email:", email);
+    console.log("Mobile:", mobile);
+    setIsSuccess(true);
+    setLoading(false);
   };
 
-  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    // Use React.FocusEvent<HTMLInputElement>
-    setErrMsg(validateField(event.target.name, event.target.value));
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    if (name === "mobile") {
-      // Remove non-digit characters from the mobile number
-      const cleanedValue = value.replace(/\D/g, "");
-
-      setContactData((prevData) => ({
-        ...prevData!,
-        [name]: cleanedValue,
-      }));
-    } else {
-      setContactData((prevData) => ({
-        ...prevData!,
-        [name]: value,
-      }));
-    }
-  };
-
-  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    let isValid = false;
-
-    if (
-      contactData?.firstName &&
-      contactData?.lastName &&
-      contactData?.mobile &&
-      contactData?.email &&
-      contactData?.message
-    ) {
-      setIsSuccess(true);
-      isValid = true;
-    } else {
-      setIsSuccess(false);
-    }
-
-    return isValid;
-  };
   const renderForm = () => {
     return (
       <section className={styles.registrarSection}>
         <p
+          ref={errRef}
           className={styles[errMsg ? "err-msg" : "offscreen"]}
           aria-live="assertive"
         >
@@ -103,7 +71,10 @@ const Contact = () => {
         </p>
         <h1> Contact to {tutorId} </h1>
         <form
-          onSubmit={() => handleSubmit}
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
           className={styles.registrarForm}
           autoComplete="off"
         >
@@ -114,21 +85,47 @@ const Contact = () => {
             type="email"
             autoComplete="off"
             onChange={(e) => {
-              handleChange(e);
+              setEmail(e.target.value);
             }}
-            isValidInputType={false}
-            onBlur={() => handleBlur}
-            value={contactData?.email}
+            isValidInputType={isValidEmail}
+            isInputTypeFocus={isEmailFocus}
+            onFocus={() => setIsEmailFocus(true)}
+            onBlur={() => setIsEmailFocus(false)}
+            value={email}
             required
             ariaDescribedby="eid-note"
             note=" Not a Valid email"
+            PropRef={userEmailRef}
           />
-          <button disabled={!isValidEmail}>Send</button>
+
+          <Input
+            inputType={""}
+            name="Mobile:"
+            id="mobile"
+            type="text"
+            autoComplete="off"
+            onChange={(e) => {
+              setMobile(e.target.value);
+            }}
+            isValidInputType={isValidMobile}
+            isInputTypeFocus={isMobileFocus}
+            onFocus={() => setIsMobileFocus(true)}
+            onBlur={() => setIsMobileFocus(false)}
+            value={mobile}
+            required
+            ariaDescribedby="mobile-note"
+            note=" Not a Valid mobile number"
+            PropRef={userMobileRef}
+          />
+          <label htmlFor="text">Write to {tutorId}:</label>
+          <textarea id="text" name="writeTo"></textarea>
+
+          <button disabled={!isValidEmail || !isValidMobile}>Send</button>
         </form>
 
         <p>
           <span className={"styles.line"}>
-            <Link to={"/home"}>Go Home !</Link>
+            <Link to={"/"}>Go Home !</Link>
           </span>
         </p>
       </section>
