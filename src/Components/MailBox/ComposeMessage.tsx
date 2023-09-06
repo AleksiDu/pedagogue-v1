@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-
+import "./composeStyle.css";
 interface NewMessage {
   subject: string;
   sender: string;
@@ -32,26 +32,29 @@ const ComposeMessage: FC<ComposeMessageProps> = ({ onSend }) => {
   };
 
   return (
-    <div className="compose-message">
-      <h2>Compose New Message</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="subject"
-          placeholder="Subject"
-          value={newMessage.subject}
-          onChange={handleInputChange}
-          required
-        />
-        <textarea
-          name="content"
-          placeholder="Message"
-          value={newMessage.content}
-          onChange={handleInputChange}
-          required
-        />
-        <button type="submit">Send</button>
-      </form>
+    <div>
+      <section>
+        <h1>Compose New Message</h1>
+        <form className="compose-message" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="subject"
+            placeholder="Subject"
+            value={newMessage.subject}
+            onChange={handleInputChange}
+            required
+          />
+          <label htmlFor="content">Content</label>
+          <textarea
+            name="content"
+            placeholder="Message"
+            value={newMessage.content}
+            onChange={handleInputChange}
+            required
+          />
+          <button type="submit">Send</button>
+        </form>
+      </section>
     </div>
   );
 };

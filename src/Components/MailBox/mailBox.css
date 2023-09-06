@@ -1,0 +1,39 @@
+/* Style for the entire mailbox container */
+.mailbox-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+/* Style for the message list */
+.message-list {
+  flex: 1;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+}
+
+/* Style for the message content */
+.message-content {
+  flex: 2;
+  padding: 20px;
+}
+
+/* Style for the compose message form */
+.compose-message {
+  margin-top: 20px;
+}
+
+/* Style for buttons */
+.mailbox-container button {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.mailbox-container button:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white !important;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}

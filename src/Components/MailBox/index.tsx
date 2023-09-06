@@ -3,6 +3,8 @@ import Message from "./Message";
 import ComposeMessage from "./ComposeMessage";
 import MessageList from "./MessageList";
 
+import "./mailBox.css";
+
 interface NewMessage {
   subject: string;
   sender: string;
