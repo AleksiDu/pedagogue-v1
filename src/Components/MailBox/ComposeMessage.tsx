@@ -14,12 +14,14 @@ const ComposeMessage: FC<ComposeMessageProps> = ({ onSend }) => {
     content: "",
   });
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setNewMessage({ ...newMessage, [name]: value });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSend(newMessage);
     setNewMessage({

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Message from "./Message";
 import ComposeMessage from "./ComposeMessage";
 import MessageList from "./MessageList";
@@ -31,7 +31,7 @@ const initialMessages = [
 ];
 
 const Mailbox = () => {
-  const [messages, setMessages] = useState(initialMessages);
+  const [messages, setMessages] = useState<MessageType[]>(initialMessages);
   const [selectedMessage, setSelectedMessage] = useState<MessageType | null>(
     null
   );
@@ -61,8 +61,6 @@ const Mailbox = () => {
   };
 
   const handleRespond = (newMessage: NewMessage) => {
-    // You can implement logic to associate the response with the selected message.
-    // For simplicity, this example adds the response as a new message.
     handleSendMessage(newMessage);
   };
 
