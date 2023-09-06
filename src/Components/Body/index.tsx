@@ -21,6 +21,7 @@ import fetchProfileImage from "../../utils/fetchProfileImage ";
 import { ImageIdContext } from "../../context/ImageIdContext";
 import PublicProfile from "../PublicProfile";
 import Contact from "../Contact";
+import Mailbox from "../MailBox";
 
 interface Image {
   id: string;
@@ -101,7 +102,7 @@ const Body = () => {
           <Route path="/forgetpassword/*" element={<ForgetPassword />}></Route>
           <Route path="/resetpassword" element={<PasswordReset />}></Route>
           <Route path="/tutor/:tutorId" element={<PublicProfile />}></Route>
-          <Route path="/contact/:tutorId" element={<Contact />}></Route>
+          <Route path="/mailbox" element={<Mailbox />}></Route>
           <Route element={<PrivateRoutes />}>
             <Route path="/profile/*" element={<Profile />} />
             <Route
@@ -110,6 +111,7 @@ const Body = () => {
                 <SettingsPage userName={userName} accessToken={accessToken} />
               }
             />
+            <Route path="/contact/:tutorId" element={<Contact />}></Route>
             <Route
               path="/profileimage"
               element={
