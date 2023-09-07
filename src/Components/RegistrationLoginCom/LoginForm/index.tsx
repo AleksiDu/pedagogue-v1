@@ -163,6 +163,7 @@ const LoginForm: React.FC = () => {
       }>(`/api/${role}/profile`, {
         //TODO /api/role/accessToken??
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
       });

@@ -5,6 +5,7 @@ import MessageWithAction from "../RegistrationLoginCom/MessageWithAction";
 import Input from "../RegistrationLoginCom/RegisterForm/Components/Input";
 
 import styles from "./styles.module.css";
+import axios from "../../api/axios";
 
 interface ContactData {
   mobile: string;
@@ -14,6 +15,7 @@ interface ContactData {
 
 const Contact = () => {
   const { tutorId } = useParams<{ tutorId: string }>();
+  const accessToken = localStorage.getItem("accessToken");
   const REGISTER_URL = `api/authentication/register`;
   const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const MOBILE_REGEX =
@@ -30,6 +32,9 @@ const Contact = () => {
   const [mobile, setMobile] = useState("");
   const [isValidMobile, setIsValidMobile] = useState(false);
   const [isMobileFocus, setIsMobileFocus] = useState(false);
+
+  const [message, setMessage] = useState("");
+  const [isMessageFocus, setIsMessageFocus] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
@@ -50,13 +55,32 @@ const Contact = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email, mobile]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Handle form submission logic here
-    setLoading(true);
-    console.log("Email:", email);
-    console.log("Mobile:", mobile);
-    setIsSuccess(true);
-    setLoading(false);
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        "/api/Messaging/send-meesage",
+        JSON.stringify({
+          email,
+          phone: mobile,
+          message,
+          recepientRole: 1,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log(response);
+
+      setIsSuccess(true);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const renderForm = () => {
@@ -118,7 +142,14 @@ const Contact = () => {
             PropRef={userMobileRef}
           />
           <label htmlFor="text">Write to {tutorId}:</label>
-          <textarea id="text" name="writeTo"></textarea>
+          <textarea
+            id="text"
+            name="writeTo"
+            onChange={(e) => setMessage(e.target.value)}
+            value={message}
+            onFocus={() => setIsMessageFocus(true)}
+            onBlur={() => setIsEmailFocus(false)}
+          ></textarea>
 
           <button disabled={!isValidEmail || !isValidMobile}>Send</button>
         </form>
@@ -138,11 +169,11 @@ const Contact = () => {
         <Loader />
       ) : isSuccess ? (
         <MessageWithAction
-          to={"/login"}
+          to={"/mailbox"}
           nextLine={true}
           className={"styles.registrarSection"}
-          comment="Check Email for Verification"
-          text="Sign In"
+          comment={`Message was sand to ${tutorId}`}
+          text="Go Mailbox"
         />
       ) : (
         renderForm()
