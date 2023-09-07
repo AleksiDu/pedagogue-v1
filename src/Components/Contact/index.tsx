@@ -7,53 +7,32 @@ import Input from "../RegistrationLoginCom/RegisterForm/Components/Input";
 import styles from "./styles.module.css";
 import axios from "../../api/axios";
 
-interface ContactData {
-  mobile: string;
-  email: string;
-  message: string;
-}
-
 const Contact = () => {
   const { tutorId } = useParams<{ tutorId: string }>();
   const accessToken = localStorage.getItem("accessToken");
-  const REGISTER_URL = `api/authentication/register`;
-  const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
   const MOBILE_REGEX =
     /^(?:\+995)?\s?(5\d{1,2})\s?(\d{2})\s?(\d{2})\s?(\d{2})$/;
 
-  const userEmailRef = useRef<HTMLInputElement>(null);
   const userMobileRef = useRef<HTMLInputElement>(null);
   const errRef = useRef<HTMLDivElement>(null);
-
-  const [email, setEmail] = useState("");
-  const [isValidEmail, setIsValidEmail] = useState(false);
-  const [isEmailFocus, setIsEmailFocus] = useState(false);
 
   const [mobile, setMobile] = useState("");
   const [isValidMobile, setIsValidMobile] = useState(false);
   const [isMobileFocus, setIsMobileFocus] = useState(false);
 
   const [message, setMessage] = useState("");
-  const [isMessageFocus, setIsMessageFocus] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
-  // Ensures that the email input field is automatically focused when the component is initially rendered
   useEffect(() => {
-    if (userEmailRef.current) {
-      userEmailRef.current.focus();
-    }
-  }, []);
-
-  useEffect(() => {
-    setIsValidEmail(EMAIL_REGEX.test(email));
     setIsValidMobile(MOBILE_REGEX.test(mobile));
     setErrMsg("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [email, mobile]);
+  }, [mobile]);
 
   const handleSubmit = async () => {
     // Handle form submission logic here
@@ -62,7 +41,7 @@ const Contact = () => {
       const response = await axios.post(
         "/api/Messaging/send-meesage",
         JSON.stringify({
-          email,
+          email: tutorId,
           phone: mobile,
           message,
           recepientRole: 1,
@@ -104,26 +83,6 @@ const Contact = () => {
         >
           <Input
             inputType={""}
-            name="Email:"
-            id="email"
-            type="email"
-            autoComplete="off"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-            isValidInputType={isValidEmail}
-            isInputTypeFocus={isEmailFocus}
-            onFocus={() => setIsEmailFocus(true)}
-            onBlur={() => setIsEmailFocus(false)}
-            value={email}
-            required
-            ariaDescribedby="eid-note"
-            note=" Not a Valid email"
-            PropRef={userEmailRef}
-          />
-
-          <Input
-            inputType={""}
             name="Mobile:"
             id="mobile"
             type="text"
@@ -147,11 +106,9 @@ const Contact = () => {
             name="writeTo"
             onChange={(e) => setMessage(e.target.value)}
             value={message}
-            onFocus={() => setIsMessageFocus(true)}
-            onBlur={() => setIsEmailFocus(false)}
           ></textarea>
 
-          <button disabled={!isValidEmail || !isValidMobile}>Send</button>
+          <button disabled={!isValidMobile}>Send</button>
         </form>
 
         <p>
@@ -172,7 +129,7 @@ const Contact = () => {
           to={"/mailbox"}
           nextLine={true}
           className={"styles.registrarSection"}
-          comment={`Message was sand to ${tutorId}`}
+          comment={`Message was send to ${tutorId}`}
           text="Go Mailbox"
         />
       ) : (

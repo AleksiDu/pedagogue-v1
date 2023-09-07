@@ -2,9 +2,9 @@ import { FC } from "react";
 
 interface MessageType {
   id?: number;
-  subject: string;
-  sender: string;
-  content: string;
+  email: string;
+  messageText: string;
+  phone: string;
 }
 
 interface MessageProps {
@@ -15,17 +15,17 @@ const Message: FC<MessageProps> = ({ message, onRespond }) => {
   // Helper function to create a response message
   const createResponseMessage = (originalMessage: MessageType) => {
     return {
-      subject: `Re: ${originalMessage.subject}`,
-      sender: originalMessage.sender,
-      content: `Re: ${originalMessage.content}`,
+      phone: `Re: ${originalMessage.phone}`,
+      email: originalMessage.email,
+      messageText: `Re: ${originalMessage.messageText}`,
     };
   };
 
   return (
     <div className="message">
-      <h2>{message.subject}</h2>
-      <p>From: {message.sender}</p>
-      <p>{message.content}</p>
+      <h2>{message.phone}</h2>
+      <p>From: {message.email}</p>
+      <p>{message.messageText}</p>
       <button onClick={() => onRespond(createResponseMessage(message))}>
         Respond
       </button>

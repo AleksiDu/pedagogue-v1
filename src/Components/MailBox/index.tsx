@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Message from "./Message";
 import ComposeMessage from "./ComposeMessage";
 import MessageList from "./MessageList";
 
 import "./mailBox.css";
+import axios from "../../api/axios";
 
 interface NewMessage {
-  subject: string;
-  sender: string;
-  content: string;
+  email: string;
+  messageText: string;
+  phone: string;
 }
 
 interface MessageType extends NewMessage {
@@ -16,27 +17,30 @@ interface MessageType extends NewMessage {
 }
 
 // Sample data for messages
-const initialMessages = [
-  {
-    id: 1,
-    subject: "Hello",
-    sender: "user1@example.com",
-    content: "This is the first message.",
-  },
-  {
-    id: 2,
-    subject: "Meeting Tomorrow",
-    sender: "user2@example.com",
-    content: "Don't forget about the meeting tomorrow at 10 AM.",
-  },
-  // Add more sample messages here
-];
 
 const Mailbox = () => {
-  const [messages, setMessages] = useState<MessageType[]>(initialMessages);
+  const accessToken = localStorage.getItem("accessToken");
+  const [messages, setMessages] = useState<MessageType[]>([]);
   const [selectedMessage, setSelectedMessage] = useState<MessageType | null>(
     null
   );
+
+  useEffect(() => {
+    axios
+      .get("/api/Messaging/fetch-messages", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        setMessages(response.data);
+        console.log("useEffect", response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const handleSelectMessage = (message: MessageType) => {
     setSelectedMessage(message);
@@ -65,6 +69,8 @@ const Mailbox = () => {
   const handleRespond = (newMessage: NewMessage) => {
     handleSendMessage(newMessage);
   };
+
+  console.log("messages => ", messages);
 
   return (
     <div>

@@ -2,9 +2,9 @@ import { FC } from "react";
 
 interface MessageType {
   id: number;
-  subject: string;
-  sender: string;
-  content: string;
+  email: string;
+  messageText: string;
+  phone: string;
 }
 
 interface MessageListProps {
@@ -18,6 +18,7 @@ const MessageList: FC<MessageListProps> = ({
   onSelectMessage,
   onDeleteMessage,
 }) => {
+  console.log("messages list", messages);
   return (
     <div className="message-list">
       <h2>Inbox</h2>
@@ -25,7 +26,7 @@ const MessageList: FC<MessageListProps> = ({
         {messages.map((message) => (
           <li key={message?.id}>
             <button onClick={() => onSelectMessage(message)}>
-              {message.subject} - {message.sender}
+              {message.messageText} - {message.email}
             </button>
             <button onClick={() => onDeleteMessage(message.id)}>Delete</button>
           </li>
