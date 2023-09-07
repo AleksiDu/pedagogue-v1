@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 interface MessageType {
-  id?: number;
+  id?: string;
   email: string;
   messageText: string;
   phone: string;

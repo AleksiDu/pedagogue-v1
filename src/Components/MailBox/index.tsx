@@ -13,7 +13,7 @@ interface NewMessage {
 }
 
 interface MessageType extends NewMessage {
-  id: number;
+  id: string;
 }
 
 // Sample data for messages
@@ -46,7 +46,21 @@ const Mailbox = () => {
     setSelectedMessage(message);
   };
 
-  const handleDeleteMessage = (messageId: number) => {
+  const handleDeleteMessage = async (messageId: string) => {
+    try {
+      await axios.delete("/api/Messaging", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data: JSON.stringify({
+          messageId: messageId,
+        }),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
     const updatedMessages = messages.filter(
       (message) => message.id !== messageId
     );
@@ -55,7 +69,7 @@ const Mailbox = () => {
   };
 
   const handleSendMessage = (newMessage: NewMessage) => {
-    const nextId = messages.length + 1;
+    const nextId = "1" + messages.length + 1;
     const updatedMessages = [
       ...messages,
       {

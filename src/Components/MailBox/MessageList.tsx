@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 interface MessageType {
-  id: number;
+  id: string;
   email: string;
   messageText: string;
   phone: string;
@@ -10,7 +10,7 @@ interface MessageType {
 interface MessageListProps {
   messages: MessageType[];
   onSelectMessage: (message: MessageType) => void;
-  onDeleteMessage: (messageId: number) => void;
+  onDeleteMessage: (messageId: string) => void;
 }
 
 const MessageList: FC<MessageListProps> = ({
@@ -22,7 +22,7 @@ const MessageList: FC<MessageListProps> = ({
   return (
     <div className="message-list">
       <h2>Inbox</h2>
-      <ul>
+      <ul className="messages">
         {messages.map((message) => (
           <li key={message?.id}>
             <button onClick={() => onSelectMessage(message)}>
