@@ -10,6 +10,7 @@
   flex: 1;
   padding: 20px;
   border-right: 1px solid #ccc;
+  width: 400px;
 }
 
 /* Style for the message content */
@@ -41,4 +42,23 @@
 .messages {
   overflow: scroll;
   height: 300px;
+}
+
+.button-container {
+  display: flex;
+}
+
+.btn {
+  padding: 10px 20px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  border-radius: 5px 5px 0 0;
+  font-size: 16px;
+  background-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.btn.active {
+  background-color: rgba(0, 0, 0, 0.4) !important;
 }

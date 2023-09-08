@@ -1,4 +1,5 @@
-import { FC } from "react";
+import { FC, useState } from "react";
+import NavBtn from "../RegistrationLoginCom/NavBtn";
 
 interface MessageType {
   id: string;
@@ -18,10 +19,36 @@ const MessageList: FC<MessageListProps> = ({
   onSelectMessage,
   onDeleteMessage,
 }) => {
+  const [isInboxMode, setIsInboxMode] = useState(true);
   console.log("messages list", messages);
+
+  const handleInboxClick = () => {
+    setIsInboxMode(true);
+  };
+
+  const handleSendClick = () => {
+    setIsInboxMode(false);
+  };
+
   return (
     <div className="message-list">
-      <h2>Inbox</h2>
+      <div className="button-container">
+        <button
+          type="button"
+          className={`btn ${isInboxMode ? "active" : ""}`}
+          onClick={handleInboxClick}
+        >
+          Inbox
+        </button>
+        <button
+          type="button"
+          className={`btn ${!isInboxMode ? "active" : ""}`}
+          onClick={handleSendClick}
+        >
+          Send
+        </button>
+      </div>
+
       <ul className="messages">
         {messages.map((message) => (
           <li key={message?.id}>

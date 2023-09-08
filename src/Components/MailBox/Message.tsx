@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 
 interface MessageType {
   id?: string;
@@ -9,9 +9,10 @@ interface MessageType {
 
 interface MessageProps {
   message: MessageType;
-  onRespond: (newMessage: MessageType) => void;
+  onRespond: (newMessage: MessageType, isResponding: boolean) => void;
 }
 const Message: FC<MessageProps> = ({ message, onRespond }) => {
+  const [isResponding, setIsResponding] = useState(false);
   // Helper function to create a response message
   const createResponseMessage = (originalMessage: MessageType) => {
     return {
@@ -21,14 +22,21 @@ const Message: FC<MessageProps> = ({ message, onRespond }) => {
     };
   };
 
+  const handleRespondClick = () => {
+    setIsResponding(true);
+    onRespond(createResponseMessage(message), true);
+  };
+
   return (
     <div className="message">
       <h2>{message.phone}</h2>
       <p>From: {message.email}</p>
       <p>{message.messageText}</p>
-      <button onClick={() => onRespond(createResponseMessage(message))}>
-        Respond
-      </button>
+      {isResponding ? (
+        <p>Compose your response below:</p>
+      ) : (
+        <button onClick={handleRespondClick}>Respond</button>
+      )}
     </div>
   );
 };

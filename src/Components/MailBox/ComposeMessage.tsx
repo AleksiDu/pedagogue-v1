@@ -9,8 +9,8 @@ type ComposeMessageProps = { onSend: (newMessage: NewMessage) => void };
 
 const ComposeMessage: FC<ComposeMessageProps> = ({ onSend }) => {
   const [newMessage, setNewMessage] = useState({
-    phone: "",
-    email: "user@example.com",
+    phone: "+995598123321",
+    email: localStorage.getItem("email") || "",
     messageText: "",
   });
 
@@ -26,7 +26,7 @@ const ComposeMessage: FC<ComposeMessageProps> = ({ onSend }) => {
     onSend(newMessage);
     setNewMessage({
       phone: "",
-      email: "user@example.com",
+      email: "",
       messageText: "",
     });
   };
@@ -36,17 +36,9 @@ const ComposeMessage: FC<ComposeMessageProps> = ({ onSend }) => {
       <section>
         <h1>Compose New Message</h1>
         <form className="compose-message" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="subject"
-            placeholder="Subject"
-            value={newMessage.phone}
-            onChange={handleInputChange}
-            required
-          />
-          <label htmlFor="content">Content</label>
+          <label htmlFor="messageText">Content</label>
           <textarea
-            name="content"
+            name="messageText"
             placeholder="Message"
             value={newMessage.messageText}
             onChange={handleInputChange}

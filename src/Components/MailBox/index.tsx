@@ -48,14 +48,11 @@ const Mailbox = () => {
 
   const handleDeleteMessage = async (messageId: string) => {
     try {
-      await axios.delete("/api/Messaging", {
+      await axios.delete(`/api/Messaging?messageId=${messageId}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-        data: JSON.stringify({
-          messageId: messageId,
-        }),
       });
     } catch (error) {
       console.log(error);
@@ -69,22 +66,38 @@ const Mailbox = () => {
   };
 
   const handleSendMessage = (newMessage: NewMessage) => {
-    const nextId = "1" + messages.length + 1;
-    const updatedMessages = [
-      ...messages,
-      {
-        id: nextId,
-        ...newMessage,
-      },
-    ];
-    setMessages(updatedMessages);
+    console.log(newMessage);
+    axios
+      .post(
+        "/api/Messaging/send-meesage",
+        { newMessage, recepientRole: localStorage.getItem("role") },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        const newMessageId = response.data.messageId;
+        console.log(newMessageId);
+
+        const newMessageWithId: MessageType = {
+          id: newMessageId,
+          ...newMessage,
+        };
+
+        const updatedMessages = [...messages, newMessageWithId];
+        setMessages(updatedMessages);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleRespond = (newMessage: NewMessage) => {
     handleSendMessage(newMessage);
   };
-
-  console.log("messages => ", messages);
 
   return (
     <div>
