@@ -3,7 +3,7 @@ import { FC, useState } from "react";
 interface MessageType {
   id?: string;
   email: string;
-  messageText: string;
+  message: string;
   phone: string;
 }
 
@@ -18,7 +18,7 @@ const Message: FC<MessageProps> = ({ message, onRespond }) => {
     return {
       phone: `Re: ${originalMessage.phone}`,
       email: originalMessage.email,
-      messageText: `Re: ${originalMessage.messageText}`,
+      message: `Re: ${originalMessage.message}`,
     };
   };
 
@@ -31,7 +31,7 @@ const Message: FC<MessageProps> = ({ message, onRespond }) => {
     <div className="message">
       <h2>{message.phone}</h2>
       <p>From: {message.email}</p>
-      <p>{message.messageText}</p>
+      <p>{message.message}</p>
       {isResponding ? (
         <p>Compose your response below:</p>
       ) : (

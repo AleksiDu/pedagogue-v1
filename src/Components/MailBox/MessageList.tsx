@@ -4,7 +4,7 @@ import NavBtn from "../RegistrationLoginCom/NavBtn";
 interface MessageType {
   id: string;
   email: string;
-  messageText: string;
+  message: string;
   phone: string;
 }
 
@@ -53,7 +53,7 @@ const MessageList: FC<MessageListProps> = ({
         {messages.map((message) => (
           <li key={message?.id}>
             <button onClick={() => onSelectMessage(message)}>
-              {message.messageText} - {message.email}
+              {message.message} - {message.email}
             </button>
             <button onClick={() => onDeleteMessage(message.id)}>Delete</button>
           </li>

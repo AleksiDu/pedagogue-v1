@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import "./composeStyle.css";
 interface NewMessage {
   email: string;
-  messageText: string;
+  message: string;
   phone: string;
 }
 type ComposeMessageProps = { onSend: (newMessage: NewMessage) => void };
@@ -11,7 +11,7 @@ const ComposeMessage: FC<ComposeMessageProps> = ({ onSend }) => {
   const [newMessage, setNewMessage] = useState({
     phone: "+995598123321",
     email: localStorage.getItem("email") || "",
-    messageText: "",
+    message: "",
   });
 
   const handleInputChange = (
@@ -27,7 +27,7 @@ const ComposeMessage: FC<ComposeMessageProps> = ({ onSend }) => {
     setNewMessage({
       phone: "",
       email: "",
-      messageText: "",
+      message: "",
     });
   };
 
@@ -40,7 +40,7 @@ const ComposeMessage: FC<ComposeMessageProps> = ({ onSend }) => {
           <textarea
             name="messageText"
             placeholder="Message"
-            value={newMessage.messageText}
+            value={newMessage.message}
             onChange={handleInputChange}
             required
           />

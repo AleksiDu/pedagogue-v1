@@ -8,7 +8,7 @@ import axios from "../../api/axios";
 
 interface NewMessage {
   email: string;
-  messageText: string;
+  message: string;
   phone: string;
 }
 
@@ -34,7 +34,7 @@ const Mailbox = () => {
         },
       })
       .then((response) => {
-        setMessages(response.data);
+        setMessages(response.data.received);
         console.log("useEffect", response.data);
       })
       .catch((error) => {
@@ -79,7 +79,7 @@ const Mailbox = () => {
         }
       )
       .then((response) => {
-        const newMessageId = response.data.messageId;
+        const newMessageId = response.data.id;
         console.log(newMessageId);
 
         const newMessageWithId: MessageType = {
