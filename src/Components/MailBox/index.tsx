@@ -24,6 +24,7 @@ const Mailbox = () => {
   const [selectedMessage, setSelectedMessage] = useState<MessageType | null>(
     null
   );
+  const [isInboxMode, setIsInboxMode] = useState(true);
 
   useEffect(() => {
     axios
@@ -34,13 +35,16 @@ const Mailbox = () => {
         },
       })
       .then((response) => {
-        setMessages(response.data.received);
-        console.log("useEffect", response.data);
+        if (isInboxMode) {
+          setMessages(response.data.received);
+        } else {
+          setMessages(response.data.sent);
+        }
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [isInboxMode]);
 
   const handleSelectMessage = (message: MessageType) => {
     setSelectedMessage(message);
@@ -99,6 +103,12 @@ const Mailbox = () => {
     handleSendMessage(newMessage);
   };
 
+  const handleInboxMode = (isInboxMode: boolean) => {
+    setIsInboxMode(isInboxMode);
+  };
+
+  console.log("messages", messages);
+
   return (
     <div>
       <h1>Mailbox</h1>
@@ -107,6 +117,7 @@ const Mailbox = () => {
           messages={messages}
           onSelectMessage={handleSelectMessage}
           onDeleteMessage={handleDeleteMessage}
+          onInboxMode={handleInboxMode}
         />
         <div className="message-content">
           {selectedMessage ? (
