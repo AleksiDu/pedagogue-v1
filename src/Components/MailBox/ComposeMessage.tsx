@@ -9,7 +9,7 @@ type ComposeMessageProps = { onSend: (newMessage: NewMessage) => void };
 
 const ComposeMessage: FC<ComposeMessageProps> = ({ onSend }) => {
   const [newMessage, setNewMessage] = useState({
-    phone: "+995598123321",
+    phone: "",
     email: localStorage.getItem("email") || "",
     message: "",
   });
