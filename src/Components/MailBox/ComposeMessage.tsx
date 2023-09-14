@@ -1,17 +1,22 @@
 import { FC, useState } from "react";
 import "./composeStyle.css";
 interface NewMessage {
-  email: string;
+  id?: string;
   message: string;
-  phone: string;
+  recepientEmail: string;
+  senderEmail: string;
+  seen?: boolean;
 }
-type ComposeMessageProps = { onSend: (newMessage: NewMessage) => void };
+type ComposeMessageProps = {
+  onSend: (newMessage: NewMessage) => void;
+  message: NewMessage;
+};
 
-const ComposeMessage: FC<ComposeMessageProps> = ({ onSend }) => {
+const ComposeMessage: FC<ComposeMessageProps> = ({ onSend, message }) => {
   const [newMessage, setNewMessage] = useState({
-    phone: "",
-    email: localStorage.getItem("email") || "",
     message: "",
+    recepientEmail: message.senderEmail,
+    senderEmail: message.recepientEmail,
   });
 
   const handleInputChange = (
@@ -25,20 +30,21 @@ const ComposeMessage: FC<ComposeMessageProps> = ({ onSend }) => {
     e.preventDefault();
     onSend(newMessage);
     setNewMessage({
-      phone: "",
-      email: "",
-      message: "",
+      recepientEmail: newMessage.recepientEmail,
+      senderEmail: newMessage.senderEmail,
+      message: newMessage.message,
     });
   };
+
+  console.log(newMessage);
 
   return (
     <div>
       <section>
-        <h1>Compose New Message</h1>
         <form className="compose-message" onSubmit={handleSubmit}>
-          <label htmlFor="messageText">Content</label>
+          <label htmlFor="message">Compose your response below:</label>
           <textarea
-            name="messageText"
+            name="message"
             placeholder="Message"
             value={newMessage.message}
             onChange={handleInputChange}

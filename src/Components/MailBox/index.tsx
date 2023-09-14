@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import Message from "./Message";
-import ComposeMessage from "./ComposeMessage";
 import MessageList from "./MessageList";
 
 import "./mailBox.css";
 import axios from "../../api/axios";
 
 interface NewMessage {
-  email: string;
   message: string;
-  phone: string;
+  recepientEmail: string;
+  senderEmail: string;
 }
 
 interface MessageType extends NewMessage {
   id: string;
+  seen?: boolean;
 }
 
 // Sample data for messages
@@ -74,7 +74,12 @@ const Mailbox = () => {
     axios
       .post(
         "/api/Messaging/send-meesage",
-        { newMessage, recepientRole: localStorage.getItem("role") },
+        {
+          email: newMessage.recepientEmail,
+          message: newMessage.message,
+          phone: newMessage.senderEmail,
+          recepientRole: Number(localStorage.getItem("role")),
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -99,10 +104,6 @@ const Mailbox = () => {
       });
   };
 
-  const handleRespond = (newMessage: NewMessage) => {
-    handleSendMessage(newMessage);
-  };
-
   const handleInboxMode = (isInboxMode: boolean) => {
     setIsInboxMode(isInboxMode);
   };
@@ -121,13 +122,12 @@ const Mailbox = () => {
         />
         <div className="message-content">
           {selectedMessage ? (
-            <Message message={selectedMessage} onRespond={handleRespond} />
+            <Message message={selectedMessage} onSend={handleSendMessage} />
           ) : (
             <p>Select a message to view its content.</p>
           )}
         </div>
       </div>
-      <ComposeMessage onSend={handleSendMessage} />
     </div>
   );
 };

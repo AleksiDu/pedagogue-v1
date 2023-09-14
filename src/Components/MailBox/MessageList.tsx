@@ -2,9 +2,10 @@ import { FC, useState } from "react";
 
 interface MessageType {
   id: string;
-  email: string;
   message: string;
-  phone: string;
+  recepientEmail: string;
+  senderEmail: string;
+  seen?: boolean;
 }
 
 interface MessageListProps {
@@ -56,7 +57,7 @@ const MessageList: FC<MessageListProps> = ({
         {messages.map((message) => (
           <li key={message?.id}>
             <button onClick={() => onSelectMessage(message)}>
-              {message.message} - {message.email}
+              {message.message} - {message.senderEmail}
             </button>
             <button onClick={() => onDeleteMessage(message.id)}>Delete</button>
           </li>

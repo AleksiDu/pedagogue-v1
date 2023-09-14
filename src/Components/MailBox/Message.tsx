@@ -1,41 +1,38 @@
 import { FC, useState } from "react";
+import ComposeMessage from "./ComposeMessage";
 
 interface MessageType {
   id?: string;
-  email: string;
   message: string;
-  phone: string;
+  recepientEmail: string;
+  senderEmail: string;
+  seen?: boolean;
 }
 
 interface MessageProps {
   message: MessageType;
-  onRespond: (newMessage: MessageType, isResponding: boolean) => void;
-}
-const Message: FC<MessageProps> = ({ message, onRespond }) => {
-  const [isResponding, setIsResponding] = useState(false);
-  // Helper function to create a response message
-  const createResponseMessage = (originalMessage: MessageType) => {
-    return {
-      phone: `Re: ${originalMessage.phone}`,
-      email: originalMessage.email,
-      message: `Re: ${originalMessage.message}`,
-    };
-  };
 
-  const handleRespondClick = () => {
+  onSend: (newMessage: MessageType) => void;
+}
+const Message: FC<MessageProps> = ({ message, onSend }) => {
+  const [isResponding, setIsResponding] = useState(false);
+
+  const handleRespondClick = (e: React.FormEvent) => {
+    e.preventDefault();
     setIsResponding(true);
-    onRespond(createResponseMessage(message), true);
   };
 
   return (
     <div className="message">
-      <h2>{message.phone}</h2>
-      <p>From: {message.email}</p>
+      <h2>{message.recepientEmail}</h2>
+      <p>From: {message.senderEmail}</p>
       <p>{message.message}</p>
       {isResponding ? (
-        <p>Compose your response below:</p>
+        <ComposeMessage onSend={onSend} message={message} />
       ) : (
-        <button onClick={handleRespondClick}>Respond</button>
+        <button type="button" onClick={handleRespondClick}>
+          Respond
+        </button>
       )}
     </div>
   );
