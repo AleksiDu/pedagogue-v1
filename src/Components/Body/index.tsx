@@ -102,7 +102,6 @@ const Body = () => {
           <Route path="/forgetpassword/*" element={<ForgetPassword />}></Route>
           <Route path="/resetpassword" element={<PasswordReset />}></Route>
           <Route path="/tutor/:tutorId" element={<PublicProfile />}></Route>
-          <Route path="/mailbox" element={<Mailbox />}></Route>
           <Route element={<PrivateRoutes />}>
             <Route path="/profile/*" element={<Profile />} />
             <Route
@@ -112,6 +111,7 @@ const Body = () => {
               }
             />
             <Route path="/contact/:tutorId" element={<Contact />}></Route>
+            <Route path="/mailbox" element={<Mailbox />}></Route>
             <Route
               path="/profileimage"
               element={

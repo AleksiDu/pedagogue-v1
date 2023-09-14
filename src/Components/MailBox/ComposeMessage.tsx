@@ -28,8 +28,7 @@ const ComposeMessage: FC<ComposeMessageProps> = ({ onSend, message }) => {
     setNewMessage({ ...newMessage, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     onSend(newMessage);
     setNewMessage({
       recepientEmail: newMessage.recepientEmail,
