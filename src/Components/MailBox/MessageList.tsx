@@ -22,7 +22,6 @@ const MessageList: FC<MessageListProps> = ({
   onInboxMode,
 }) => {
   const [isInboxMode, setIsInboxMode] = useState(true);
-  console.log("messages list", messages);
 
   const handleInboxClick = () => {
     setIsInboxMode(true);

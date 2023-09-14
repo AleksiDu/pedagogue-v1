@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+
 import Message from "./Message";
 import MessageList from "./MessageList";
 
-import "./mailBox.css";
 import axios from "../../api/axios";
+
+import "./mailBox.css";
 
 interface NewMessage {
   message: string;
@@ -15,8 +17,6 @@ interface MessageType extends NewMessage {
   id: string;
   seen?: boolean;
 }
-
-// Sample data for messages
 
 const Mailbox = () => {
   const accessToken = localStorage.getItem("accessToken");
@@ -44,7 +44,7 @@ const Mailbox = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [isInboxMode]);
+  }, [accessToken, isInboxMode]);
 
   const handleSelectMessage = (message: MessageType) => {
     setSelectedMessage(message);
@@ -107,8 +107,6 @@ const Mailbox = () => {
   const handleInboxMode = (isInboxMode: boolean) => {
     setIsInboxMode(isInboxMode);
   };
-
-  console.log("messages", messages);
 
   return (
     <div>

@@ -1,5 +1,7 @@
 import { FC, useState } from "react";
+
 import "./composeStyle.css";
+
 interface NewMessage {
   id?: string;
   message: string;
@@ -35,8 +37,6 @@ const ComposeMessage: FC<ComposeMessageProps> = ({ onSend, message }) => {
       message: newMessage.message,
     });
   };
-
-  console.log(newMessage);
 
   return (
     <div>
